@@ -2,411 +2,922 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<title>Suivi des achats</title>
-
+<title>Suivi des achats · Chantier</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body{font-family:-apple-system,Segoe UI,Arial;background:#f5f5f7;margin:40px}
-
-.tabs button{
- padding:10px 16px;border-radius:10px;border:1px solid #ddd;
- background:white;cursor:pointer;margin-right:8px
-}
-.tab{display:none}
-.tab.active{display:block}
-
-.card{
- background:white;border-radius:18px;padding:20px;margin-bottom:20px;
- box-shadow:0 4px 20px rgba(0,0,0,.06)
+:root {
+  --bg: #f0ede8;
+  --surface: #faf8f5;
+  --border: #ddd9d1;
+  --accent: #c4622d;
+  --accent2: #2d6c4a;
+  --text: #1a1714;
+  --muted: #7a7470;
+  --tab-active: #1a1714;
 }
 
-input,select,button{
- padding:8px;border-radius:10px;border:1px solid #ddd;margin:4px
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
 }
 
-table{width:100%;border-collapse:collapse;background:white}
-th,td{padding:10px;border-bottom:1px solid #eee}
-th{background:#fafafa;cursor:pointer}
-
-.filter-btn{
- padding:6px 10px;border:1px solid #ccc;border-radius:8px;
- background:white;cursor:pointer;margin:3px
+/* ---- Header ---- */
+header {
+  background: var(--text);
+  color: #faf8f5;
+  padding: 18px 32px;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-.filter-btn.active{background:#0071e3;color:white;border-color:#0071e3}
-
-.pagination button{
- padding:6px 10px;margin:2px;border-radius:8px;border:1px solid #ccc;background:white
+header h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 300;
+  letter-spacing: -.5px;
+  color: #faf8f5;
 }
+header span {
+  font-size: .7rem;
+  color: #888;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* ---- Layout ---- */
+.layout { display: flex; min-height: calc(100vh - 57px); }
+
+/* ---- Sidebar Tabs ---- */
+.sidebar {
+  width: 140px;
+  background: var(--text);
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.sidebar button {
+  background: none;
+  border: none;
+  color: #888;
+  font-family: 'DM Mono', monospace;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  cursor: pointer;
+  text-align: left;
+  transition: all .15s;
+  border-left: 2px solid transparent;
+}
+.sidebar button:hover { color: #faf8f5; }
+.sidebar button.active {
+  color: #faf8f5;
+  border-left-color: var(--accent);
+  background: rgba(255,255,255,.05);
+}
+
+/* ---- Main ---- */
+main {
+  flex: 1;
+  padding: 28px 32px;
+  overflow-x: auto;
+}
+
+.tab { display: none; }
+.tab.active { display: block; }
+
+/* ---- Cards ---- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+.card-label {
+  font-size: .65rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+/* ---- Form ---- */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-end;
+}
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-group label { font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+input, select {
+  font-family: 'DM Mono', monospace;
+  font-size: .8rem;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: white;
+  color: var(--text);
+  outline: none;
+  transition: border .15s;
+}
+input:focus, select:focus { border-color: var(--accent); }
+input[type="text"], input[type="number"] { width: 140px; }
+input.wide { width: 200px; }
+input.narrow { width: 100px; }
+
+.btn {
+  font-family: 'DM Mono', monospace;
+  font-size: .75rem;
+  letter-spacing: .05em;
+  padding: 7px 14px;
+  border: 1px solid var(--text);
+  border-radius: 3px;
+  background: var(--text);
+  color: #faf8f5;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.btn:hover { background: #333; }
+.btn.secondary {
+  background: white;
+  color: var(--text);
+  border-color: var(--border);
+}
+.btn.secondary:hover { border-color: var(--text); }
+.btn.danger { background: #c0392b; border-color: #c0392b; }
+.btn.danger:hover { background: #a93226; }
+.btn.sm { padding: 4px 9px; font-size: .68rem; }
+
+/* ---- Filters ---- */
+.filter-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chip {
+  font-family: 'DM Mono', monospace;
+  font-size: .7rem;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: white;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+}
+.chip:hover { border-color: var(--text); color: var(--text); }
+.chip.on { background: var(--text); color: white; border-color: var(--text); }
+
+/* ---- Search ---- */
+.search-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.search-bar input { width: 280px; }
+
+/* ---- Total ---- */
+.total-display {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.total-amount {
+  font-family: 'Fraunces', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -1px;
+}
+.total-label { font-size: .68rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+
+/* ---- Table ---- */
+.table-wrapper { overflow-x: auto; border: 1px solid var(--border); border-radius: 4px; }
+table { width: 100%; border-collapse: collapse; background: white; font-size: .8rem; }
+thead tr { background: #f5f3f0; }
+th {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: .62rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  border-bottom: 1px solid var(--border);
+}
+th:hover { color: var(--text); }
+th .sort-arrow { margin-left: 4px; opacity: .4; }
+th.sorted .sort-arrow { opacity: 1; color: var(--accent); }
+
+td { padding: 9px 12px; border-bottom: 1px solid #f0ede8; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #faf8f5; }
+td input, td select { width: 100%; margin: 0; }
+
+.ref-badge {
+  display: inline-block;
+  background: #eef4f1;
+  color: var(--accent2);
+  border: 1px solid #c8ddd3;
+  border-radius: 2px;
+  font-size: .65rem;
+  padding: 2px 6px;
+  letter-spacing: .05em;
+}
+
+.amount-cell { font-weight: 500; color: var(--accent); }
+
+.actions { white-space: nowrap; display: flex; gap: 4px; }
+
+/* ---- Pagination ---- */
+.pagination {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.pagination button {
+  font-family: 'DM Mono', monospace;
+  font-size: .7rem;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: white;
+  cursor: pointer;
+  transition: all .15s;
+}
+.pagination button:hover { border-color: var(--text); }
+.pagination button.current { background: var(--text); color: white; border-color: var(--text); }
+.pagination .page-info { font-size: .7rem; color: var(--muted); margin: 0 6px; }
+
+/* ---- Chart ---- */
+.chart-wrap { position: relative; height: 240px; }
+
+/* ---- Refs table ---- */
+#refBody td[contenteditable] { cursor: text; }
+#refBody td[contenteditable]:focus { background: #fffdf8; outline: 1px solid var(--accent); }
+
+/* ---- Notification ---- */
+.notif {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--text);
+  color: white;
+  font-family: 'DM Mono', monospace;
+  font-size: .75rem;
+  padding: 10px 18px;
+  border-radius: 4px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all .2s;
+  pointer-events: none;
+  z-index: 999;
+}
+.notif.show { opacity: 1; transform: translateY(0); }
+
+/* ---- Empty state ---- */
+.empty { padding: 40px; text-align: center; color: var(--muted); font-size: .8rem; }
+
+/* ---- Top bar ---- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.topbar-left { display: flex; align-items: center; gap: 8px; }
 </style>
 </head>
-
 <body>
 
-<div class="tabs">
-<button onclick="showTab('achats')">Achats</button>
-<button onclick="showTab('refs')">Références</button>
+<header>
+  <h1>Suivi des achats</h1>
+  <span>Chantier</span>
+</header>
+
+<div class="layout">
+
+  <div class="sidebar">
+    <button class="active" onclick="showTab('achats',this)">Achats</button>
+    <button onclick="showTab('refs',this)">Références</button>
+    <button onclick="showTab('stats',this)">Stats</button>
+  </div>
+
+  <main>
+
+    <!-- ======= ACHATS ======= -->
+    <div id="achats" class="tab active">
+
+      <!-- Ajout -->
+      <div class="card">
+        <div class="card-label">Nouvelle ligne</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fournisseur *</label>
+            <input id="addF" type="text" placeholder="ex: LEROY MERLIN">
+          </div>
+          <div class="form-group">
+            <label>Date * (jj/mm/aaaa)</label>
+            <input id="addDate" class="narrow" type="text" placeholder="01/01/2025">
+          </div>
+          <div class="form-group">
+            <label>Montant HT * (€)</label>
+            <input id="addHt" class="narrow" type="text" placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label>Type</label>
+            <input id="addType" class="narrow" type="text" placeholder="Matériel">
+          </div>
+          <div class="form-group">
+            <label>Référence</label>
+            <select id="addRefSelect"></select>
+          </div>
+          <div class="form-group">
+            <label>Commentaire</label>
+            <input id="addCom" class="wide" type="text" placeholder="Facultatif">
+          </div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button class="btn" onclick="addRow()">+ Ajouter</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtres -->
+      <div class="card">
+        <div class="card-label">Filtres</div>
+        <div style="margin-bottom:8px">
+          <span style="font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-right:10px">Années</span>
+          <div id="yearFilters" style="display:inline-flex;flex-wrap:wrap;gap:5px"></div>
+        </div>
+        <div>
+          <span style="font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-right:10px">Mois</span>
+          <div id="monthFilters" style="display:inline-flex;flex-wrap:wrap;gap:5px"></div>
+        </div>
+        <div style="margin-top:10px">
+          <button class="btn secondary sm" onclick="clearFilters()">✕ Réinitialiser filtres</button>
+        </div>
+      </div>
+
+      <!-- Total + search + page size -->
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="card" style="margin:0;padding:12px 18px">
+            <div class="total-display">
+              <span class="total-amount" id="total">—</span>
+              <span class="total-label">total HT</span>
+            </div>
+            <div style="font-size:.62rem;color:var(--muted);margin-top:2px" id="totalCount"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input id="searchInput" type="text" placeholder="🔍  Rechercher..." style="width:220px" oninput="curPage=1;render()">
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="font-size:.68rem;color:var(--muted)">Lignes/page</span>
+            <select id="pageSizeSel" onchange="setPageSize()" style="width:70px">
+              <option>10</option>
+              <option>50</option>
+              <option>100</option>
+            </select>
+          </div>
+          <button class="btn secondary sm" onclick="exportCSV()">↓ Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="card">
+        <div class="card-label">Dépenses par mois / référence</div>
+        <div class="chart-wrap"><canvas id="chartEl"></canvas></div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th onclick="setSort(0)">Fournisseur <span class="sort-arrow" id="arr0">↕</span></th>
+              <th onclick="setSort(1)" class="sorted">Date <span class="sort-arrow" id="arr1">↓</span></th>
+              <th onclick="setSort(2)">Commentaire <span class="sort-arrow" id="arr2">↕</span></th>
+              <th onclick="setSort(3)">Montant € <span class="sort-arrow" id="arr3">↕</span></th>
+              <th onclick="setSort(4)">Type <span class="sort-arrow" id="arr4">↕</span></th>
+              <th onclick="setSort(5)">Référence <span class="sort-arrow" id="arr5">↕</span></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="empty" id="emptyMsg" style="display:none">Aucune ligne ne correspond aux filtres.</div>
+      <div class="pagination" id="pager"></div>
+
+    </div>
+
+    <!-- ======= REFERENCES ======= -->
+    <div id="refs" class="tab">
+      <div class="card">
+        <div class="card-label">Ajouter une référence</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Code *</label>
+            <input id="newRefCode" type="text" placeholder="ex: ELEC">
+          </div>
+          <div class="form-group">
+            <label>Désignation</label>
+            <input id="newRefName" type="text" placeholder="ex: Électricité">
+          </div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button class="btn" onclick="addReference()">+ Ajouter</button>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Code</th><th>Désignation</th><th>Total achats</th><th></th></tr></thead>
+          <tbody id="refBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ======= STATS ======= -->
+    <div id="stats" class="tab">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" id="statsGrid"></div>
+    </div>
+
+  </main>
 </div>
 
-<!-- ================= ACHATS ================= -->
-
-<div id="achats" class="tab active">
-
-<div class="card">
-<b>Ajouter ligne</b><br>
-<input id="addF" placeholder="Fournisseur">
-<input id="addDate" placeholder="Date jj/mm/aaaa">
-<input id="addCom" placeholder="Commentaire">
-<input id="addHt" placeholder="Montant €">
-<input id="addType" placeholder="Type">
-<select id="addRefSelect"></select>
-<button onclick="addRow()">➕ Ajouter</button>
-</div>
-
-<div class="card">
-<b>Années</b><br><div id="yearFilters"></div>
-<b>Mois</b><br><div id="monthFilters"></div>
-</div>
-
-<div class="card">
-Lignes par page :
-<select id="pageSizeSel" onchange="setPageSize()">
-<option>10</option>
-<option>50</option>
-<option>100</option>
-</select>
-</div>
-
-<div class="card">Total : <b id="total"></b></div>
-<div class="card"><canvas id="chart"></canvas></div>
-
-<table>
-<thead>
-<tr>
-<th onclick="setSort(0)">Fournisseur</th>
-<th onclick="setSort(1)">Date</th>
-<th onclick="setSort(2)">Commentaire</th>
-<th onclick="setSort(3)">€</th>
-<th onclick="setSort(4)">Type</th>
-<th onclick="setSort(5)">Réf</th>
-<th></th>
-</tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
-
-<div class="pagination" id="pager"></div>
-
-</div>
-
-<!-- ================= REFERENCES ================= -->
-
-<div id="refs" class="tab">
-
-<div class="card">
-<input id="newRefCode" placeholder="Code">
-<input id="newRefName" placeholder="Désignation">
-<button onclick="addReference()">➕ Ajouter</button>
-</div>
-
-<div class="card">
-<table>
-<thead><tr><th>Code</th><th>Désignation</th><th></th></tr></thead>
-<tbody id="refBody"></tbody>
-</table>
-</div>
-
-</div>
+<div class="notif" id="notif"></div>
 
 <script>
-
-/* ---------- tabs ---------- */
-
-function showTab(id){
- document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"))
- document.getElementById(id).classList.add("active")
-}
-
 /* ---------- utils ---------- */
+const eur = v => parseFloat((v||"").toString().replace(/[^\d,.-]/g,"").replace(",",".")) || 0
+const cleanRef = v => (v||"").trim() || "Sans référence"
 
-const eur=v=>parseFloat((v||"").replace(/[^\d,.-]/g,"").replace(",", "."))||0
-const cleanRef=v=>(v||"").trim()||"Sans référence"
+function notify(msg){
+  const n=document.getElementById("notif")
+  n.textContent=msg; n.classList.add("show")
+  setTimeout(()=>n.classList.remove("show"),2200)
+}
 
 function parseDate(d){
- if(!d||!d.includes("/")) return {}
- const [j,m,a]=d.split("/")
- return {j:+j,m:+m,a:+a}
+  if(!d||!d.includes("/")) return {}
+  const [j,m,a]=d.split("/")
+  return {j:+j,m:+m,a:+a}
 }
-
 function monthKey(d){
- const p=parseDate(d)
- if(!p.a) return null
- return p.a+"-"+String(p.m).padStart(2,"0")
+  const p=parseDate(d)
+  return p.a ? p.a+"-"+String(p.m).padStart(2,"0") : null
+}
+function dateVal(d){
+  const p=parseDate(d)
+  return p.a ? new Date(p.a,p.m-1,p.j).getTime() : 0
 }
 
-function dateVal(d){
- const p=parseDate(d)
- return p.a ? new Date(p.a,p.m-1,p.j).getTime() : 0
+/* ---------- tabs ---------- */
+function showTab(id, btn){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"))
+  document.querySelectorAll(".sidebar button").forEach(b=>b.classList.remove("active"))
+  document.getElementById(id).classList.add("active")
+  if(btn) btn.classList.add("active")
+  if(id==="stats") buildStats()
 }
 
 /* ---------- refs ---------- */
-
 const REF_KEY="refs_v6"
 let REFS=JSON.parse(localStorage.getItem(REF_KEY)||"{}")
 function saveRefs(){localStorage.setItem(REF_KEY,JSON.stringify(REFS))}
-function ensureRef(c){if(!REFS[c]) REFS[c]=""}
+function ensureRef(c){ if(c && c!=="Sans référence" && !REFS[c]) REFS[c]="" }
 
 function refreshRefUI(){
- refBody.innerHTML=Object.entries(REFS).map(([c,n])=>`
- <tr>
-  <td contenteditable onblur="editRefCode('${c}',this.innerText)">${c}</td>
-  <td contenteditable onblur="editRefName('${c}',this.innerText)">${n}</td>
-  <td><button onclick="deleteRef('${c}')">🗑</button></td>
- </tr>`).join("")
- addRefSelect.innerHTML=Object.keys(REFS).map(c=>`<option>${c}</option>`).join("")
- saveRefs()
+  const refBody=document.getElementById("refBody")
+  // Calcul totaux
+  const totaux={}
+  DATA.forEach(r=>{if(!totaux[r.ref])totaux[r.ref]=0; totaux[r.ref]+=eur(r.arr[3])})
+
+  refBody.innerHTML=Object.entries(REFS).map(([c,n])=>`
+    <tr>
+      <td contenteditable onblur="editRefCode('${c}',this.innerText)">${c}</td>
+      <td contenteditable onblur="editRefName('${c}',this.innerText)">${n}</td>
+      <td style="font-weight:500;color:var(--accent)">${(totaux[c]||0).toLocaleString("fr-FR",{minimumFractionDigits:2})} €</td>
+      <td><div class="actions"><button class="btn danger sm" onclick="deleteRef('${c}')">Suppr.</button></div></td>
+    </tr>`).join("")
+
+  const addRefSelect=document.getElementById("addRefSelect")
+  addRefSelect.innerHTML=`<option value="Sans référence">— Aucune —</option>`
+    +Object.keys(REFS).map(c=>`<option>${c}</option>`).join("")
+  saveRefs()
 }
 
 function addReference(){
- const c=newRefCode.value.trim()
- if(!c||REFS[c]){alert("Code invalide");return}
- REFS[c]=newRefName.value.trim()
- refreshRefUI()
+  const c=document.getElementById("newRefCode").value.trim()
+  const n=document.getElementById("newRefName").value.trim()
+  if(!c){notify("Code requis"); return}
+  if(REFS[c]!==undefined){notify("Ce code existe déjà"); return}
+  REFS[c]=n
+  document.getElementById("newRefCode").value=""
+  document.getElementById("newRefName").value=""
+  refreshRefUI()
+  notify("Référence ajoutée")
 }
-
 function editRefName(c,v){REFS[c]=v.trim();saveRefs()}
-
 function editRefCode(oldC,newC){
- newC=newC.trim()
- if(!newC||(newC!==oldC&&REFS[newC])){alert("Doublon");refreshRefUI();return}
- REFS[newC]=REFS[oldC]; delete REFS[oldC]
- DATA.forEach(r=>{if(r.ref===oldC){r.ref=newC;r.arr[5]=newC}})
- refreshRefUI(); render()
+  newC=newC.trim()
+  if(!newC||(newC!==oldC&&REFS[newC]!==undefined)){notify("Code invalide ou doublon");refreshRefUI();return}
+  REFS[newC]=REFS[oldC]; delete REFS[oldC]
+  DATA.forEach(r=>{if(r.ref===oldC){r.ref=newC;r.arr[5]=newC}})
+  refreshRefUI(); render()
 }
-
 function deleteRef(c){
- if(!confirm("Supprimer ?")) return
- delete REFS[c]
- DATA.forEach(r=>{if(r.ref===c){r.ref="Sans référence";r.arr[5]=r.ref}})
- refreshRefUI(); render()
+  if(!confirm(`Supprimer la référence "${c}" ? Les achats liés passeront en "Sans référence".`)) return
+  delete REFS[c]
+  DATA.forEach(r=>{if(r.ref===c){r.ref="Sans référence";r.arr[5]=r.ref}})
+  refreshRefUI(); render()
+  notify("Référence supprimée")
 }
 
 /* ---------- data ---------- */
-
 let DATA=[]
-let chart
+let chartInst
+
+/* ---------- persistence achats ---------- */
+const DATA_KEY="achats_v1"
+function saveData(){localStorage.setItem(DATA_KEY,JSON.stringify(DATA))}
+function loadSavedData(){
+  const saved=localStorage.getItem(DATA_KEY)
+  if(saved) DATA=JSON.parse(saved)
+}
 
 /* ---------- filters ---------- */
-
 const MONTHS=["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"]
 let selYears=new Set(), selMonths=new Set()
 
-function toggleYear(y){selYears.has(y)?selYears.delete(y):selYears.add(y);render();renderYearBtns()}
-function toggleMonth(m){selMonths.has(m)?selMonths.delete(m):selMonths.add(m);render();renderMonthBtns()}
+function toggleYear(y){selYears.has(y)?selYears.delete(y):selYears.add(y);curPage=1;render();renderYearBtns()}
+function toggleMonth(m){selMonths.has(m)?selMonths.delete(m):selMonths.add(m);curPage=1;render();renderMonthBtns()}
+function clearFilters(){
+  selYears.clear(); selMonths.clear()
+  document.getElementById("searchInput").value=""
+  curPage=1; render(); renderYearBtns(); renderMonthBtns()
+}
 
 function renderYearBtns(){
- const ys=[...new Set(DATA.map(x=>x.y).filter(Boolean))].sort()
- yearFilters.innerHTML=ys.map(y=>btn(y,selYears.has(y),`toggleYear(${y})`)).join("")
+  const ys=[...new Set(DATA.map(x=>x.y).filter(Boolean))].sort()
+  document.getElementById("yearFilters").innerHTML=ys.map(y=>
+    `<button class="chip ${selYears.has(y)?"on":""}" onclick="toggleYear(${y})">${y}</button>`
+  ).join("")
 }
-
 function renderMonthBtns(){
- monthFilters.innerHTML=MONTHS.map((n,i)=>btn(n,selMonths.has(i+1),`toggleMonth(${i+1})`)).join("")
-}
-
-function btn(label,on,fn){
- return `<button class="filter-btn ${on?"active":""}" onclick="${fn}">${label}</button>`
+  document.getElementById("monthFilters").innerHTML=MONTHS.map((n,i)=>
+    `<button class="chip ${selMonths.has(i+1)?"on":""}" onclick="toggleMonth(${i+1})">${n}</button>`
+  ).join("")
 }
 
 function passTime(r){
- if(selYears.size && !selYears.has(r.y)) return false
- if(selMonths.size && !selMonths.has(r.m)) return false
- return true
+  if(selYears.size && !selYears.has(r.y)) return false
+  if(selMonths.size && !selMonths.has(r.m)) return false
+  const q=(document.getElementById("searchInput").value||"").trim().toLowerCase()
+  if(q){
+    const haystack=r.arr.join(" ").toLowerCase()
+    if(!haystack.includes(q)) return false
+  }
+  return true
 }
 
 /* ---------- sorting ---------- */
-
-let sortCol=1
-let sortDir=-1   // récent d'abord
+let sortCol=1, sortDir=-1
 
 function setSort(col){
- if(col===1){
-   sortDir*=-1
- }else{
-   sortCol=col
-   sortDir=1
- }
- render()
+  // Update arrows
+  for(let i=0;i<6;i++){
+    const a=document.getElementById("arr"+i)
+    if(a){ a.textContent="↕"; document.querySelector(`th:nth-child(${i+1})`)||null }
+  }
+  if(col===sortCol){ sortDir*=-1 } else { sortCol=col; sortDir=1 }
+  render()
+  updateSortUI()
+}
+function updateSortUI(){
+  for(let i=0;i<6;i++){
+    const a=document.getElementById("arr"+i)
+    if(!a) continue
+    a.textContent = i===sortCol ? (sortDir===1?"↑":"↓") : "↕"
+    const th=a.closest("th")
+    if(th) th.classList.toggle("sorted", i===sortCol)
+  }
 }
 
 function sortRows(rows){
-
- rows.sort((a,b)=>{
-
-  // TRI PRINCIPAL = DATE DESC
-  const d = dateVal(b.arr[1]) - dateVal(a.arr[1])
-  if(d!==0) return d
-
-  // TRI SECONDAIRE
-  const A=a.arr[sortCol]
-  const B=b.arr[sortCol]
-
-  if(sortCol===3) return (eur(A)-eur(B))*sortDir
-  if(sortCol===1) return (dateVal(A)-dateVal(B))*sortDir
-
-  return A.localeCompare(B,"fr")*sortDir
- })
+  rows.sort((a,b)=>{
+    let primary, secondary
+    if(sortCol===1){
+      primary=(dateVal(a.arr[1])-dateVal(b.arr[1]))*sortDir
+    } else {
+      // secondary sort: always date desc
+      primary=0
+      const A=a.arr[sortCol], B=b.arr[sortCol]
+      if(sortCol===3) primary=(eur(A)-eur(B))*sortDir
+      else primary=(A||"").localeCompare(B||"","fr")*sortDir
+      secondary=dateVal(b.arr[1])-dateVal(a.arr[1])
+    }
+    return primary||secondary||0
+  })
 }
 
 /* ---------- pagination ---------- */
-
 let pageSize=10, curPage=1
-
-function setPageSize(){
- pageSize=parseInt(pageSizeSel.value)
- curPage=1
- render()
-}
+function setPageSize(){ pageSize=parseInt(document.getElementById("pageSizeSel").value); curPage=1; render() }
 
 function renderPager(total){
- const pages=Math.ceil(total/pageSize)||1
- pager.innerHTML=Array.from({length:pages},(_,i)=>
-  `<button onclick="curPage=${i+1};render()">${i+1}</button>`
- ).join("")
+  const pages=Math.ceil(total/pageSize)||1
+  let html=""
+  if(pages>1){
+    if(curPage>1) html+=`<button onclick="curPage=${curPage-1};render()">‹</button>`
+    const start=Math.max(1,curPage-2), end=Math.min(pages,curPage+2)
+    if(start>1) html+=`<button onclick="curPage=1;render()">1</button>${start>2?'<span class="page-info">…</span>':""}`
+    for(let i=start;i<=end;i++) html+=`<button class="${i===curPage?"current":""}" onclick="curPage=${i};render()">${i}</button>`
+    if(end<pages) html+=`${end<pages-1?'<span class="page-info">…</span>':""}<button onclick="curPage=${pages};render()">${pages}</button>`
+    if(curPage<pages) html+=`<button onclick="curPage=${curPage+1};render()">›</button>`
+  }
+  html+=`<span class="page-info">${total} ligne${total>1?"s":""}</span>`
+  document.getElementById("pager").innerHTML=html
 }
 
-/* ---------- achats ---------- */
-
+/* ---------- add row ---------- */
 function addRow(){
- const f=addF.value.trim()
- const d=addDate.value.trim()
- const c=addCom.value.trim()
- const ht=addHt.value.trim()
- const t=addType.value.trim()
- const r=addRefSelect.value
- if(!f||!d||!ht){alert("Champs requis");return}
- const p=parseDate(d)
- DATA.push({arr:[f,d,c,ht,t,r],ref:r,month:monthKey(d),y:p.a,m:p.m})
- render(); renderYearBtns()
+  const f=document.getElementById("addF").value.trim()
+  const d=document.getElementById("addDate").value.trim()
+  const ht=document.getElementById("addHt").value.trim()
+  const t=document.getElementById("addType").value.trim()
+  const r=document.getElementById("addRefSelect").value||"Sans référence"
+  const c=document.getElementById("addCom").value.trim()
+  if(!f||!d||!ht){notify("Fournisseur, date et montant requis"); return}
+  const p=parseDate(d)
+  if(!p.a){notify("Format date invalide (jj/mm/aaaa)"); return}
+  DATA.push({arr:[f,d,c,ht,t,r],ref:r,month:monthKey(d),y:p.a,m:p.m})
+  // clear
+  ["addF","addDate","addHt","addType","addCom"].forEach(id=>document.getElementById(id).value="")
+  saveData(); render(); renderYearBtns()
+  notify("Ligne ajoutée")
 }
 
-/* ---------- edit rows ---------- */
+/* ---------- edit/save/delete ---------- */
+// Map from displayed row index → DATA index, rebuilt each render
+let displayedDataIndices=[]
 
-function editRow(i){
- const r=DATA[i].arr
- tbody.children[i].innerHTML=`
-<td><input value="${r[0]}"></td>
-<td><input value="${r[1]}"></td>
-<td><input value="${r[2]}"></td>
-<td><input value="${r[3]}"></td>
-<td><input value="${r[4]}"></td>
-<td>${refSel(r[5])}</td>
-<td><button onclick="saveRow(${i})">💾</button></td>`
+function editRow(dataIdx){
+  const r=DATA[dataIdx]
+  const dispIdx=displayedDataIndices.indexOf(dataIdx)
+  if(dispIdx<0) return
+  const tbody=document.getElementById("tbody")
+  const tr=tbody.children[dispIdx]
+  if(!tr) return
+  tr.innerHTML=`
+    <td><input value="${r.arr[0]}"></td>
+    <td><input value="${r.arr[1]}" style="width:110px"></td>
+    <td><input value="${r.arr[2]}" style="width:160px"></td>
+    <td><input value="${r.arr[3]}" style="width:90px"></td>
+    <td><input value="${r.arr[4]}" style="width:90px"></td>
+    <td>${refSel(r.arr[5])}</td>
+    <td><div class="actions">
+      <button class="btn sm" onclick="saveRow(${dataIdx})">💾 Sauv.</button>
+      <button class="btn secondary sm" onclick="render()">Annuler</button>
+    </div></td>`
 }
 
 function refSel(sel){
- return `<select>${
-  Object.keys(REFS).map(k=>`<option ${k===sel?"selected":""}>${k}</option>`).join("")
- }</select>`
+  return `<select style="width:110px"><option value="Sans référence">— Aucune —</option>${
+    Object.keys(REFS).map(k=>`<option ${k===sel?"selected":""}>${k}</option>`).join("")
+  }</select>`
 }
 
-function saveRow(i){
- const cells=tbody.children[i].querySelectorAll("input,select")
- const a=[...cells].map(x=>x.value)
- const p=parseDate(a[1])
- DATA[i]={arr:a,ref:a[5],month:monthKey(a[1]),y:p.a,m:p.m}
- render()
+function saveRow(dataIdx){
+  const dispIdx=displayedDataIndices.indexOf(dataIdx)
+  const tbody=document.getElementById("tbody")
+  const tr=tbody.children[dispIdx]
+  if(!tr) return
+  const cells=[...tr.querySelectorAll("input,select")]
+  const a=cells.map(x=>x.value)
+  const p=parseDate(a[1])
+  DATA[dataIdx]={arr:a,ref:a[5],month:monthKey(a[1]),y:p.a,m:p.m}
+  saveData(); render(); notify("Ligne modifiée")
 }
 
-function deleteRow(i){
- if(!confirm("Supprimer ligne ?")) return
- DATA.splice(i,1)
- render()
+function deleteRow(dataIdx){
+  if(!confirm("Supprimer cette ligne ?")) return
+  DATA.splice(dataIdx,1)
+  saveData(); render(); notify("Ligne supprimée")
 }
 
 /* ---------- render ---------- */
-
 function render(){
+  const rows=DATA.map((r,i)=>({r,i})).filter(({r})=>passTime(r))
+  // Sort
+  rows.sort((a,b)=>{
+    const ra=a.r, rb=b.r
+    let primary
+    if(sortCol===1){
+      primary=(dateVal(ra.arr[1])-dateVal(rb.arr[1]))*sortDir
+    } else {
+      const A=ra.arr[sortCol]||"", B=rb.arr[sortCol]||""
+      if(sortCol===3) primary=(eur(A)-eur(B))*sortDir
+      else primary=A.localeCompare(B,"fr")*sortDir
+    }
+    return primary || (dateVal(rb.arr[1])-dateVal(ra.arr[1]))
+  })
 
- const rows=DATA.filter(passTime)
- sortRows(rows)
+  const total=rows.reduce((s,{r})=>s+eur(r.arr[3]),0)
+  document.getElementById("total").textContent=total.toLocaleString("fr-FR",{minimumFractionDigits:2})+" €"
+  document.getElementById("totalCount").textContent=`${rows.length} achat${rows.length>1?"s":""}`
 
- const total=rows.reduce((s,r)=>s+eur(r.arr[3]),0)
- totalEl.textContent=total.toLocaleString()+" €"
+  renderPager(rows.length)
 
- renderPager(rows.length)
+  const start=(curPage-1)*pageSize
+  const pageRows=rows.slice(start,start+pageSize)
+  displayedDataIndices=pageRows.map(({i})=>i)
 
- const start=(curPage-1)*pageSize
- const pageRows=rows.slice(start,start+pageSize)
+  const tbody=document.getElementById("tbody")
+  const emptyMsg=document.getElementById("emptyMsg")
 
- tbody.innerHTML=pageRows.map(r=>{
-  const i=DATA.indexOf(r)
-  return `<tr>
-   ${r.arr.map(v=>`<td>${v}</td>`).join("")}
-   <td>
-    <button onclick="editRow(${i})">✏️</button>
-    <button onclick="deleteRow(${i})">🗑</button>
-   </td></tr>`
- }).join("")
+  if(pageRows.length===0){
+    tbody.innerHTML=""
+    emptyMsg.style.display="block"
+  } else {
+    emptyMsg.style.display="none"
+    tbody.innerHTML=pageRows.map(({r,i},dispIdx)=>`
+      <tr>
+        <td>${r.arr[0]}</td>
+        <td>${r.arr[1]}</td>
+        <td style="color:var(--muted)">${r.arr[2]||""}</td>
+        <td class="amount-cell">${eur(r.arr[3]).toLocaleString("fr-FR",{minimumFractionDigits:2})} €</td>
+        <td>${r.arr[4]||""}</td>
+        <td><span class="ref-badge">${r.arr[5]||"—"}</span></td>
+        <td><div class="actions">
+          <button class="btn secondary sm" onclick="editRow(${i})">✏️</button>
+          <button class="btn danger sm" onclick="deleteRow(${i})">🗑</button>
+        </div></td>
+      </tr>`).join("")
+  }
 
- buildChart(rows)
+  buildChart(rows.map(({r})=>r))
 }
 
 /* ---------- chart ---------- */
+const PALETTE=["#c4622d","#2d6c4a","#2d4a6c","#9b4dca","#c4a62d","#6c2d4a","#4a6c2d","#2d6c6c"]
 
 function buildChart(rows){
+  const map={}
+  rows.forEach(r=>{
+    if(!r.month) return
+    if(!map[r.month]) map[r.month]={}
+    map[r.month][r.ref]=(map[r.month][r.ref]||0)+eur(r.arr[3])
+  })
+  const months=Object.keys(map).sort()
+  const refs=[...new Set(rows.map(r=>r.ref))]
+  const datasets=refs.map((ref,i)=>({
+    label:ref,
+    data:months.map(m=>map[m][ref]||0),
+    backgroundColor:PALETTE[i%PALETTE.length]+"cc",
+    borderColor:PALETTE[i%PALETTE.length],
+    borderWidth:1,
+    borderRadius:2,
+  }))
 
- const map={}
- rows.forEach(r=>{
-  if(!r.month) return
-  if(!map[r.month]) map[r.month]={}
-  map[r.month][r.ref]=(map[r.month][r.ref]||0)+eur(r.arr[3])
- })
-
- const months=Object.keys(map).sort()
- const refs=[...new Set(rows.map(r=>r.ref))]
-
- const datasets=refs.map(ref=>({
-  label:ref,
-  data:months.map(m=>map[m][ref]||0)
- }))
-
- if(chart) chart.destroy()
- chart=new Chart(chartEl,{
-  type:"bar",
-  data:{labels:months,datasets},
-  options:{animation:false,scales:{x:{stacked:true},y:{stacked:true}}}
- })
+  const ctx=document.getElementById("chartEl")
+  if(chartInst) chartInst.destroy()
+  chartInst=new Chart(ctx,{
+    type:"bar",
+    data:{labels:months,datasets},
+    options:{
+      animation:false,
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{
+          labels:{font:{family:"DM Mono, monospace",size:11},color:"#7a7470"}
+        }
+      },
+      scales:{
+        x:{stacked:true,ticks:{font:{family:"DM Mono, monospace",size:10},color:"#7a7470"},grid:{color:"#f0ede8"}},
+        y:{stacked:true,ticks:{font:{family:"DM Mono, monospace",size:10},color:"#7a7470"},grid:{color:"#ede9e2"}}
+      }
+    }
+  })
 }
 
-/* ---------- load csv ---------- */
+/* ---------- stats ---------- */
+function buildStats(){
+  const grid=document.getElementById("statsGrid")
+  if(!DATA.length){grid.innerHTML='<div class="card empty">Aucune donnée.</div>';return}
 
+  // Par fournisseur
+  const byF={}; DATA.forEach(r=>{byF[r.arr[0]]=(byF[r.arr[0]]||0)+eur(r.arr[3])})
+  const topF=Object.entries(byF).sort((a,b)=>b[1]-a[1]).slice(0,8)
+
+  // Par référence
+  const byR={}; DATA.forEach(r=>{byR[r.ref]=(byR[r.ref]||0)+eur(r.arr[3])})
+  const topR=Object.entries(byR).sort((a,b)=>b[1]-a[1])
+
+  const total=DATA.reduce((s,r)=>s+eur(r.arr[3]),0)
+
+  const bar=(label,val,max,color)=>{
+    const pct=max?Math.round(val/max*100):0
+    return `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:4px">
+        <span>${label}</span>
+        <span style="color:var(--muted)">${val.toLocaleString("fr-FR",{minimumFractionDigits:2})} €</span>
+      </div>
+      <div style="height:6px;background:#eee;border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${color};border-radius:3px;transition:width .4s"></div>
+      </div>
+    </div>`
+  }
+
+  grid.innerHTML=`
+    <div class="card">
+      <div class="card-label">Top fournisseurs</div>
+      ${topF.map(([f,v])=>bar(f,v,topF[0][1],"var(--accent)")).join("")}
+    </div>
+    <div class="card">
+      <div class="card-label">Par référence</div>
+      ${topR.map(([r,v])=>bar(r,v,topR[0][1],"var(--accent2)")).join("")}
+    </div>
+    <div class="card" style="grid-column:1/-1">
+      <div class="card-label">Résumé</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-top:8px">
+        ${statBox("Total achats",DATA.length+" lignes")}
+        ${statBox("Total HT",total.toLocaleString("fr-FR",{minimumFractionDigits:2})+" €")}
+        ${statBox("Fournisseurs",Object.keys(byF).length+" distincts")}
+        ${statBox("Références",Object.keys(byR).length+" catégories")}
+        ${statBox("Moy. par achat",(total/DATA.length||0).toLocaleString("fr-FR",{minimumFractionDigits:2})+" €")}
+      </div>
+    </div>`
+}
+
+function statBox(label, val){
+  return `<div style="background:#f5f3f0;border-radius:4px;padding:14px 16px">
+    <div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">${label}</div>
+    <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;color:var(--text)">${val}</div>
+  </div>`
+}
+
+/* ---------- export CSV ---------- */
+function exportCSV(){
+  const headers=["Fournisseur","Date","Commentaire","Montant HT","Type","Référence"]
+  const rows=DATA.map(r=>r.arr.map(v=>`"${(v||"").replace(/"/g,'""')}"`).join(","))
+  const csv=[headers.join(","),...rows].join("\n")
+  const a=document.createElement("a")
+  a.href="data:text/csv;charset=utf-8,"+encodeURIComponent(csv)
+  a.download="achats_chantier.csv"
+  a.click()
+  notify("Export téléchargé")
+}
+
+/* ---------- init ---------- */
+loadSavedData()
+refreshRefUI()
+renderYearBtns()
+renderMonthBtns()
+updateSortUI()
+render()
+
+// Load CSV if available
 fetch("data.csv")
-.then(r=>r.text())
+.then(r=>{ if(!r.ok) throw new Error(); return r.text() })
 .then(csv=>Papa.parse(csv,{
- skipEmptyLines:true,
- complete: res=>{
-  res.data.slice(2).forEach(row=>{
-   if(!row[0]) return
-   const ref=cleanRef(row[7])
-   ensureRef(ref)
-   const p=parseDate(row[1])
-   DATA.push({
-    arr:[row[0],row[1],row[2],row[3],row[6],ref],
-    ref,month:monthKey(row[1]),y:p.a,m:p.m
-   })
-  })
-  refreshRefUI()
-  renderYearBtns()
-  renderMonthBtns()
-  render()
- }
+  skipEmptyLines:true,
+  complete: res=>{
+    res.data.slice(2).forEach(row=>{
+      if(!row[0]) return
+      const ref=cleanRef(row[7])
+      ensureRef(ref)
+      const p=parseDate(row[1])
+      DATA.push({arr:[row[0],row[1],row[2],row[3],row[6],ref],ref,month:monthKey(row[1]),y:p.a,m:p.m})
+    })
+    refreshRefUI(); renderYearBtns(); renderMonthBtns(); render()
+    notify("CSV chargé")
+  }
 }))
-
-const tbody=document.getElementById("tbody")
-const totalEl=document.getElementById("total")
-const chartEl=document.getElementById("chart")
-
+.catch(()=>{}) // pas de CSV, on continue avec localStorage
 </script>
 </body>
 </html>
