@@ -316,7 +316,7 @@ input::placeholder{color:var(--tx3)}
         <div class="tbl-wrap"><table>
           <thead><tr>
             <th style="width:36px"></th>
-            <th onclick="ss('Fournisseur')" id="th-Fournisseur">Fournisseur</th>
+            <th onclick="ss('ID')" id="th-ID" style="color:var(--tx3);font-size:11px">N° Cmd</th><th onclick="ss('Fournisseur')" id="th-Fournisseur">Fournisseur</th>
             <th onclick="ss('Lot')" id="th-Lot">Lot</th>
             <th onclick="ss('Type')" id="th-Type">Type</th>
             <th onclick="ss('Description')" id="th-Description">Description</th>
@@ -677,7 +677,7 @@ function rCmd(){
   const total=fil.length,pages=Math.ceil(total/pgSz)||1;if(curPage>pages)curPage=pages
   const page=fil.slice((curPage-1)*pgSz,curPage*pgSz)
   document.getElementById("pgInfo").textContent=`${total} résultat${total>1?"s":""}`;renderPgr(pages)
-  ;["Fournisseur","Lot","Description","montant","Date","Signataire"].forEach(k=>{const th=document.getElementById("th-"+k);if(!th)return;const lbl={Fournisseur:"Fournisseur",Lot:"Lot",Description:"Description",montant:"Engagé HT",Date:"Date",Signataire:"Sig."};th.textContent=lbl[k]+(sKey===k?(sDir===1?" ↑":" ↓"):"");th.classList.toggle("sorted",sKey===k)})
+  ;["ID","Fournisseur","Lot","Description","montant","Date","Signataire"].forEach(k=>{const th=document.getElementById("th-"+k);if(!th)return;const lbl={ID:"N° Cmd",Fournisseur:"Fournisseur",Lot:"Lot",Description:"Description",montant:"Engagé HT",Date:"Date",Signataire:"Sig."};th.textContent=lbl[k]+(sKey===k?(sDir===1?" ↑":" ↓"):"");th.classList.toggle("sorted",sKey===k)})
   const tb=document.getElementById("ctbody");document.getElementById("cEmpty").style.display=page.length?"none":"block"
   if(!page.length){tb.innerHTML="";return}
   tb.innerHTML=page.map(c=>{
@@ -685,13 +685,13 @@ function rCmd(){
     const allPt=facs.length>0&&facs.every(isP),noPt=facs.length===0
     const sb=noPt?`<span class="badge b-nf">Aucune facture</span>`:allPt?`<span class="badge b-pt">✓ Pointé</span>`:`<span class="badge b-pd">⏳ En attente</span>`
     return`<tr><td><button class="btn btn-g" onclick="toggleExp('${c.ID}')" style="padding:4px 8px;font-size:16px;line-height:1;border-radius:6px;min-width:32px;text-align:center">${exp?"▾":"▸"}</button></td>
-    <td class="tdm">${c.Fournisseur||""}</td><td>${c.Lot?`<span class="badge b-lot">${c.Lot}</span>`:""}</td>
+    <td style="font-size:11px;color:var(--tx3);white-space:nowrap;font-family:monospace">${c.ID||""}</td><td class="tdm">${c.Fournisseur||""}</td><td>${c.Lot?`<span class="badge b-lot">${c.Lot}</span>`:""}</td>
     <td>${(()=>{const t=c.Type||'';if(t==='Achats')return`<span class="badge b-achat">🛒 Achats</span>`;if(t==='Location')return`<span class="badge b-location">📦 Location</span>`;if(t==='Sous-traitance')return`<span class="badge b-st">🔧 Sous-trait.</span>`;if(t==='Prestataire')return`<span class="badge b-presta">🏢 Prestataire</span>`;return'<span style="color:var(--tx3);font-size:12px">—</span>'})()}</td>
     <td class="tdd">${c.Description||""}</td><td class="tdn">${f0(e2n(c["Montant HT"]))}</td>
     <td class="tdn ${fm>0?"":"tdd"}">${fm>0?f0(fm):"—"}</td><td class="tdn ${fp>0?"":"tdd"}">${fp>0?f0(fp):"—"}</td>
     <td class="tdd">${fd(c.Date)}</td><td>${c.Signataire?`<span class="badge b-sig">${c.Signataire}</span>`:""}</td>
     <td><div class="tda">${sb}</div></td><td style="text-align:center;vertical-align:middle;padding:0"><div style="display:flex;gap:4px;justify-content:center;align-items:center"><button class="btn btn-g btn-xs" onclick="openPanel('editCommande','${c.ID}')" style="width:30px;height:30px;padding:0;justify-content:center;background:none;border:1px solid var(--bd);border-radius:6px">✏️</button><button class="btn btn-xs btn-del" onclick="delC('${c.ID}')" style="width:30px;height:30px;padding:0;justify-content:center;font-size:14px;border:1px solid rgba(208,48,48,.3);border-radius:6px">🗑️</button></div></td>
-    </tr>${exp?`<tr class="exp-row"><td colspan="11">${rFacs(c.ID)}</td></tr>`:""}`
+    </tr>${exp?`<tr class="exp-row"><td colspan="12">${rFacs(c.ID)}</td></tr>`:""}`
   }).join("")
 }
 function rFacs(cid){
