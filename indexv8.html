@@ -4,6 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>18EL | Suivi des achats</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>"><text y='.9em' font-size='90'>🧮</text></svg>">
+<script>var _t=localStorage.getItem("theme");if(_t)document.documentElement.setAttribute("data-theme",_t)</script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -232,6 +234,68 @@ input::placeholder{color:var(--tx3)}
   .ent-type-both{background:#F0FDF4;color:#166534}
   .ent-card-info{font-size:12px;color:var(--tx2);display:flex;align-items:center;gap:5px}
   .ent-card-actions{display:flex;gap:6px;margin-top:4px}
+
+/* ── THEME TDR ─────────────────────────────────────── */
+[data-theme="tdr"]{
+  --bg:#F0EDE8;--sf:#FFFFFF;--sf2:#E8E4DE;--bg3:#E0DBD4;
+  --bd:#1A1A1A;--bd2:#333;
+  --tx:#0D0D0D;--tx2:#3D3D3D;--tx3:#7A7A7A;
+  --ac:#E8C400;--acl:#FFFDE0;--ach:#FFD800;
+  --gr:#E8C400;--grl:#FFFDE0;
+  --wa:#FF4500;--wal:#FFF0EB;
+  --re:#FF0000;--rel:#FFF0F0;
+  --vi:#0D0D0D;--vil:#F0F0F0;
+  --amt-font:'IBM Plex Mono';
+  --r:0px;
+  --shadow:3px 3px 0px #0D0D0D;
+}
+[data-theme="tdr"] body{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:.01em}
+[data-theme="tdr"] body::before{display:none}
+[data-theme="tdr"] .sidebar{background:#0D0D0D;border-right:3px solid #E8C400}
+[data-theme="tdr"] .s-brand{border-bottom:2px solid #333}
+[data-theme="tdr"] .s-name{color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:15px;letter-spacing:.08em;text-transform:uppercase}
+[data-theme="tdr"] .s-proj{color:#E8C400;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em}
+[data-theme="tdr"] .nav-group-label{color:#555;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase}
+[data-theme="tdr"] .nav-item{color:#AAA;border-radius:0;font-family:'Barlow Condensed',sans-serif;font-weight:500;font-size:13.5px;letter-spacing:.05em;text-transform:uppercase;border-left:3px solid transparent}
+[data-theme="tdr"] .nav-item:hover{background:#1A1A1A;color:#fff;border-left-color:#555}
+[data-theme="tdr"] .nav-item.active{background:#1A1A1A;color:#E8C400;border-left:3px solid #E8C400}
+[data-theme="tdr"] .s-status{background:#1A1A1A;border-radius:0;border:1px solid #333}
+[data-theme="tdr"] .s-status-txt{color:#555;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em}
+[data-theme="tdr"] .s-dot{background:#E8C400;border-radius:0;width:6px;height:6px}
+[data-theme="tdr"] .s-foot .btn{background:#1A1A1A;color:#888;border:1px solid #333;border-radius:0;font-family:'Barlow Condensed',sans-serif;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+[data-theme="tdr"] .s-foot .btn:hover{background:#E8C400;color:#0D0D0D;border-color:#E8C400}
+[data-theme="tdr"] .topbar{background:#fff;border-bottom:3px solid #0D0D0D;box-shadow:none}
+[data-theme="tdr"] .topbar-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;letter-spacing:.05em;text-transform:uppercase}
+[data-theme="tdr"] .btn-p{background:#E8C400;color:#0D0D0D;border:2px solid #0D0D0D;border-radius:0;box-shadow:3px 3px 0 #0D0D0D;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+[data-theme="tdr"] .btn-p:hover{background:#FFD800;transform:translate(-1px,-1px);box-shadow:4px 4px 0 #0D0D0D}
+[data-theme="tdr"] .kpi{border-radius:0;border:2px solid #0D0D0D;box-shadow:4px 4px 0 #0D0D0D;background:#fff}
+[data-theme="tdr"] .kl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#7A7A7A}
+[data-theme="tdr"] .kl-dot{display:none}
+[data-theme="tdr"] .kv{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:20px;letter-spacing:-.01em}
+[data-theme="tdr"] .ks{font-family:'IBM Plex Mono',monospace;font-size:9px;color:#999;letter-spacing:.05em}
+[data-theme="tdr"] .panel{border-radius:0;border:2px solid #0D0D0D;box-shadow:4px 4px 0 #0D0D0D}
+[data-theme="tdr"] .fb{background:#F0EDE8}
+[data-theme="tdr"] .fb-row2{background:#E8E4DE}
+[data-theme="tdr"] .fl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#555}
+[data-theme="tdr"] .ms-btn{border-radius:0;border:2px solid #0D0D0D;background:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:12px}
+[data-theme="tdr"] .chip{border-radius:0;border:2px solid #0D0D0D;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:11px}
+[data-theme="tdr"] .chip.on{background:#E8C400;color:#0D0D0D;border-color:#0D0D0D}
+[data-theme="tdr"] .sb input{border-radius:0;border:2px solid #0D0D0D;font-family:'IBM Plex Mono',monospace;font-size:12px}
+[data-theme="tdr"] .tbl thead th{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;background:#0D0D0D;color:#E8C400;border:none}
+[data-theme="tdr"] .tbl tbody td{border-bottom:1px solid #DDD;font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:.02em}
+[data-theme="tdr"] tbody tr:hover td{background:#FFFDE0!important}
+[data-theme="tdr"] .tdm{font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:13px}
+[data-theme="tdr"] .tdn{font-family:'IBM Plex Mono',monospace;font-size:13px}
+[data-theme="tdr"] .badge{border-radius:0;border:1.5px solid currentColor;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:10px}
+[data-theme="tdr"] .btn-g{border-radius:0;border:1.5px solid #CCC;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.05em;font-size:11px;text-transform:uppercase}
+[data-theme="tdr"] .modal-box{border-radius:0;border:2px solid #0D0D0D;box-shadow:6px 6px 0 #0D0D0D}
+[data-theme="tdr"] .modal-head{border-bottom:2px solid #0D0D0D;font-family:'Barlow Condensed',sans-serif;font-weight:900;letter-spacing:.08em;text-transform:uppercase;font-size:18px}
+[data-theme="tdr"] input,[data-theme="tdr"] select,[data-theme="tdr"] textarea{border-radius:0!important;border:2px solid #0D0D0D!important;font-family:'IBM Plex Mono',monospace!important;font-size:12px!important}
+[data-theme="tdr"] input:focus,[data-theme="tdr"] select:focus,[data-theme="tdr"] textarea:focus{border-color:#E8C400!important;box-shadow:3px 3px 0 #E8C400!important}
+[data-theme="tdr"] label,.modal-body label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#555}
+[data-theme="tdr"] .btn-s{border-radius:0;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+[data-theme="tdr"] #themeBtn{background:#E8C400;color:#0D0D0D;border-color:#0D0D0D}
+
 </style>
 </head>
 <body>
@@ -255,7 +319,8 @@ input::placeholder{color:var(--tx3)}
     <button class="nav-item" onclick="showView('lots',this)"><span class="ni">🗂️</span><span class="nav-label-txt">Référence gestion</span></button>
     <button class="nav-item" onclick="showView('entreprises',this)"><span class="ni">🏢</span><span class="nav-label-txt">Fournisseurs / ST</span></button>
   </div></div>
-  <div class="s-foot"><button class="btn btn-s btn-sm" onclick="reload()" style="width:calc(100% - 20px);margin:0 10px 8px;justify-content:center;gap:6px"><span>↻</span><span class="nav-label-txt">Actualiser</span></button><div class="s-status"><div class="s-dot loading" id="sDot"></div><span class="s-status-txt" id="sTxt">…</span></div></div>
+  <div class="s-foot"><button class="btn btn-s btn-sm" onclick="reload()" style="width:calc(100% - 20px);margin:0 10px 8px;justify-content:center;gap:6px"><span>↻</span><span class="nav-label-txt">Actualiser</span></button><button id="themeBtn" onclick="toggleTheme()" class="btn btn-s btn-sm" style="width:calc(100% - 20px);margin:0 10px 6px;justify-content:center;gap:6px;font-size:11px">◑ Thème</button>
+<div class="s-status"><div class="s-dot loading" id="sDot"></div><span class="s-status-txt" id="sTxt">…</span></div></div>
 </aside>
 <button class="sidebar-tab" id="sTab" onclick="toggleSidebar()"><svg width="6" height="12" viewBox="0 0 6 12" fill="none"><path d="M5 1L1 6l4 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 
@@ -498,7 +563,7 @@ async function reload(){
     if(d.error)throw new Error(d.error)
     C=d.commandes||[]
     F=(d.factures||[]).map(f=>({...f,"Pointé":f["Pointé"]===true||String(f["Pointé"]).toUpperCase()==="OUI"}))
-    if(d.lots)Object.assign(LOTS,d.lots)
+    if(d.lots){LOTS=d.lots;localStorage.setItem("lots_v6",JSON.stringify(LOTS))}
     if(d.signataires)SIGS=d.signataires
     syncMeta();rAll()
     // Rafraîchir la vue active si ST ou Analyse
@@ -533,7 +598,7 @@ async function silentReload(){
     if(d.error)return
     C=d.commandes||[]
     F=(d.factures||[]).map(f=>({...f,"Pointé":f["Pointé"]===true||String(f["Pointé"]).toUpperCase()==="OUI"}))
-    if(d.lots&&Object.keys(d.lots).length){Object.assign(LOTS,d.lots);localStorage.setItem("lots_v6",JSON.stringify(LOTS))}
+    if(d.lots&&Object.keys(d.lots).length){LOTS=d.lots;localStorage.setItem("lots_v6",JSON.stringify(LOTS))}
     if(d.signataires)SIGS=d.signataires
     syncMeta();rAll()
     const av=document.querySelector(".view.active")?.id
@@ -1411,6 +1476,24 @@ document.addEventListener("scroll",()=>document.querySelectorAll(".ms-drop").for
 window.addEventListener("resize",()=>document.querySelectorAll(".ms-drop").forEach(d=>d.classList.remove("open")))
 startPolling(90000)
 reload()
+
+// ── THEME SWITCHER ──────────────────────────────────
+function toggleTheme(){
+  const html = document.documentElement
+  const cur  = html.getAttribute('data-theme')
+  const next = cur === 'tdr' ? '' : 'tdr'
+  html.setAttribute('data-theme', next)
+  localStorage.setItem('theme', next)
+  const btn = document.getElementById('themeBtn')
+  if(btn) btn.textContent = next === 'tdr' ? '◑ Crisp' : '◑ Thème'
+}
+function initTheme(){
+  const saved = localStorage.getItem('theme') || ''
+  if(saved) document.documentElement.setAttribute('data-theme', saved)
+  const btn = document.getElementById('themeBtn')
+  if(btn) btn.textContent = saved === 'tdr' ? '◑ Crisp' : '◑ Thème'
+}
+document.addEventListener('DOMContentLoaded', initTheme)
 </script>
 
 </div>
