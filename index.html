@@ -616,9 +616,9 @@ function startPolling(intervalMs=90000){
 }
 
 function syncMeta(){C.forEach(c=>{if(c.Lot&&LOTS[c.Lot]===undefined)LOTS[c.Lot]=""});SIGS=[...new Set(C.map(c=>c.Signataire).filter(Boolean))].sort();saveLots()}
-function saveLots(){
+async function saveLots(){
   localStorage.setItem("lots_v6",JSON.stringify(LOTS))
-  apiPost("saveLots",{lots:LOTS})
+  await apiPost("saveLots",{lots:LOTS})
 }
 function showView(id,btn){
   document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"))
@@ -1464,11 +1464,11 @@ function entNames(typeFilter){
     .map(e=>e.nom)
 }
 
-function addLot(){const code=document.getElementById("lCode").value.trim(),name=document.getElementById("lName").value.trim();if(!code){toast("Code requis","error");return};if(LOTS[code]!==undefined){toast("Code existant","error");return};LOTS[code]=name;saveLots();document.getElementById("lCode").value="";document.getElementById("lName").value="";rLots();rFilters();toast("Lot créé")}
-function delLot(code){if(!confirm(`Supprimer "${code}" ?`))return;delete LOTS[code];saveLots();rLots();rFilters();toast("Lot supprimé")}
+async function addLot(){const code=document.getElementById("lCode").value.trim(),name=document.getElementById("lName").value.trim();if(!code){toast("Code requis","error");return};if(LOTS[code]!==undefined){toast("Code existant","error");return};LOTS[code]=name;await saveLots();document.getElementById("lCode").value="";document.getElementById("lName").value="";rLots();rFilters();toast("Lot créé")}
+async function delLot(code){if(!confirm(`Supprimer "${code}" ?`))return;delete LOTS[code];await saveLots();rLots();rFilters();toast("Lot supprimé")}
 function openLotF(){document.getElementById("lotFD").style.display="block"}
 function closeLotF(){document.getElementById("lotFD").style.display="none"}
-function saveLotName(code,val){LOTS[code]=val;saveLots()}
+async function saveLotName(code,val){LOTS[code]=val;await saveLots()}
 function rLots(){const g=document.getElementById("lgrid");if(!g)return;const en=Object.entries(LOTS);if(!en.length){g.innerHTML=`<div style="grid-column:1/-1;color:var(--tx3);font-size:13px">Aucun lot.</div>`;return};g.innerHTML=en.map(([c,n])=>`<div class="li"><span class="lc">${c}</span><input class="ln-edit" value="${n||""}" placeholder="Désignation…" onchange="saveLotName('${c}',this.value)"><button class="btn btn-g btn-xs" onclick="delLot('${c}')">🗑</button></div>`).join("")}
 C=[{ID:"CMD-001",Fournisseur:"ALTRAD",Description:"Échafaudage ascenseur R2",Lot:"S1G","Montant HT":"2250",Date:"2023-04-24",Signataire:"LDE"},{ID:"CMD-002",Fournisseur:"AIDF",Description:"Installation panneaux voirie",Lot:"F3","Montant HT":"656.70",Date:"2023-04-24",Signataire:"LDE"},{ID:"CMD-003",Fournisseur:"MORNING",Description:"Loyer bureau — Juin",Lot:"S1E","Montant HT":"777.10",Date:"2023-05-22",Signataire:"LDE"},{ID:"CMD-004",Fournisseur:"ECR STUDIO",Description:"Renders présentation",Lot:"F14","Montant HT":"2400",Date:"2023-06-08",Signataire:"LDE"},{ID:"CMD-005",Fournisseur:"ECODROP",Description:"Retrait déchets",Lot:"S1A","Montant HT":"216.75",Date:"2023-07-18",Signataire:"MLP"},{ID:"CMD-006",Fournisseur:"DANIELE VEGRO",Description:"Présentation Témoins",Lot:"F14","Montant HT":"1500",Date:"2023-03-29",Signataire:"LDE"},{ID:"CMD-007",Fournisseur:"BTP Consultant",Description:"PV conformité",Lot:"S1E","Montant HT":"600",Date:"2023-03-21",Signataire:"LDE"},{ID:"CMD-008",Fournisseur:"ALTRAD",Description:"Échafaudage R3",Lot:"S1G","Montant HT":"1800",Date:"2023-07-03",Signataire:"MLP"},{ID:"CMD-009",Fournisseur:"MAUFFREY",Description:"Transport matériaux",Lot:"S1A","Montant HT":"430",Date:"2023-05-15",Signataire:"AG"}]
 F=[{ID:"FAC-001",ID_Commande:"CMD-001","N° Facture":"2301612","Montant HT":"2250","Date réception":"2023-04-28","Pointé":true,"Date pointage":"02/05/2023 09:30"},{ID:"FAC-002",ID_Commande:"CMD-003","N° Facture":"2023-05-039","Montant HT":"777.10","Date réception":"2023-05-25","Pointé":false,"Date pointage":""},{ID:"FAC-003",ID_Commande:"CMD-004","N° Facture":"","Montant HT":"1200","Date réception":"2023-06-10","Pointé":false,"Date pointage":""},{ID:"FAC-004",ID_Commande:"CMD-004","N° Facture":"","Montant HT":"1200","Date réception":"2023-07-01","Pointé":true,"Date pointage":"05/07/2023 14:15"},{ID:"FAC-005",ID_Commande:"CMD-006","N° Facture":"23.08","Montant HT":"1500","Date réception":"2023-04-03","Pointé":true,"Date pointage":"10/04/2023 11:00"},{ID:"FAC-006",ID_Commande:"CMD-007","N° Facture":"","Montant HT":"600","Date réception":"2023-03-25","Pointé":false,"Date pointage":""},{ID:"FAC-007",ID_Commande:"CMD-008","N° Facture":"2307881","Montant HT":"1800","Date réception":"2023-07-10","Pointé":false,"Date pointage":""},{ID:"FAC-008",ID_Commande:"CMD-009","N° Facture":"MAU-0453","Montant HT":"430","Date réception":"2023-05-18","Pointé":true,"Date pointage":"22/05/2023 10:00"}]
