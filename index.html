@@ -330,9 +330,9 @@ input::placeholder{color:var(--tx3)}
     <div class="content">
       <div class="kpi-grid">
         <div class="kpi kpi-e"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Engagé total</div><div class="kv" id="kE">—</div><div class="ks" id="kEs"></div></div>
-        <div class="kpi kpi-f"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>Facturé reçu</div><div class="kv o" id="kF">—</div><div class="ks" id="kFs"></div></div>
+        <div class="kpi kpi-f"><div class="kl"><div class="kl-dot" style="background:#2563EB"></div>Facturé reçu</div><div class="kv" style="color:#2563EB" id="kF">—</div><div class="ks" id="kFs"></div></div>
         <div class="kpi kpi-p"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Pointé</div><div class="kv g" id="kP">—</div><div class="ks" id="kPs"></div></div>
-        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--vi)"></div>Reste à pointer</div><div class="kv v" id="kR">—</div><div class="ks" id="kRs"></div></div>
+        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>Reste à pointer</div><div class="kv o" id="kR">—</div><div class="ks" id="kRs"></div></div>
       </div>
       <div class="panel">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 16px 0;background:var(--bg)">
@@ -414,8 +414,8 @@ input::placeholder{color:var(--tx3)}
     </div>
     <div class="content">
       <div class="kpi-grid">
-        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:#6366F1"></div>Total facturé ST</div><div class="kv" id="stKF" style="color:#6366F1">—</div><div class="ks" id="stKFs"></div></div>
-        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:#10B981"></div>Pointé</div><div class="kv" id="stKP" style="color:#10B981">—</div><div class="ks" id="stKPs"></div></div>
+        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:#2563EB"></div>Total facturé ST</div><div class="kv" id="stKF" style="color:#2563EB">—</div><div class="ks" id="stKFs"></div></div>
+        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Pointé</div><div class="kv g" id="stKP">—</div><div class="ks" id="stKPs"></div></div>
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>Reste à pointer</div><div class="kv o" id="stKR">—</div><div class="ks" id="stKRs"></div></div>
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--tx3)"></div>Sous-traitants</div><div class="kv" id="stKN">—</div><div class="ks" id="stKNs"></div></div>
       </div>
@@ -929,15 +929,15 @@ function rAna(){
   </div>
   <div class="kpi-grid kpi-grid-5" style="margin-bottom:18px">
     <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Engagé</div><div class="kv kv-s">${f0(tE)}</div><div class="ks">${Cf.length} cmd</div></div>
-    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:#6366F1"></div>Facturé</div><div class="kv kv-s" style="color:#6366F1">${f0(tF)}</div><div class="ks">${tE?Math.round(tF/tE*100):0}% engagé</div></div>
+    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:#2563EB"></div>Facturé</div><div class="kv kv-s" style="color:#2563EB">${f0(tF)}</div><div class="ks">${tE?Math.round(tF/tE*100):0}% engagé</div></div>
     <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>Reste à facturer</div><div class="kv kv-s o">${f0(rF)}</div><div class="ks">${tE?Math.round(rF/tE*100):0}% engagé</div></div>
-    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:#10B981"></div>Pointé</div><div class="kv kv-s" style="color:#10B981">${f0(tP)}</div><div class="ks">${tF?Math.round(tP/tF*100):0}% facturé</div></div>
+    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Pointé</div><div class="kv kv-s" style="color:var(--gr)">${f0(tP)}</div><div class="ks">${tF?Math.round(tP/tF*100):0}% facturé</div></div>
     <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:var(--vi)"></div>Reste à pointer</div><div class="kv kv-s v">${f0(rP)}</div><div class="ks">${tF?Math.round(rP/tF*100):0}% facturé</div></div>
   </div>
   <div class="ana-grid">
-    <div class="ana-panel"><div class="ana-ph">Par lot</div><div class="ana-pb">${Object.keys(bL).length?Object.entries(bL).sort((a,b)=>b[1].e-a[1].e).map(([lot,v])=>`<div class="bar-row"><div class="bar-label"><span><strong>${lot}</strong>${LOTS[lot]?" <span style='font-weight:400;color:var(--tx3)'> — "+LOTS[lot]+"</span>":""}</span><span class='amt'>${f0(v.e)}</span></div><div class="bar-sub">Facturé ${f0(v.f)} · Pointé ${f0(v.p)}</div>${bar(v.f,v.e,"#6366F1")}${bar(v.p,v.e,"#10B981")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}</div></div>
-    <div class="ana-panel"><div class="ana-ph">Par type</div><div class="ana-pb">${Object.keys(bT).length?Object.entries(bT).sort((a,b)=>b[1].e-a[1].e).map(([type,v])=>`<div class="bar-row"><div class="bar-label" style="align-items:flex-start">${typeBadge(type)}<span class='amt'>${f0(v.e)}</span></div><div class="bar-sub">Facturé ${f0(v.f)} · Pointé ${f0(v.p)}</div>${bar(v.f,v.e,"#6366F1")}${bar(v.p,v.e,"#10B981")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}</div></div>
-    <div class="ana-panel"><div class="ana-ph">Par mois</div><div class="ana-pb">${Object.keys(bM).length?Object.entries(bM).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>`<div class="bar-row"><div class="bar-label"><span style="font-weight:600">${mLabel(k)}</span><span class='amt'>${f0(v.e)}</span></div><div class="bar-sub">Facturé ${f0(v.f)} · Pointé ${f0(v.p)}</div>${bar(v.f,v.e,"#6366F1")}${bar(v.p,v.e,"#10B981")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}</div></div>
+    <div class="ana-panel"><div class="ana-ph">Par lot</div><div class="ana-pb">${Object.keys(bL).length?Object.entries(bL).sort((a,b)=>b[1].e-a[1].e).map(([lot,v])=>`<div class="bar-row"><div class="bar-label"><span><strong>${lot}</strong>${LOTS[lot]?" <span style='font-weight:400;color:var(--tx3)'> — "+LOTS[lot]+"</span>":""}</span><span class='amt'>${f0(v.e)}</span></div><div class="bar-sub">Facturé ${f0(v.f)} · Pointé ${f0(v.p)}</div>${bar(v.f,v.e,"#2563EB")}${bar(v.p,v.e,"var(--gr)")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}</div></div>
+    <div class="ana-panel"><div class="ana-ph">Par type</div><div class="ana-pb">${Object.keys(bT).length?Object.entries(bT).sort((a,b)=>b[1].e-a[1].e).map(([type,v])=>`<div class="bar-row"><div class="bar-label" style="align-items:flex-start">${typeBadge(type)}<span class='amt'>${f0(v.e)}</span></div><div class="bar-sub">Facturé ${f0(v.f)} · Pointé ${f0(v.p)}</div>${bar(v.f,v.e,"#2563EB")}${bar(v.p,v.e,"var(--gr)")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}</div></div>
+    <div class="ana-panel"><div class="ana-ph">Par mois</div><div class="ana-pb">${Object.keys(bM).length?Object.entries(bM).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>`<div class="bar-row"><div class="bar-label"><span style="font-weight:600">${mLabel(k)}</span><span class='amt'>${f0(v.e)}</span></div><div class="bar-sub">Facturé ${f0(v.f)} · Pointé ${f0(v.p)}</div>${bar(v.f,v.e,"#2563EB")}${bar(v.p,v.e,"var(--gr)")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}</div></div>
   </div>
   </div>`
 }
@@ -1104,9 +1104,9 @@ function rAnaST(){
     ${aSTSig||aSTLot||aSTMois?`<button class="btn btn-g btn-sm" onclick="clearAnaStF()">✕ Effacer</button>`:""}
   </div>
   <div class="kpi-grid" style="margin-bottom:18px">
-    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--vi)"></div>Engagé ST</div><div class="kv" style="color:var(--vi)">${f0(tE)}</div></div>
-    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:#6366F1"></div>Facturé</div><div class="kv" style="color:#6366F1">${f0(tF)}</div><div class="ks">${tE?Math.round(tF/tE*100):0}% de l'engagé</div></div>
-    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:#10B981"></div>Pointé</div><div class="kv" style="color:#10B981">${f0(tP)}</div><div class="ks">${tF?Math.round(tP/tF*100):0}% du facturé</div></div>
+    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--vi)"></div>Engagé ST</div><div class="kv" style="color:var(--wa)">${f0(tE)}</div></div>
+    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:#2563EB"></div>Facturé</div><div class="kv" style="color:#2563EB">${f0(tF)}</div><div class="ks">${tE?Math.round(tF/tE*100):0}% de l'engagé</div></div>
+    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Pointé</div><div class="kv" style="color:var(--gr)">${f0(tP)}</div><div class="ks">${tF?Math.round(tP/tF*100):0}% du facturé</div></div>
     <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>Reste</div><div class="kv o">${f0(tF-tP)}</div></div>
   </div>
   <div class="ana-grid">
@@ -1114,19 +1114,19 @@ function rAnaST(){
       ${Object.keys(bST).length?Object.entries(bST).sort((a,b)=>b[1].e-a[1].e).map(([name,v])=>`
         <div class="bar-row"><div class="bar-label"><span style="font-weight:600">${name}</span><span class='amt'>${f0(v.e)}</span></div>
         <div class="bar-sub">Facturé ${f0(v.f)} · Pointé ${f0(v.p)}</div>
-        ${bar(v.f,v.e,"#6366F1")}${bar(v.p,v.e,"#10B981")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}
+        ${bar(v.f,v.e,"#2563EB")}${bar(v.p,v.e,"var(--gr)")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}
     </div></div>
     <div class="ana-panel"><div class="ana-ph">Par lot</div><div class="ana-pb">
       ${Object.keys(bL).length?Object.entries(bL).sort((a,b)=>b[1].e-a[1].e).map(([lot,v])=>`
         <div class="bar-row"><div class="bar-label"><span><strong>${lot}</strong>${LOTS[lot]?" <span style='font-weight:400;color:var(--tx3)'> — "+LOTS[lot]+"</span>":""}</span><span class='amt'>${f0(v.e)}</span></div>
         <div class="bar-sub">Facturé ${f0(v.f)} · Pointé ${f0(v.p)}</div>
-        ${bar(v.f,v.e,"#6366F1")}${bar(v.p,v.e,"#10B981")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}
+        ${bar(v.f,v.e,"#2563EB")}${bar(v.p,v.e,"var(--gr)")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}
     </div></div>
     <div class="ana-panel"><div class="ana-ph">Par mois</div><div class="ana-pb">
       ${Object.keys(bM).length?Object.entries(bM).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>`
         <div class="bar-row"><div class="bar-label"><span style="font-weight:600">${mLabel(k)}</span><span class='amt'>${f0(v.e)}</span></div>
         <div class="bar-sub">Facturé ${f0(v.f)} · Pointé ${f0(v.p)}</div>
-        ${bar(v.f,v.e,"#6366F1")}${bar(v.p,v.e,"#10B981")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}
+        ${bar(v.f,v.e,"#2563EB")}${bar(v.p,v.e,"var(--gr)")}</div>`).join(""):`<div class="ana-empty">Aucune donnée</div>`}
     </div></div>
   </div></div>`
 }
@@ -1142,9 +1142,9 @@ function stBarFP(fm,fp){
   return`<div>
     <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
       <div style="flex:1;height:7px;border-radius:99px;background:var(--bg3);overflow:hidden">
-        <div style="width:${pct}%;height:100%;background:#10B981;border-radius:99px;transition:width .3s"></div>
+        <div style="width:${pct}%;height:100%;background:var(--gr);border-radius:99px;transition:width .3s"></div>
       </div>
-      <span style="font-size:11px;font-weight:700;color:#10B981;min-width:30px;text-align:right">${pct}%</span>
+      <span style="font-size:11px;font-weight:700;color:var(--gr);min-width:30px;text-align:right">${pct}%</span>
     </div>
     <div style="font-size:10px;color:var(--tx3)">${f0(fp)} / ${f0(fm)}</div>
   </div>`
@@ -1157,12 +1157,12 @@ function inlineBar(eng,fm,fp){
   const pP=Math.min(100,Math.round(fp/eng*100))
   return`<div style="display:flex;flex-direction:column;gap:2px">
     <div style="display:flex;align-items:center;gap:4px">
-      <div style="flex:1;height:5px;border-radius:99px;background:var(--bg3);overflow:hidden"><div style="width:${pF}%;height:100%;background:#6366F1;border-radius:99px"></div></div>
-      <span style="font-size:10px;color:#6366F1;min-width:26px;text-align:right">${pF}%</span>
+      <div style="flex:1;height:5px;border-radius:99px;background:var(--bg3);overflow:hidden"><div style="width:${pF}%;height:100%;background:#2563EB;border-radius:99px"></div></div>
+      <span style="font-size:10px;color:#2563EB;min-width:26px;text-align:right">${pF}%</span>
     </div>
     <div style="display:flex;align-items:center;gap:4px">
-      <div style="flex:1;height:5px;border-radius:99px;background:var(--bg3);overflow:hidden"><div style="width:${pP}%;height:100%;background:#10B981;border-radius:99px"></div></div>
-      <span style="font-size:10px;color:#10B981;min-width:26px;text-align:right">${pP}%</span>
+      <div style="flex:1;height:5px;border-radius:99px;background:var(--bg3);overflow:hidden"><div style="width:${pP}%;height:100%;background:var(--gr);border-radius:99px"></div></div>
+      <span style="font-size:10px;color:var(--gr);min-width:26px;text-align:right">${pP}%</span>
     </div>
   </div>`
 }
@@ -1199,7 +1199,7 @@ function rFacsST(facs,nom){
     </tbody>
     <tfoot><tr style="background:var(--acl)">
       <td colspan="2" style="font-weight:700;padding:7px 10px;font-size:12px">Total</td>
-      <td colspan="3" style="padding:7px 10px;font-size:12px;color:#10B981;font-weight:600">${f2(fp)} pointé / ${f2(fm)} facturé (${fm?Math.round(fp/fm*100):0}%)</td>
+      <td colspan="3" style="padding:7px 10px;font-size:12px;color:var(--gr);font-weight:600">${f2(fp)} pointé / ${f2(fm)} facturé (${fm?Math.round(fp/fm*100):0}%)</td>
     </tr></tfoot></table>`
     :`<p style="font-size:12.5px;color:var(--tx3);margin:0 0 10px">Aucune facture.</p>`}
   </div>`
