@@ -1456,7 +1456,7 @@ function setStSt(v){fStSt=v;rST()}
 function clearStF(){fStEnt.clear();fStSt="all";const q=document.getElementById("stFQ");if(q)q.value="";const s=document.getElementById("stEntSel");if(s)s.value="";rST()}
 
 // ── Entreprises CRUD ─────────────────────────────────────────────
-function saveEnts(){localStorage.setItem("ents_v1",JSON.stringify(ENTREPRISES))}
+async function saveEnts(){localStorage.setItem("ents_v1",JSON.stringify(ENTREPRISES));await apiPost("saveEntreprises",{entreprises:ENTREPRISES})}
 function openEntF(){
   document.getElementById("entFD").style.display="block"
   document.getElementById("entFTitle").textContent="Nouvelle entreprise"
@@ -1466,7 +1466,7 @@ function openEntF(){
   document.getElementById("eNom").focus()
 }
 function closeEntF(){document.getElementById("entFD").style.display="none"}
-function saveEnt(){
+async function saveEnt(){
   const nom=(document.getElementById("eNom")?.value||"").trim()
   if(!nom){toast("Nom requis","error");return}
   ENTREPRISES.push({id:"ENT-"+Date.now(),nom,
@@ -1475,11 +1475,11 @@ function saveEnt(){
     tel:(document.getElementById("eTel")?.value||"").trim(),
     email:(document.getElementById("eEmail")?.value||"").trim(),
     notes:(document.getElementById("eNotes")?.value||"").trim()})
-  saveEnts();closeEntF();rEnts();toast("Entreprise ajoutée")
+  await saveEnts();closeEntF();rEnts();toast("Entreprise ajoutée")
 }
-function delEnt(id){
+async function delEnt(id){
   if(!confirm("Supprimer cette entreprise ?"))return
-  ENTREPRISES=ENTREPRISES.filter(e=>e.id!==id);saveEnts();rEnts();toast("Supprimée")
+  ENTREPRISES=ENTREPRISES.filter(e=>e.id!==id);await saveEnts();rEnts();toast("Supprimée")
 }
 function editEnt(id){
   const e=ENTREPRISES.find(x=>x.id===id);if(!e)return
@@ -1500,7 +1500,7 @@ function editEnt(id){
     e.tel=(document.getElementById("eTel")?.value||"").trim()
     e.email=(document.getElementById("eEmail")?.value||"").trim()
     e.notes=(document.getElementById("eNotes")?.value||"").trim()
-    saveEnts();closeEntF();rEnts();toast("Mis à jour")
+    saveEnts().then(()=>{closeEntF();rEnts();toast("Mis à jour")})
   }
 }
 function setEntType(t){
