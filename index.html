@@ -146,7 +146,8 @@ tbody tr:hover td{background:rgba(246,248,250,.8)}
 .tda{white-space:nowrap;display:flex;gap:3px;align-items:center;justify-content:space-between}.tda-acts{display:flex;gap:3px;margin-left:auto}
 
 .badge{display:inline-flex;align-items:center;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap}
-.b-pt{background:var(--grl);color:var(--gr)}.b-pd{background:var(--wal);color:var(--wa)}.b-nf{background:var(--vil);color:var(--vi)}
+.b-pt{background:var(--grl);color:var(--gr)}.b-pd{background:var(--wal);color:var(--wa)}.b-re{background:var(--rel);color:var(--re);border-color:var(--re)}
+.b-nf{background:var(--vil);color:var(--vi)}
 
 .b-achat{background:#E8F4FD;color:#1A6FA3}
 .b-location{background:#FEF6E0;color:#C47A0A}
@@ -312,6 +313,7 @@ input::placeholder{color:var(--tx3)}
   <div class="nav-sec">
     <div class="nav-lbl">Sous-traitance</div>
     <button class="nav-item" onclick="showView('st',this)"><span class="ni">🧾</span><span class="nav-label-txt">Listing factures</span></button>
+    <button class="nav-item" onclick="showView('devis-st',this)"><span class="ni">📝</span><span class="nav-label-txt">Devis ST</span></button>
     <button class="nav-item" onclick="showView('analyse-st',this)"><span class="ni">📈</span><span class="nav-label-txt">Analyse factures</span></button>
   </div>
   <div class="nav-sec">
@@ -442,6 +444,45 @@ input::placeholder{color:var(--tx3)}
       </div>
     </div>
   </div>
+
+  <div id="view-devis-st" class="view">
+    <div class="topbar">
+      <div class="topbar-title">Devis Sous-traitance</div>
+      <div class="ta">
+        <button class="btn btn-p btn-sm" onclick="openNewDevis()">+ Nouveau devis</button>
+      </div>
+    </div>
+    <div class="content">
+      <!-- Alerte devis non avenanté -->
+      <div id="devisAlert" style="display:none;margin-bottom:14px;padding:10px 16px;background:var(--wal);border:1px solid var(--wa);border-radius:var(--r);color:var(--wa);font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px">
+        <span>⚠️</span><span id="devisAlertTxt"></span>
+      </div>
+      <!-- Filtre -->
+      <div class="panel" style="margin-bottom:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 16px 0;background:var(--bg)">
+          <div class="sb"><input id="devisSrch" oninput="rDevis()" style="width:220px" placeholder="Rechercher ST, n° devis…"></div>
+          <button class="btn btn-g btn-sm" onclick="clearDevisF()">✕ Effacer</button>
+        </div>
+        <div class="fb fb-row1" style="display:flex;align-items:center;gap:10px;padding:8px 16px;flex-wrap:wrap">
+          <span class="fl">Validation</span>
+          <div style="display:flex;gap:4px">
+            <button class="chip on" id="dvAll" onclick="setDevisFlt('all')">Tous</button>
+            <button class="chip" id="dvAcc" onclick="setDevisFlt('accepte')">✓ Accepté</button>
+            <button class="chip" id="dvPen" onclick="setDevisFlt('attente')">⏳ En attente</button>
+            <button class="chip" id="dvRef" onclick="setDevisFlt('refuse')">✗ Refusé</button>
+          </div>
+          <div class="fsep"></div>
+          <span class="fl">Avenant</span>
+          <div style="display:flex;gap:4px">
+            <button class="chip on" id="dvAvAll" onclick="setDevisAv('all')">Tous</button>
+            <button class="chip" id="dvAvOui" onclick="setDevisAv('oui')">✓ Avenanté</button>
+            <button class="chip" id="dvAvNon" onclick="setDevisAv('non')">⏳ Non avenanté</button>
+          </div>
+        </div>
+        <div id="devisContent" style="padding:0"></div>
+      </div>
+    </div>
+  </div>
   <div id="view-analyse-st" class="view">
     <div class="topbar"><div class="topbar-title">Analyse Sous-traitance</div></div>
     <div class="content" id="anaStContent"></div>
@@ -542,6 +583,8 @@ const APPS_URL = "https://script.google.com/macros/s/AKfycbynjE28dXHwtuGrpAcmRG7
 let C=[],F=[],LOTS=JSON.parse(localStorage.getItem("lots_v6")||"{}"),SIGS=[]
 let fLot=new Set(),fSig=new Set(),fType=new Set(),fSt="all",fFac="all"
 let fStEnt=new Set(),fStSt="all"
+let DEVIS=JSON.parse(localStorage.getItem("devis_v1")||"[]")  // {id,st,numero,date,montant,description,validation,avenant,numAvenant,notes}
+let fDevisVal="all",fDevisAv="all"
 let ENTREPRISES=JSON.parse(localStorage.getItem("ents_v1")||"[{\"id\": \"ENT-1773049658513\", \"nom\": \"ACOEM\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658514\", \"nom\": \"ADF PLOMBERIE CLIM\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658515\", \"nom\": \"ADLB\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658516\", \"nom\": \"ADR\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658517\", \"nom\": \"AIDF\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658518\", \"nom\": \"ALTRAD\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658519\", \"nom\": \"AMA\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658520\", \"nom\": \"AMAZON\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658521\", \"nom\": \"AMBIANCE PARQUETS\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658522\", \"nom\": \"APC\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658523\", \"nom\": \"APE\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658524\", \"nom\": \"AQUAFONTAINE\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658525\", \"nom\": \"AQUATYCIA\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658526\", \"nom\": \"ARTEFACTS\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658527\", \"nom\": \"AS DECOBAT\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658528\", \"nom\": \"ATELIERS PERRAULT\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658529\", \"nom\": \"AVINTAGE\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658530\", \"nom\": \"BALBO\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658531\", \"nom\": \"BC2E EDI\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658532\", \"nom\": \"BC2I\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658533\", \"nom\": \"BOFFI\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658534\", \"nom\": \"BRONZES DE FRANCE\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658535\", \"nom\": \"BRUNEAU\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658536\", \"nom\": \"BT SÉCURITÉ\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658537\", \"nom\": \"BTP CONSULTANT\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658538\", \"nom\": \"CARRE BLEU\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658539\", \"nom\": \"CAUTION PRE\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658540\", \"nom\": \"CEMAD\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658541\", \"nom\": \"CHAPES COUTINHO\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658542\", \"nom\": \"CHARRETTE SERVICE (MARILENA)\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658543\", \"nom\": \"CHENUE\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658544\", \"nom\": \"CIF\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658545\", \"nom\": \"CIF BOIS\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658546\", \"nom\": \"CLEAN INDUSTRIE\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658547\", \"nom\": \"COGECLIM\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658548\", \"nom\": \"CONSOMMABLES\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658549\", \"nom\": \"COURSIER\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658550\", \"nom\": \"DANIELE VEGRO\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658551\", \"nom\": \"DEL BOCA\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658552\", \"nom\": \"DEM27\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658553\", \"nom\": \"DEVISUBOX\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658554\", \"nom\": \"DFM EPURATION\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658555\", \"nom\": \"DHL\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658556\", \"nom\": \"DKS ASTREINTE\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658557\", \"nom\": \"DKS NETTOYAGE\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658558\", \"nom\": \"DRIEUX COMBALUZIER\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658559\", \"nom\": \"DUREAU\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658560\", \"nom\": \"EAS SERVICES\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658561\", \"nom\": \"ECODROP\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658562\", \"nom\": \"ECR STUDIO\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658563\", \"nom\": \"EDM\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658564\", \"nom\": \"EMT\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658565\", \"nom\": \"ENDLESS (BIGBAG)\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658566\", \"nom\": \"ENVYRHO\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658567\", \"nom\": \"ERIGE\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658568\", \"nom\": \"ESSENCE CIEL\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658569\", \"nom\": \"ETNA\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658570\", \"nom\": \"FEERICK\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658571\", \"nom\": \"FIDUCIAL\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658572\", \"nom\": \"GETZNER\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658573\", \"nom\": \"GS2E\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658574\", \"nom\": \"HCH\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658575\", \"nom\": \"IDFP\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658576\", \"nom\": \"INEX\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658577\", \"nom\": \"JIP\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658578\", \"nom\": \"KILOUTOU\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658579\", \"nom\": \"KILOUTOU MODULES\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658580\", \"nom\": \"KILOUTOU SIGNAL\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658581\", \"nom\": \"KING PRO\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658582\", \"nom\": \"KREIS DESIGN\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658583\", \"nom\": \"LCO\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658584\", \"nom\": \"LDA\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658585\", \"nom\": \"LEGALLAIS\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658586\", \"nom\": \"LENGLART\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658587\", \"nom\": \"LEP\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658588\", \"nom\": \"LEP RÉNOVATION\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658589\", \"nom\": \"LOUVION HUISSIER\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658590\", \"nom\": \"M ANCEL\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658591\", \"nom\": \"MAITRE ANSEL\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658592\", \"nom\": \"MAX PRO NETTOYAGE\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658593\", \"nom\": \"MGA\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658594\", \"nom\": \"MORNING\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658595\", \"nom\": \"NOBLET\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658596\", \"nom\": \"NORDIQUE FRANCE\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658597\", \"nom\": \"NOVATLAS\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658598\", \"nom\": \"NSC\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658599\", \"nom\": \"OGEBA\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658600\", \"nom\": \"ORANGE\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658601\", \"nom\": \"PAUL GRASSI\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658602\", \"nom\": \"PCCR\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658603\", \"nom\": \"POINT P\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658604\", \"nom\": \"POLYSIGN\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658605\", \"nom\": \"PROTECHOM\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658606\", \"nom\": \"PROTECTA SCREEN\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658607\", \"nom\": \"REGUS\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658608\", \"nom\": \"RS\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658609\", \"nom\": \"SECMI\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658610\", \"nom\": \"SEP\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658611\", \"nom\": \"SGB\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658612\", \"nom\": \"SIXTE\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658613\", \"nom\": \"SOIB\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658614\", \"nom\": \"SP3\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658615\", \"nom\": \"STUDIO JESSEL\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658616\", \"nom\": \"TAC\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658617\", \"nom\": \"TORDJMAN\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658618\", \"nom\": \"TRYCICLE\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658619\", \"nom\": \"UTB\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658620\", \"nom\": \"VAC\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658621\", \"nom\": \"VEGEA\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658622\", \"nom\": \"VERBAVOX\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658623\", \"nom\": \"VERRE&QWARTZ\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658624\", \"nom\": \"VLD\", \"type\": \"Sous-traitant\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658625\", \"nom\": \"VOLEVATCH\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}, {\"id\": \"ENT-1773049658626\", \"nom\": \"WURTH\", \"type\": \"Fournisseur\", \"contact\": \"\", \"tel\": \"\", \"email\": \"\", \"notes\": \"\"}]")
 let entTypeFilter="all"
 let sKey="Date",sDir=-1,curPage=1,pgSz=20,expId=null,pMode=null,pData={}
@@ -631,6 +674,7 @@ function showView(id,btn){
   if(id==="st")rST()
   if(id==="analyse-st")rAnaST()
   if(id==="entreprises")rEnts()
+  if(id==="devis-st")rDevis()
 }
 function rFilters(){
   // Lot dropdown
@@ -996,7 +1040,18 @@ function rST(){
     if(fStSt==="pointed"&&!allPt)return false
     if(fStSt==="pending"&&(facs.length===0||allPt))return false
     return true
-  }).sort((a,b)=>a[0].localeCompare(b[0]))
+  }).sort((a,b)=>{
+    if(stSort==="lastFac"){
+      const la=a[1].reduce((mx,f)=>{const d=f["Date réception"]||"";return d>mx?d:mx},"")
+      const lb=b[1].reduce((mx,f)=>{const d=f["Date réception"]||"";return d>mx?d:mx},"")
+      return stSortDir*(lb.localeCompare(la))
+    }
+    return a[0].localeCompare(b[0])
+  })
+
+  // Update sort indicator
+  const sfEl=document.getElementById("stSortLastFac")
+  if(sfEl)sfEl.textContent=stSort==="lastFac"?(stSortDir>0?"↑":"↓"):""
 
   el.innerHTML=`
   <div class="tbl-wrap">
@@ -1054,7 +1109,16 @@ function rAnaST(){
   const el=document.getElementById("anaStContent")
   if(!el)return
   const stAll=C.filter(c=>c.Type==="Sous-traitance")
-  if(!stAll.length){el.innerHTML=`<div class="panel"><div class="empty"><div class="ei">📈</div><p>Aucune donnée ST.</p></div></div>`;return}
+
+  // Factures ST orphelines (ST:NomST, sans commande dans C[])
+  const stCmdIds=new Set(stAll.map(c=>c.ID))
+  const orphanF=F.filter(f=>f.ID_Commande?.startsWith("ST:")&&!stCmdIds.has(f.ID_Commande))
+  const orphanNoms=[...new Set(orphanF.map(f=>f.ID_Commande.slice(3)))]
+
+  // Noms ST uniques (depuis C[] + orphelins)
+  const allSTNoms=[...new Set([...stAll.map(c=>c.Fournisseur),...orphanNoms])].filter(Boolean)
+
+  if(!stAll.length&&!orphanF.length){el.innerHTML=`<div class="panel"><div class="empty"><div class="ei">📈</div><p>Aucune donnée ST.</p></div></div>`;return}
 
   const aSTSig=document.getElementById("anaStSig")?.value||""
   const aSTLot=document.getElementById("anaStLot")?.value||""
@@ -1066,7 +1130,16 @@ function rAnaST(){
     if(aSTMois){const d=new Date(c.Date);const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;if(k!==aSTMois)return false}
     return true
   })
-  const Ff=F.filter(f=>Cf.some(c=>c.ID===f.ID_Commande))
+
+  // Factures orphelines filtrées
+  const orphanFf=orphanF.filter(f=>{
+    const nom=f.ID_Commande.slice(3)
+    if(aSTSig&&nom!==aSTSig)return false
+    if(aSTMois){const raw=f["Date réception"]?.includes("/")?f["Date réception"].split("/").reverse().join("-"):f["Date réception"];const d=new Date(raw);if(isNaN(d))return false;const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;if(k!==aSTMois)return false}
+    return true
+  })
+
+  const Ff=[...F.filter(f=>Cf.some(c=>c.ID===f.ID_Commande)),...orphanFf]
 
   const tE=Cf.reduce((s,c)=>s+e2n(c["Montant HT"]),0)
   const tF=Ff.reduce((s,f)=>s+e2n(f["Montant HT"]),0)
@@ -1077,6 +1150,8 @@ function rAnaST(){
   // Par ST (fournisseur)
   const bST={}
   Cf.forEach(c=>{const k=c.Fournisseur||"—";if(!bST[k])bST[k]={e:0,f:0,p:0};bST[k].e+=e2n(c["Montant HT"]);bST[k].f+=mF(c.ID);bST[k].p+=mP(c.ID)})
+  // Orphan ST factures
+  orphanFf.forEach(f=>{const k=f.ID_Commande.slice(3)||"—";if(!bST[k])bST[k]={e:0,f:0,p:0};bST[k].f+=e2n(f["Montant HT"]);if(isP(f))bST[k].p+=e2n(f["Montant HT"])})
 
   // Par lot
   const bL={}
@@ -1090,8 +1165,11 @@ function rAnaST(){
   const bar=(v,max,col)=>`<div class="bar-track"><div class="bar-fill" style="width:${max?Math.round(v/max*100):0}%;background:${col}"></div></div>`
   const mLabel=k=>{const[y,m]=k.split("-");return["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"][parseInt(m)-1]+" "+y}
 
-  const allMois=[...new Set(stAll.map(c=>{if(!c.Date)return null;const d=new Date(c.Date);return isNaN(d)?null:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`}).filter(Boolean))].sort()
-  const entOpts="<option value=''>Toutes entreprises</option>"+[...new Set(stAll.map(c=>c.Fournisseur).filter(Boolean))].sort().map(s=>`<option value="${s}"${aSTSig===s?" selected":""}>${s}</option>`).join("")
+  const allMois=[...new Set([
+    ...stAll.map(c=>{if(!c.Date)return null;const d=new Date(c.Date);return isNaN(d)?null:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`}),
+    ...orphanF.map(f=>{const raw=f["Date réception"]?.includes("/")?f["Date réception"].split("/").reverse().join("-"):f["Date réception"];const d=new Date(raw);return isNaN(d)?null:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`})
+  ].filter(Boolean))].sort()
+  const entOpts="<option value=''>Toutes entreprises</option>"+allSTNoms.sort().map(s=>`<option value="${s}"${aSTSig===s?" selected":""}>${s}</option>`).join("")
   const lotOpts="<option value=''>Tous les lots</option>"+Object.keys(LOTS).map(k=>`<option value="${k}"${aSTLot===k?" selected":""}>${k}${LOTS[k]?" — "+LOTS[k]:""}</option>`).join("")
   const moisOpts="<option value=''>Tous les mois</option>"+allMois.map(k=>`<option value="${k}"${aSTMois===k?" selected":""}>${mLabel(k)}</option>`).join("")
 
@@ -1494,6 +1572,222 @@ function initTheme(){
   if(btn) btn.textContent = saved === 'tdr' ? '◑ Crisp' : '◑ Thème'
 }
 document.addEventListener('DOMContentLoaded', initTheme)
+
+// ═══════════════════════════════════════════════════════════════
+// DEVIS ST
+// ═══════════════════════════════════════════════════════════════
+
+function saveDevis(){localStorage.setItem("devis_v1",JSON.stringify(DEVIS))}
+
+function devisId(){
+  const max=DEVIS.reduce((m,d)=>{const n=parseInt((d.id||"").replace("DEV-",""));return isNaN(n)?m:Math.max(m,n)},0)
+  const next=max+1
+  return "DEV-"+(next<1000?String(next).padStart(3,"0"):String(next))
+}
+
+function setDevisFlt(v){
+  fDevisVal=v
+  ;[["dvAll","all"],["dvAcc","accepte"],["dvPen","attente"],["dvRef","refuse"]].forEach(([id,val])=>document.getElementById(id)?.classList.toggle("on",fDevisVal===val))
+  rDevis()
+}
+
+function setDevisAv(v){
+  fDevisAv=v
+  ;[["dvAvAll","all"],["dvAvOui","oui"],["dvAvNon","non"]].forEach(([id,val])=>document.getElementById(id)?.classList.toggle("on",fDevisAv===val))
+  rDevis()
+}
+
+function clearDevisF(){
+  fDevisVal="all";fDevisAv="all"
+  document.getElementById("devisSrch").value=""
+  setDevisFlt("all");setDevisAv("all")
+}
+
+function rDevis(){
+  const el=document.getElementById("devisContent")
+  if(!el)return
+
+  const srch=(document.getElementById("devisSrch")?.value||"").toLowerCase()
+
+  // Regrouper par ST
+  const stNoms=[...new Set(DEVIS.map(d=>d.st))].sort()
+
+  // Alerte devis acceptés non avenanté
+  const alertList=DEVIS.filter(d=>d.validation==="accepte"&&d.avenant!=="oui")
+  const alertEl=document.getElementById("devisAlert")
+  const alertTxt=document.getElementById("devisAlertTxt")
+  if(alertList.length&&alertEl){
+    alertEl.style.display="flex"
+    alertTxt.textContent=`${alertList.length} devis accepté${alertList.length>1?"s":""} non encore avenanté${alertList.length>1?"s":""} — penser à contractualiser !`
+  } else if(alertEl){alertEl.style.display="none"}
+
+  if(!DEVIS.length){
+    el.innerHTML=`<div class="empty" style="padding:32px"><div class="ei">📝</div><p>Aucun devis. Cliquez sur + Nouveau devis pour commencer.</p></div>`
+    return
+  }
+
+  let html=""
+  stNoms.forEach(st=>{
+    let devs=DEVIS.filter(d=>d.st===st)
+    if(srch&&!st.toLowerCase().includes(srch)&&!devs.some(d=>(d.numero||"").toLowerCase().includes(srch)||(d.description||"").toLowerCase().includes(srch)))return
+    if(fDevisVal!=="all")devs=devs.filter(d=>d.validation===fDevisVal)
+    if(fDevisAv!=="all")devs=devs.filter(d=>(fDevisAv==="oui"?d.avenant==="oui":d.avenant!=="oui"))
+    if(!devs.length)return
+
+    const total=devs.reduce((s,d)=>s+parseFloat(d.montant||0),0)
+    const nbAcc=devs.filter(d=>d.validation==="accepte").length
+    const nbAv=devs.filter(d=>d.avenant==="oui").length
+    const hasAlert=devs.some(d=>d.validation==="accepte"&&d.avenant!=="oui")
+
+    html+=`<div class="tbl-wrap">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--sf2);border-bottom:1px solid var(--bd)">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-weight:600;font-size:14px">${st}</span>
+          <span class="badge b-st">${devs.length} devis</span>
+          ${hasAlert?`<span class="badge" style="background:var(--wal);color:var(--wa);border-color:var(--wa)">⚠️ À avenant</span>`:""}
+        </div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <span style="font-size:12px;color:var(--tx3)">${nbAcc} accepté${nbAcc>1?"s":""} · ${nbAv} avenanté${nbAv>1?"s":""}</span>
+          <span style="font-family:var(--amt-font);font-weight:600">${f0(total)}</span>
+          <button class="btn btn-p btn-sm" onclick="openNewDevisFor('${st.replace(/'/g,"\\'")}')">+ Devis</button>
+        </div>
+      </div>
+      <table class="tbl" style="width:100%">
+        <thead><tr>
+          <th>N° Devis</th><th>Date</th><th>Description</th>
+          <th>Montant HT</th><th>Validation</th><th>Avenant</th><th>N° Avenant</th><th>Actions</th>
+        </tr></thead>
+        <tbody>
+          ${devs.sort((a,b)=>(b.date||"").localeCompare(a.date||"")).map(d=>{
+            const valBadge=d.validation==="accepte"
+              ?`<span class="badge b-pt">✓ Accepté</span>`
+              :d.validation==="refuse"
+              ?`<span class="badge b-re">✗ Refusé</span>`
+              :`<span class="badge b-pd">⏳ En attente</span>`
+            const avBadge=d.avenant==="oui"
+              ?`<span class="badge b-pt">✓ Avenanté</span>`
+              :(d.validation==="accepte"
+                ?`<span class="badge" style="background:var(--wal);color:var(--wa);border-color:var(--wa)">⚠️ À faire</span>`
+                :`<span class="badge b-nf">—</span>`)
+            return `<tr>
+              <td class="tdm" style="font-family:var(--amt-font);font-size:12px">${d.numero||"—"}</td>
+              <td class="tdd">${d.date||"—"}</td>
+              <td class="tdd" style="max-width:220px;white-space:normal">${d.description||"—"}</td>
+              <td class="tdn">${d.montant?f0(parseFloat(d.montant)):"—"}</td>
+              <td>${valBadge}</td>
+              <td>${avBadge}</td>
+              <td class="tdd" style="font-family:var(--amt-font);font-size:12px">${d.numAvenant||"—"}</td>
+              <td><div class="tda">
+                <button class="btn btn-g btn-xs" onclick="openEditDevis('${d.id}')">✏️</button>
+                <button class="btn btn-g btn-xs" onclick="delDevis('${d.id}')">🗑</button>
+              </div></td>
+            </tr>`
+          }).join("")}
+        </tbody>
+      </table>
+    </div>`
+  })
+
+  el.innerHTML=html||`<div class="empty" style="padding:32px"><div class="ei">🔍</div><p>Aucun devis ne correspond aux filtres.</p></div>`
+}
+
+function devisForm(d){
+  const stOpts=entNames("Sous-traitant").map(n=>`<option value="${n}"${d?.st===n?" selected":""}>${n}</option>`).join("")
+  return `
+    <div class="fg"><label>Sous-traitant *</label>
+      <select id="dvSt">${stOpts}</select></div>
+    <div class="fg"><label>N° Devis</label>
+      <input id="dvNum" value="${d?.numero||""}" placeholder="ex: DEV-2025-001"></div>
+    <div class="fg"><label>Date de réception</label>
+      <input id="dvDate" type="date" value="${d?.date||""}"></div>
+    <div class="fg"><label>Montant HT (€)</label>
+      <input id="dvMt" type="number" step="0.01" value="${d?.montant||""}" placeholder="0.00"></div>
+    <div class="fg"><label>Description / Objet</label>
+      <input id="dvDesc" value="${d?.description||""}" placeholder="Objet du devis…"></div>
+    <div class="fg"><label>Validation</label>
+      <select id="dvVal">
+        <option value="attente"${(!d||d.validation==="attente")?" selected":""}>⏳ En attente</option>
+        <option value="accepte"${d?.validation==="accepte"?" selected":""}>✓ Accepté</option>
+        <option value="refuse"${d?.validation==="refuse"?" selected":""}>✗ Refusé</option>
+      </select></div>
+    <div class="fg"><label>Avenanté</label>
+      <select id="dvAv">
+        <option value="non"${(!d||d.avenant!=="oui")?" selected":""}>Non</option>
+        <option value="oui"${d?.avenant==="oui"?" selected":""}>✓ Oui</option>
+      </select></div>
+    <div class="fg"><label>N° Avenant</label>
+      <input id="dvAvNum" value="${d?.numAvenant||""}" placeholder="ex: AVN-001"></div>
+    <div class="fg"><label>Notes</label>
+      <textarea id="dvNotes" rows="3" placeholder="Remarques…">${d?.notes||""}</textarea></div>
+  `
+}
+
+function openNewDevis(){
+  openModal("Nouveau devis ST",devisForm(null),`subDevisNew()`)
+}
+
+function openNewDevisFor(st){
+  openModal("Nouveau devis ST",devisForm({st}),"subDevisNew()")
+  const sel=document.getElementById("dvSt")
+  if(sel)sel.value=st
+}
+
+function subDevisNew(){
+  const st=document.getElementById("dvSt")?.value
+  if(!st){toast("Sous-traitant requis","error");return}
+  const d={
+    id:devisId(),st,
+    numero:document.getElementById("dvNum")?.value.trim()||"",
+    date:document.getElementById("dvDate")?.value||"",
+    montant:document.getElementById("dvMt")?.value||"",
+    description:document.getElementById("dvDesc")?.value.trim()||"",
+    validation:document.getElementById("dvVal")?.value||"attente",
+    avenant:document.getElementById("dvAv")?.value||"non",
+    numAvenant:document.getElementById("dvAvNum")?.value.trim()||"",
+    notes:document.getElementById("dvNotes")?.value.trim()||""
+  }
+  DEVIS.push(d)
+  saveDevis()
+  closeModal()
+  rDevis()
+  toast("Devis créé")
+}
+
+function openEditDevis(id){
+  const d=DEVIS.find(x=>x.id===id)
+  if(!d)return
+  openModal("Modifier le devis",devisForm(d),`subDevisEdit('${id}')`)
+  const sel=document.getElementById("dvSt")
+  if(sel)sel.value=d.st
+}
+
+function subDevisEdit(id){
+  const d=DEVIS.find(x=>x.id===id)
+  if(!d)return
+  d.st=document.getElementById("dvSt")?.value||d.st
+  d.numero=document.getElementById("dvNum")?.value.trim()||""
+  d.date=document.getElementById("dvDate")?.value||""
+  d.montant=document.getElementById("dvMt")?.value||""
+  d.description=document.getElementById("dvDesc")?.value.trim()||""
+  d.validation=document.getElementById("dvVal")?.value||"attente"
+  d.avenant=document.getElementById("dvAv")?.value||"non"
+  d.numAvenant=document.getElementById("dvAvNum")?.value.trim()||""
+  d.notes=document.getElementById("dvNotes")?.value.trim()||""
+  saveDevis()
+  closeModal()
+  rDevis()
+  toast("Devis mis à jour")
+}
+
+function delDevis(id){
+  const d=DEVIS.find(x=>x.id===id)
+  if(!d)return
+  if(!confirm(`Supprimer le devis ${d.numero||d.id} ?`))return
+  DEVIS=DEVIS.filter(x=>x.id!==id)
+  saveDevis()
+  rDevis()
+  toast("Devis supprimé")
+}
 </script>
 
 </div>
