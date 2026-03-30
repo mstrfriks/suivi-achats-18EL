@@ -8,13 +8,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 :root{
   --bg:#F3F4F6;--sf:#FFFFFF;--sf2:#F9FAFB;--bg3:#F3F4F6;
   --bd:#E5E7EB;--bd2:#D1D5DB;
   --tx:#111827;--tx2:#6B7280;--tx3:#9CA3AF;
-  --ac:#059669;--acl:#ECFDF5;--ach:#10B981;
-  --gr:#059669;--grl:#ECFDF5;
+  --ac:#1957F7;--acl:#EEF3FF;--ach:#3B6FF8;
+  --gr:#1957F7;--grl:#EEF3FF;
   --wa:#D97706;--wal:#FFFBEB;
   --re:#DC2626;--rel:#FEF2F2;
   --vi:#7C3AED;--vil:#F5F3FF;
@@ -27,68 +28,64 @@ html,body{height:100%}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:13.5px;line-height:1.5}
 body::before{display:none}
 
-/* ── SIDEBAR DARK ────────────────────────────────────────── */
-.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sw);background:#111827;border-right:none;display:flex;flex-direction:column;z-index:100;isolation:isolate;transition:width .22s cubic-bezier(.4,0,.2,1);overflow:hidden;box-shadow:2px 0 12px rgba(0,0,0,.15)}
+/* ── SIDEBAR LIGHT ───────────────────────────────────────── */
+.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sw);background:#fff;border-right:1px solid #E5E7EB;display:flex;flex-direction:column;z-index:100;isolation:isolate;transition:width .22s cubic-bezier(.4,0,.2,1);overflow:hidden}
 .sidebar.collapsed{width:var(--swc)}
-.s-brand{height:var(--sh);display:flex;align-items:center;padding:0 18px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;overflow:hidden}.sidebar.collapsed .s-brand{justify-content:center;padding:0 8px}
-.sidebar.collapsed .s-cairn{display:none}
-.sidebar-tab.in-brand{width:auto;border:none;border-top:none;padding:4px 6px;border-radius:6px;margin:0}
+.s-brand{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #F3F4F6;flex-shrink:0;overflow:hidden}
+.sidebar.collapsed .s-brand{justify-content:center;padding:0 8px}
+.sidebar-tab.in-brand{width:auto;border:none;padding:4px 6px;border-radius:6px;margin:0;background:none;color:#9CA3AF}
+.sidebar-tab.in-brand:hover{background:#F3F4F6;color:#6B7280}
 .sidebar.collapsed .sidebar-tab.in-brand{margin:0 auto}
-.s-cairn{font-family:'Oswald',sans-serif;font-weight:600;font-size:22px;color:#fff;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}.sidebar.collapsed .s-cairn{display:none}
-.s-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--ac),var(--ach));display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;box-shadow:0 2px 8px rgba(14,125,107,.4)}
-.s-texts{flex:1;overflow:hidden}
-.s-name{font-size:13.5px;font-weight:700;color:#F9FAFB;white-space:nowrap;letter-spacing:-.2px}
-.s-sub{font-size:10.5px;color:#6B7280;white-space:nowrap}
+.s-cairn{font-family:'Oswald',sans-serif;font-weight:700;font-size:20px;color:#111827;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.sidebar.collapsed .s-cairn{display:none}
 
-.s-toggle:hover{border-color:var(--ac);color:var(--ac);background:rgba(14,125,107,.15)}
-.sidebar.collapsed .s-texts{display:none}.sidebar.collapsed .s-icon-wrap{display:none}.sidebar.collapsed .s-toggle{display:flex;margin:0 auto}
-
-.nav-sec{padding:16px 8px 6px;flex-shrink:0}
-.nav-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#4B5563;padding:0 10px;margin-bottom:4px;white-space:nowrap;transition:opacity .15s}
+.nav-sec{padding:20px 12px 8px;flex-shrink:0}
+.nav-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9CA3AF;padding:0 10px;margin-bottom:6px;white-space:nowrap;transition:opacity .15s}
 .sidebar.collapsed .nav-lbl{opacity:0;height:0;margin:0;padding:0}
-.nav-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:7px;font-size:13px;font-weight:500;color:#9CA3AF;cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:all .15s;white-space:nowrap;overflow:hidden}
-.nav-item:hover{background:rgba(255,255,255,.06);color:#E5E7EB}
-.nav-item.active{background:rgba(14,125,107,.2);color:#34D399}
-.ni{font-size:14px;width:22px;text-align:center;flex-shrink:0;opacity:.8}
-.nav-item.active .ni{opacity:1}
+.nav-sep{margin:8px 16px!important;background:#F3F4F6!important}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13.5px;font-weight:500;color:#6B7280;cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:all .15s;white-space:nowrap;overflow:hidden}
+.nav-item:hover{background:#F9FAFB;color:#111827}
+.nav-item.active{background:#1957F7;color:#fff}
+.nav-item.active .material-symbols-outlined{color:#fff}
+.ni{width:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ni .material-symbols-outlined{font-size:18px;color:#9CA3AF;transition:color .15s}
+.nav-item:hover .ni .material-symbols-outlined{color:#374151}
+.nav-item.active .ni .material-symbols-outlined{color:#fff}
 .nav-label-txt{overflow:hidden;white-space:nowrap}
 .sidebar.collapsed .nav-label-txt{display:none}
-.sidebar.collapsed .nav-item{padding:7px;justify-content:center}
+.sidebar.collapsed .nav-item{padding:9px;justify-content:center}
 
-.s-foot{margin-top:auto;padding:16px 10px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;display:flex;flex-direction:column;gap:10px}
-.s-status{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:7px;background:rgba(255,255,255,.05);font-size:11px;color:#6B7280;white-space:nowrap;overflow:hidden}
-.s-foot .btn-s{background:rgba(255,255,255,.06);color:#9CA3AF;border-color:rgba(255,255,255,.1)}.s-foot .btn-s:hover{background:rgba(255,255,255,.1);color:#E5E7EB;border-color:rgba(255,255,255,.2)}
-.s-dot{width:6px;height:6px;border-radius:50%;background:#34D399;flex-shrink:0}
-.s-dot.loading{background:var(--wa);animation:pulse 1s infinite}
-.s-dot.error{background:var(--re)}
-.s-status-txt{overflow:hidden;white-space:nowrap;color:#6B7280}
-.sidebar.collapsed .s-status-txt{display:none}
-.sidebar.collapsed .s-status{justify-content:center}
+.s-foot{margin-top:auto;padding:16px 12px;border-top:1px solid #F3F4F6;flex-shrink:0;display:flex;flex-direction:column;gap:10px}
+.s-foot .btn-s{background:#F9FAFB;color:#374151;border-color:#E5E7EB}.s-foot .btn-s:hover{background:#F3F4F6;border-color:#D1D5DB}
 .sidebar.collapsed .s-foot{padding:16px 8px;gap:10px;align-items:center}
 .sidebar.collapsed .s-foot>div{justify-content:center;padding:0}
 .sidebar.collapsed .btn .nav-label-txt{display:none}
 .sidebar.collapsed .s-foot .btn{width:36px;height:36px;padding:0;justify-content:center;border-radius:8px;flex:none;margin:0 auto;display:flex}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-.main{margin-left:var(--sw);min-height:100vh;display:flex;flex-direction:column;transition:margin-left .22s cubic-bezier(.4,0,.2,1)}
+.main{margin-left:var(--sw);min-height:100vh;display:flex;flex-direction:column;transition:margin-left .22s cubic-bezier(.4,0,.2,1);background:#F3F4F6}
 .main.expanded{margin-left:var(--swc)}
-.topbar{height:var(--sh);background:var(--sf);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:50;isolation:isolate}
-.topbar-title{font-size:14px;font-weight:600;color:var(--tx);letter-spacing:-.2px}
+.topbar{height:72px;background:#F3F4F6;border-bottom:none;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:50;isolation:isolate}
+.topbar-head{display:flex;flex-direction:column;gap:2px}
+.topbar-title{font-size:18px;font-weight:700;color:#111827;letter-spacing:-.3px;line-height:1.2}
+.topbar-sub{font-size:12.5px;color:#9CA3AF;font-weight:400}
 .ta{display:flex;gap:8px;align-items:center}
-.content{padding:24px;flex:1;position:relative;z-index:1}
+.content{padding:32px;flex:1;position:relative;z-index:1}
 .view{display:none}.view.active{display:block}
 
 .btn{display:inline-flex;align-items:center;gap:5px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;padding:7px 14px;border-radius:6px;cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap;line-height:1}
-.btn-p{background:var(--ac);color:#fff;border-color:var(--ac)}.btn-p:hover{background:var(--ach);box-shadow:0 2px 8px rgba(5,150,105,.3)}
+.btn-p{background:var(--ac);color:#fff;border-color:var(--ac)}.btn-p:hover{background:var(--ach);box-shadow:0 2px 8px rgba(25,87,247,.3)}
 .btn-s{background:var(--sf);color:var(--tx);border-color:var(--bd)}.btn-s:hover{border-color:var(--bd2);background:var(--sf2)}
 .btn-g{background:none;border-color:transparent;color:var(--tx3);padding:6px 9px}.btn-g:hover{background:var(--bg);color:var(--tx2)}
 .btn-sm{padding:5px 11px;font-size:12px}
-.btn-xs{padding:4px 9px;font-size:12px;border-radius:6px;font-weight:600}.btn-edit{background:var(--acl);color:var(--ac);border-color:rgba(5,150,105,.2)!important}.btn-del{background:var(--rel);color:var(--re);border-color:rgba(220,38,38,.2)!important}
-.btn-conf-y{background:var(--grl);color:var(--gr);border:1px solid rgba(5,150,105,.25);padding:3px 10px;font-size:11.5px;font-weight:600;border-radius:5px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
+.btn-xs{padding:4px 9px;font-size:12px;border-radius:6px;font-weight:600}.btn-edit{background:var(--acl);color:var(--ac);border-color:rgba(25,87,247,.2)!important}.btn-del{background:var(--rel);color:var(--re);border-color:rgba(220,38,38,.2)!important}
+.btn-conf-y{background:var(--grl);color:var(--gr);border:1px solid rgba(25,87,247,.25);padding:3px 10px;font-size:11.5px;font-weight:600;border-radius:5px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
 .btn-conf-n{background:var(--rel);color:var(--re);border:1px solid rgba(220,38,38,.25);padding:3px 10px;font-size:11.5px;font-weight:600;border-radius:5px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s}
 
 .panel{background:var(--sf);border:1px solid var(--bd);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);position:relative;z-index:1;overflow:hidden}
 .panel+.panel{margin-top:14px}
+.db-2col .panel+.panel{margin-top:0}
+.db-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#9CA3AF;margin-bottom:10px}
 .ph{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--bd)}
 .pt{font-size:13px;font-weight:600;color:var(--tx)}
 .pb{padding:18px 20px}
@@ -113,8 +110,8 @@ body::before{display:none}
 .font-opt button span{display:block;font-size:13px;line-height:1.2}
 
 
-.sidebar-tab{width:100%;padding:10px 14px;display:flex;align-items:center;gap:8px;background:none;border:none;border-top:1px solid rgba(255,255,255,.07);cursor:pointer;color:#6B7280;font-size:12px;text-align:left;transition:color .15s,background .15s;flex-shrink:0}
-.sidebar-tab:hover{background:rgba(255,255,255,.05);color:#9CA3AF}
+.sidebar-tab{width:100%;padding:10px 14px;display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:12px;text-align:left;transition:color .15s,background .15s;flex-shrink:0}
+.sidebar-tab:hover{background:#F9FAFB;color:#6B7280}
 .sidebar-tab svg{transition:transform .22s;flex-shrink:0}
 .sidebar-tab.collapsed svg{transform:rotate(180deg)}
 .sidebar.collapsed .sidebar-tab{justify-content:center;padding:10px 8px}
@@ -123,7 +120,7 @@ body::before{display:none}
 .ms-wrap{position:relative;display:inline-block}
 .ms-btn{font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:500;padding:5px 11px;border:1px solid var(--bd);border-radius:6px;background:var(--sf);color:var(--tx2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap;min-width:80px;justify-content:space-between}
 .ms-btn:hover{border-color:var(--ac);color:var(--ac)}
-.ms-btn.active{background:var(--acl);border-color:rgba(5,150,105,.3);color:var(--ac)}
+.ms-btn.active{background:var(--acl);border-color:rgba(25,87,247,.3);color:var(--ac)}
 .ms-arr{font-size:9px;opacity:.5}
 .ms-drop{display:none;position:fixed;min-width:190px;z-index:9999;background:var(--sf);border:1px solid var(--bd);border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.12);padding:6px;max-height:240px;overflow-y:auto}
 .ms-drop.open{display:block}
@@ -136,24 +133,28 @@ body::before{display:none}
 .ms-all:hover{color:var(--ac)}
 
 /* ── User profile sidebar ──────────────────────────────── */
-.s-user{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:8px;cursor:default;overflow:hidden;margin:0 6px 4px;transition:background .15s}.sidebar.collapsed .s-user{display:none}
-.s-user:hover{background:rgba(255,255,255,.06)}
-.s-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--ac),#34D399);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:.04em}
+.s-user{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:8px;cursor:default;overflow:hidden;transition:background .15s}.sidebar.collapsed .s-user{display:none}
+.s-user:hover{background:#F9FAFB}
+.s-avatar{width:32px;height:32px;border-radius:50%;background:#E5E7EB;color:#374151;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:.04em}
 .s-user-info{flex:1;overflow:hidden}
-.s-user-name{font-size:12.5px;font-weight:600;color:#E5E7EB;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.s-user-role{font-size:11px;color:#6B7280;white-space:nowrap}
+.s-user-name{font-size:12.5px;font-weight:600;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-user-role{font-size:11px;color:#9CA3AF;white-space:nowrap}
 .sidebar.collapsed .s-user-info{display:none}
 .sidebar.collapsed .s-user{justify-content:center;padding:8px}
 
 .fb-row1{border-bottom:1px solid var(--bd)}.fb-row2{background:var(--sf2)}
-.fb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 20px;background:var(--sf);border-bottom:1px solid var(--bd)}
-.fl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);flex-shrink:0}
-.chip{font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:500;padding:4px 10px;border:1px solid var(--bd);border-radius:6px;background:var(--sf);color:var(--tx2);cursor:pointer;transition:all .15s}
-.chip:hover{border-color:var(--ac);color:var(--ac);background:var(--acl)}
-.chip.on{background:var(--acl);border-color:rgba(5,150,105,.3);color:var(--ac);font-weight:600}
-.fsep{width:1px;height:16px;background:var(--bd);margin:0 4px;flex-shrink:0}
-.sb{position:relative}.sb input{padding-left:32px;background:var(--sf2);border-color:var(--bd)}
-.sb::before{content:"⌕";position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:16px;pointer-events:none}
+.fb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 20px;background:#fff;border-radius:0;box-shadow:none;border:none;margin-bottom:0}
+.fl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);flex-shrink:0}
+.chip{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:500;padding:5px 14px;border:1px solid #E5E7EB;border-radius:20px;background:#fff;color:#6B7280;cursor:pointer;transition:all .15s}
+.chip:hover{border-color:#9CA3AF;color:#374151;background:#F9FAFB}
+.chip.on{background:#1957F7;border-color:#1957F7;color:#fff;font-weight:600}
+.fsep{width:1px;height:18px;background:#E5E7EB;margin:0 6px;flex-shrink:0}
+/* Search card */
+.search-card{background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:12px 20px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.search-card .sb{flex:1}
+.sb{position:relative}.sb input{padding-left:38px;background:#fff;border-color:#E5E7EB;border-radius:10px;font-size:13.5px;box-shadow:none}
+.sb input:focus{border-color:#1957F7;box-shadow:0 0 0 3px rgba(25,87,247,.08)}
+.sb::before{content:"⌕";position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9CA3AF;font-size:18px;pointer-events:none}
 
 table{width:100%;border-collapse:collapse;font-size:13px}
 .tbl-wrap{overflow-x:auto}
@@ -178,7 +179,7 @@ tbody tr:hover td{background:var(--sf2)}
 .b-lot{background:var(--acl);color:var(--ac)}.b-sig{background:var(--bg3);color:var(--tx2);border:1px solid var(--bd)}
 
 .ptr{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;border:1px solid;transition:all .15s;background:none;font-family:'Plus Jakarta Sans',sans-serif}
-.ptr.pointed{background:var(--grl);color:var(--gr);border-color:rgba(14,125,107,.3)}
+.ptr.pointed{background:var(--grl);color:var(--gr);border-color:rgba(25,87,247,.3)}
 .ptr.pending{background:var(--wal);color:var(--wa);border-color:rgba(196,122,10,.3)}
 .ptr:hover{filter:brightness(.95)}
 .ptr-conf{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)}
@@ -210,12 +211,12 @@ tbody tr:hover td{background:var(--sf2)}
 .ff label{font-size:11.5px;font-weight:600;color:var(--tx2)}
 .ff2{display:flex;gap:10px}.ff2 .ff{flex:1}
 input,select{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--tx);background:var(--sf);border:1px solid var(--bd);border-radius:7px;padding:8px 11px;outline:none;transition:border .15s,box-shadow .15s;width:100%}
-input:focus,select:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(5,150,105,.1)}
+input:focus,select:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(25,87,247,.1)}
 input::placeholder{color:var(--tx3)}
 
 .toast{position:fixed;bottom:20px;right:20px;z-index:999;background:#111827;color:#F9FAFB;font-size:13px;font-weight:500;padding:11px 16px;border-radius:10px;display:flex;align-items:center;gap:9px;opacity:0;transform:translateY(6px);transition:all .22s;pointer-events:none;max-width:320px;box-shadow:0 4px 20px rgba(0,0,0,.2)}
 .toast.show{opacity:1;transform:translateY(0)}
-.toast.success::before{content:"✓";color:#34D399;font-weight:700}
+.toast.success::before{content:"✓";color:#5B7FF8;font-weight:700}
 .toast.error::before{content:"✕";color:#F87171;font-weight:700}
 .empty{padding:56px 20px;text-align:center;color:var(--tx3)}.ei{font-size:36px;margin-bottom:10px;opacity:.3}
 .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 20;line-height:1;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;user-select:none;flex-shrink:0}
@@ -227,7 +228,7 @@ input::placeholder{color:var(--tx3)}
 .li{background:var(--bg);border:1px solid var(--bd);border-radius:9px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:var(--shadow)}
 .lc{font-family:'Plus Jakarta Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:11.5px;font-weight:500;color:var(--ac);flex-shrink:0;min-width:44px}
 .ln-edit{font-size:12.5px;color:var(--tx2);background:none;border:none;outline:none;font-family:'Plus Jakarta Sans',sans-serif;flex:1;cursor:text;padding:2px 6px;border-radius:5px;transition:all .15s;border:1px solid transparent}
-.ln-edit:hover{background:var(--sf);border-color:var(--bd)}.ln-edit:focus{background:var(--sf);border-color:var(--ac);box-shadow:0 0 0 2px rgba(14,125,107,.08)}
+.ln-edit:hover{background:var(--sf);border-color:var(--bd)}.ln-edit:focus{background:var(--sf);border-color:var(--ac);box-shadow:0 0 0 2px rgba(25,87,247,.08)}
 .ana-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:18px}.ana-grid>.panel{flex:1;min-width:0}.ana-grid>.panel{align-self:start}#view-analyse .content{background:var(--bg)}
 .bar-row{margin-bottom:12px}
 .bar-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
@@ -247,7 +248,7 @@ input::placeholder{color:var(--tx3)}
 .alert-row{padding:9px 14px;border-radius:var(--r);font-size:12.5px;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .alert-re{background:var(--rel);border:1px solid rgba(208,48,48,.2);color:var(--re)}
 .alert-wa{background:var(--wal);border:1px solid rgba(196,122,10,.2);color:var(--wa)}
-.db-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.db-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;align-items:start}
 .db-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:0}
 .db-ph{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--tx3);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
 .db-link{font-size:11.5px;color:var(--ac);font-weight:600;cursor:pointer;border:none;background:none;padding:0;font-family:inherit}
@@ -341,12 +342,12 @@ input::placeholder{color:var(--tx3)}
 .pp-sub{font-size:13px;color:#94A3B8;margin-bottom:48px;letter-spacing:.02em;position:relative;z-index:1}
 .pp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;width:100%;max-width:720px;padding:0 24px;position:relative;z-index:1}
 .pp-card{background:#1E293B;border:1px solid #334155;border-radius:12px;padding:24px;cursor:pointer;transition:all .2s;text-align:left;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
-.pp-card:hover{border-color:#059669;transform:translateY(-2px);box-shadow:0 8px 24px rgba(5,150,105,.2)}
-.pp-card-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#059669,#34D399);display:flex;align-items:center;justify-content:center}
+.pp-card:hover{border-color:#1957F7;transform:translateY(-2px);box-shadow:0 8px 24px rgba(25,87,247,.2)}
+.pp-card-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#1957F7,#5B7FF8);display:flex;align-items:center;justify-content:center}
 .pp-card-name{font-size:16px;font-weight:700;color:#F1F5F9;letter-spacing:-.2px}
 .pp-card-desc{font-size:12px;color:#64748B;line-height:1.4}
 .pp-card-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:600;width:fit-content}
-.pp-card-tag.en-cours{background:rgba(5,150,105,.15);color:#34D399;border:1px solid rgba(52,211,153,.2)}
+.pp-card-tag.en-cours{background:rgba(25,87,247,.15);color:#5B7FF8;border:1px solid rgba(91,127,248,.2)}
 .pp-card-tag.en-attente{background:rgba(217,119,6,.15);color:#FBBF24;border:1px solid rgba(251,191,36,.2)}
 .pp-card-tag.termine{background:rgba(100,116,139,.15);color:#94A3B8;border:1px solid rgba(148,163,184,.2)}
 .pp-card-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
@@ -375,7 +376,7 @@ input::placeholder{color:var(--tx3)}
 .pp-card-add .pp-card-icon{background:#1E293B;border:1px solid #334155}
 .pp-card-add .pp-card-name{color:#64748B;font-weight:500}
 .pp-user{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;z-index:1}
-.pp-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#059669,#34D399);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.pp-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1957F7,#5B7FF8);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .pp-user-name{font-size:13px;color:#94A3B8;font-weight:500}
 
 </style>
@@ -469,22 +470,18 @@ input::placeholder{color:var(--tx3)}
         <div class="s-user-role">Chef de projet</div>
       </div>
     </div>
-    <div style="display:flex;gap:6px;padding:0 2px">
-      <button class="btn btn-s btn-sm" onclick="reload()" style="flex:1;justify-content:center;gap:5px"><span>↻</span><span class="nav-label-txt">Sync</span></button>
-    </div>
-    <div class="s-status"><div class="s-dot loading" id="sDot"></div><span class="s-status-txt" id="sTxt">…</span></div>
   </div>
 </aside>
 
 <div class="main" id="main">
   <div id="view-dashboard" class="view active">
-    <div class="topbar"><div class="topbar-title">Tableau de bord</div></div>
+    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Tableau de bord</div><div class="topbar-sub">Vue d'ensemble du projet</div></div></div>
     <div class="content" id="dbContent"></div>
   </div>
 
   <div id="view-journal" class="view">
     <div class="topbar">
-      <div class="topbar-title">Journal de bord</div>
+      <div class="topbar-head"><div class="topbar-title">Journal de bord</div><div class="topbar-sub">Historique des visites et événements</div></div>
       <div class="ta"><button class="btn btn-p btn-sm" onclick="openPanel('journal',null)">+ Nouvelle entrée</button></div>
     </div>
     <div class="content">
@@ -492,12 +489,12 @@ input::placeholder{color:var(--tx3)}
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Entrées ce mois</div><div class="kv" id="jKM">—</div><div class="ks" id="jKMs"></div></div>
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--tx3)"></div>Dernière entrée</div><div class="kv" style="font-size:14px;font-weight:500" id="jKL">—</div><div class="ks" id="jKLs"></div></div>
       </div>
+      <div class="search-card">
+        <div class="sb"><input id="jSrch" placeholder="Rechercher…" oninput="rJournal()"></div>
+        <button class="btn btn-g btn-sm" onclick="clearJF()">✕ Effacer</button>
+      </div>
       <div class="panel">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 16px 0;background:var(--bg)">
-          <div class="sb"><input id="jSrch" placeholder="Rechercher…" oninput="rJournal()" style="width:220px"></div>
-          <button class="btn btn-g btn-sm" onclick="clearJF()">✕ Effacer</button>
-        </div>
-        <div class="fb fb-row1" style="flex-wrap:wrap;gap:6px">
+        <div class="fb fb-row1" style="flex-wrap:wrap;gap:6px;margin-bottom:0;border-radius:12px 12px 0 0">
           <span class="fl">Type</span>
           <div style="display:flex;gap:4px;flex-wrap:wrap">
             <button class="chip on" id="jFAll" onclick="setJType('all')">Tous</button>
@@ -516,7 +513,7 @@ input::placeholder{color:var(--tx3)}
 
   <div id="view-cr" class="view">
     <div class="topbar">
-      <div class="topbar-title">Comptes rendus</div>
+      <div class="topbar-head"><div class="topbar-title">Comptes rendus</div><div class="topbar-sub">Réunions et décisions de chantier</div></div>
       <div class="ta"><button class="btn btn-p btn-sm" onclick="openPanel('cr',null)">+ Nouveau CR</button></div>
     </div>
     <div class="content">
@@ -524,12 +521,12 @@ input::placeholder{color:var(--tx3)}
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>CR ce mois</div><div class="kv" id="crKM">—</div><div class="ks" id="crKMs"></div></div>
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:#2563EB"></div>Prochain RDV</div><div class="kv" style="font-size:14px;font-weight:500" id="crKN">—</div><div class="ks" id="crKNs"></div></div>
       </div>
+      <div class="search-card">
+        <div class="sb"><input id="crSrch" placeholder="Rechercher…" oninput="rCR()"></div>
+        <button class="btn btn-g btn-sm" onclick="clearCRF()">✕ Effacer</button>
+      </div>
       <div class="panel">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 16px 0;background:var(--bg)">
-          <div class="sb"><input id="crSrch" placeholder="Rechercher…" oninput="rCR()" style="width:220px"></div>
-          <button class="btn btn-g btn-sm" onclick="clearCRF()">✕ Effacer</button>
-        </div>
-        <div class="fb fb-row1" style="flex-wrap:wrap;gap:6px">
+        <div class="fb fb-row1" style="flex-wrap:wrap;gap:6px;margin-bottom:0;border-radius:12px 12px 0 0">
           <span class="fl">Type</span>
           <div style="display:flex;gap:4px;flex-wrap:wrap">
             <button class="chip on" id="crFAll" onclick="setCRType('all')">Tous</button>
@@ -546,7 +543,7 @@ input::placeholder{color:var(--tx3)}
   </div>
 
   <div id="view-commandes" class="view">
-    <div class="topbar"><div class="topbar-title">Commandes &amp; Factures</div><div class="ta"><button class="btn btn-p btn-sm" onclick="openPanel('commande')">+ Nouvelle commande</button></div></div>
+    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Achats</div><div class="topbar-sub">Commandes et factures fournisseurs</div></div><div class="ta"><button class="btn btn-p btn-sm" onclick="openPanel('commande')">+ Nouvelle commande</button></div></div>
     <div class="content">
       <div class="kpi-grid">
         <div class="kpi kpi-e"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Engagé total</div><div class="kv" id="kE">—</div><div class="ks" id="kEs"></div></div>
@@ -554,12 +551,12 @@ input::placeholder{color:var(--tx3)}
         <div class="kpi kpi-p"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Pointé</div><div class="kv g" id="kP">—</div><div class="ks" id="kPs"></div></div>
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>Reste à pointer</div><div class="kv o" id="kR">—</div><div class="ks" id="kRs"></div></div>
       </div>
-      <div class="panel">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 16px 0;background:var(--bg)">
-            <div class="sb"><input id="srch" style="width:220px" placeholder="Rechercher fournisseur, description…" oninput="curPage=1;rCmd()"></div>
-            <button class="btn btn-g btn-sm" onclick="clearF()">✕ Effacer les filtres</button>
-          </div>
-          <div class="fb fb-row1" style="overflow:visible;position:relative;z-index:100">
+      <div class="search-card">
+        <div class="sb"><input id="srch" placeholder="Rechercher fournisseur, description…" oninput="curPage=1;rCmd()"></div>
+        <button class="btn btn-g btn-sm" onclick="clearF()">✕ Effacer</button>
+      </div>
+      <div class="panel" style="margin-bottom:10px;overflow:visible">
+          <div class="fb fb-row1" style="overflow:visible;position:relative;z-index:100;border-bottom:1px solid #F3F4F6">
           <span class="fl">Lot</span>
           <div class="ms-wrap" id="msLot">
             <button class="ms-btn" onclick="toggleMs('msLot')"><span id="msLotLbl">Tous</span><span class="ms-arr">▾</span></button>
@@ -578,18 +575,18 @@ input::placeholder{color:var(--tx3)}
             <div class="ms-drop" id="msTypeDrop"></div>
           </div>
         </div>
-        <div class="fb fb-row2">
+        <div class="fb fb-row2" style="border-top:1px solid #F3F4F6">
           <span class="fl">Statut</span>
           <div style="display:flex;gap:4px">
             <button class="chip on" id="fa" onclick="setSt('all')">Tous</button>
             <button class="chip" id="fpt" onclick="setSt('pointed')">Pointés</button>
             <button class="chip" id="fp" onclick="setSt('pending')">Non pointés</button>
-          
+          </div>
           <div class="fsep"></div>
           <span class="fl">Mois</span>
           <select class="ana-sel" id="fMois" onchange="curPage=1;rCmd()" style="min-width:110px">
             <option value="">Tous</option>
-          </select></div>
+          </select>
           <div class="fsep"></div>
           <span class="fl">Facture</span>
           <div style="display:flex;gap:4px">
@@ -598,6 +595,8 @@ input::placeholder{color:var(--tx3)}
             <button class="chip" id="ffn" onclick="setFac('notinvoiced')">Non facturé</button>
           </div>
         </div>
+      </div>
+      <div class="panel">
         <div class="tbl-wrap"><table>
           <thead><tr>
             <th style="width:36px"></th>
@@ -620,7 +619,7 @@ input::placeholder{color:var(--tx3)}
   </div>
 
   <div id="view-analytique" class="view">
-    <div class="topbar"><div class="topbar-title">Analytique</div></div>
+    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Analytique</div><div class="topbar-sub">Synthèse financière du chantier</div></div></div>
     <div class="content">
       <div class="ana-tab-bar">
         <button class="chip on" id="anaTabAch" onclick="setAnaTab('achats')">📦 Achats</button>
@@ -638,7 +637,7 @@ input::placeholder{color:var(--tx3)}
 
   <div id="view-st" class="view">
     <div class="topbar">
-      <div class="topbar-title">Factures Sous-traitance</div>
+      <div class="topbar-head"><div class="topbar-title">Factures ST</div><div class="topbar-sub">Factures des sous-traitants</div></div>
       <div class="ta">
         
         <button class="btn btn-p btn-sm" onclick="openNewFacST()">+ Nouvelle facture ST</button>
@@ -651,18 +650,18 @@ input::placeholder{color:var(--tx3)}
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>Reste à pointer</div><div class="kv o" id="stKR">—</div><div class="ks" id="stKRs"></div></div>
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--tx3)"></div>Sous-traitants</div><div class="kv" id="stKN">—</div><div class="ks" id="stKNs"></div></div>
       </div>
-      <div class="panel">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 16px 0;background:var(--bg)">
-          <div class="sb"><input id="stFQ" placeholder="Rechercher sous-traitant…" oninput="rST()" style="width:220px"></div>
-          <button class="btn btn-g btn-sm" onclick="clearStF()">✕ Effacer les filtres</button>
-        </div>
+      <div class="search-card">
+        <div class="sb"><input id="stFQ" placeholder="Rechercher sous-traitant…" oninput="rST()"></div>
+        <button class="btn btn-g btn-sm" onclick="clearStF()">✕ Effacer</button>
+      </div>
+      <div class="panel" style="margin-bottom:10px">
         <div class="fb fb-row1">
           <span class="fl">Entreprise</span>
           <select class="ana-sel" id="stEntSel" onchange="tStFltSel(this.value)" style="min-width:160px">
             <option value="">Toutes</option>
           </select>
         </div>
-        <div class="fb fb-row2">
+        <div class="fb fb-row2" style="border-top:1px solid #F3F4F6">
           <span class="fl">Pointage</span>
           <div style="display:flex;gap:4px">
             <button class="chip on" id="stFa"  onclick="setStSt('all')">Tous</button>
@@ -670,6 +669,8 @@ input::placeholder{color:var(--tx3)}
             <button class="chip"    id="stFp"  onclick="setStSt('pending')">En attente</button>
           </div>
         </div>
+      </div>
+      <div class="panel">
         <div id="stContent"></div>
       </div>
     </div>
@@ -677,7 +678,7 @@ input::placeholder{color:var(--tx3)}
 
   <div id="view-devis-st" class="view">
     <div class="topbar">
-      <div class="topbar-title">Devis Sous-traitance</div>
+      <div class="topbar-head"><div class="topbar-title">Sous-traitance</div><div class="topbar-sub">Devis et marchés sous-traitants</div></div>
       <div class="ta">
         <button class="btn btn-p btn-sm" onclick="openNewDevis()">+ Nouveau devis</button>
       </div>
@@ -688,12 +689,12 @@ input::placeholder{color:var(--tx3)}
         <span class="material-symbols-outlined" style="font-size:16px">warning</span><span id="devisAlertTxt"></span>
       </div>
       <!-- Filtre -->
-      <div class="panel" style="margin-bottom:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 16px 0;background:var(--bg)">
-          <div class="sb"><input id="devisSrch" oninput="rDevis()" style="width:220px" placeholder="Rechercher ST, n° devis…"></div>
-          <button class="btn btn-g btn-sm" onclick="clearDevisF()">✕ Effacer</button>
-        </div>
-        <div class="fb fb-row1" style="display:flex;align-items:center;gap:10px;padding:8px 16px;flex-wrap:wrap">
+      <div class="search-card">
+        <div class="sb"><input id="devisSrch" oninput="rDevis()" placeholder="Rechercher ST, n° devis…"></div>
+        <button class="btn btn-g btn-sm" onclick="clearDevisF()">✕ Effacer</button>
+      </div>
+      <div class="panel" style="margin-bottom:10px">
+        <div class="fb fb-row1" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
           <span class="fl">Validation</span>
           <div style="display:flex;gap:4px">
             <button class="chip on" id="dvAll" onclick="setDevisFlt('all')">Tous</button>
@@ -709,6 +710,8 @@ input::placeholder{color:var(--tx3)}
             <button class="chip" id="dvAvNon" onclick="setDevisAv('non')">Non avenanté</button>
           </div>
         </div>
+      </div>
+      <div class="panel" style="margin-bottom:14px">
         <div id="devisContent" style="padding:0"></div>
       </div>
     </div>
@@ -719,7 +722,7 @@ input::placeholder{color:var(--tx3)}
   </div>
   <div id="view-entreprises" class="view">
     <div class="topbar">
-      <div class="topbar-title">Fournisseurs &amp; Sous-traitants</div>
+      <div class="topbar-head"><div class="topbar-title">Fournisseurs / ST</div><div class="topbar-sub">Annuaire des entreprises du chantier</div></div>
       <div class="ta"><button class="btn btn-p btn-sm" onclick="openEntF()">+ Nouveau</button></div>
     </div>
     <div class="content">
@@ -761,7 +764,7 @@ input::placeholder{color:var(--tx3)}
     </div>
   </div>
   <div id="view-lots" class="view">
-    <div class="topbar"><div class="topbar-title">Lots / Références</div><div class="ta"><button class="btn btn-p btn-sm" onclick="openLotF()">+ Nouveau lot</button></div></div>
+    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Configuration</div><div class="topbar-sub">Lots et références du projet</div></div><div class="ta"><button class="btn btn-p btn-sm" onclick="openLotF()">+ Nouveau lot</button></div></div>
     <div class="content">
       <div class="panel" id="lotFD" style="display:none;margin-bottom:12px">
         <div class="ph"><span class="pt">Nouveau lot</span><button class="btn btn-g btn-sm" onclick="closeLotF()"><span class="material-symbols-outlined">close</span></button></div>
@@ -776,7 +779,7 @@ input::placeholder{color:var(--tx3)}
   </div>
   <div id="view-todo" class="view">
     <div class="topbar">
-      <div class="topbar-title">To-do</div>
+      <div class="topbar-head"><div class="topbar-title">To-do</div><div class="topbar-sub">Tâches et actions en cours</div></div>
       <div class="ta"><button class="btn btn-p btn-sm" onclick="openPanel('todo',null)">+ Nouvelle tâche</button></div>
     </div>
     <div class="content">
@@ -843,7 +846,9 @@ function setAmtFont(key){
 // Restore saved font
 ;(function(){const sf=localStorage.getItem('amtFont');if(sf)setAmtFont(sf)})()
 
-const APPS_URL = "https://script.google.com/macros/s/AKfycbynjE28dXHwtuGrpAcmRG7ak5FzB5_X43kY43PW7n1z871MQ33xZ1xCyX5B3VgN_EIp/exec"
+const SB_URL="https://sxljxnydakmsozpkhinc.supabase.co"
+const SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4bGp4bnlkYWttc296cGtoaW5jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjUyMDksImV4cCI6MjA5MDQ0MTIwOX0.UJAdQltLbXLWKFKCEsWJnWjEd9YgHTiQWu3i5fx8pFk"
+const _sb=supabase.createClient(SB_URL,SB_KEY)
 let C=[],F=[],LOTS={},SIGS=[]
 let fLot=new Set(),fSig=new Set(),fType=new Set(),fSt="all",fFac="all"
 let fStEnt=new Set(),fStSt="all"
@@ -861,21 +866,122 @@ const fd=d=>{if(!d)return"";try{const p=d.split(/[\/\-]/);if(p.length===3&&p[0].
 function toast(msg,type="success"){const el=document.getElementById("toast");el.className="toast "+type;document.getElementById("tMsg").textContent=msg;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("show"),2800)}
 function setS(st,txt){const d=document.getElementById("sDot");d.className="s-dot"+(st==="ok"?"":" "+st);document.getElementById("sTxt").textContent=txt}
 
-async function apiPost(action,data){if(!APPS_URL)return null;try{const r=await fetch(APPS_URL,{method:"POST",redirect:"follow",headers:{"Content-Type":"text/plain"},body:JSON.stringify({action,data})});const d=await r.json();if(d.error)throw new Error(d.error);return d}catch(err){toast("Erreur : "+err.message,"error");return null}}
+async function apiPost(action,data){
+  try{
+    if(action==="addCommande"){
+      const id="CMD-"+Date.now()
+      const {error}=await _sb.from("commandes").insert({id,fournisseur:data.fournisseur,description:data.description||"",lot:data.lot||"",type:data.type||"",montant_ht:e2n(data.montant),date:data.date||null,signataire:data.signataire||"",notes:data.notes||""})
+      if(error)throw error;return{id}
+    }
+    if(action==="updateCommande"){
+      const {error}=await _sb.from("commandes").update({fournisseur:data.fournisseur,description:data.description||"",lot:data.lot||"",type:data.type||"",montant_ht:e2n(data.montant),date:data.date||null,signataire:data.signataire||"",notes:data.notes||""}).eq("id",data.id)
+      if(error)throw error;return{}
+    }
+    if(action==="deleteCommande"){
+      await _sb.from("factures").delete().eq("id_commande",data.id)
+      const {error}=await _sb.from("commandes").delete().eq("id",data.id)
+      if(error)throw error;return{}
+    }
+    if(action==="addFacture"){
+      const id="FAC-"+Date.now()
+      const {error}=await _sb.from("factures").insert({id,id_commande:data.commandeId,numero:data.numero||"",montant_ht:e2n(data.montant),date_reception:data.dateReception||null,notes:data.notes||""})
+      if(error)throw error;return{id}
+    }
+    if(action==="updateFacture"){
+      const {error}=await _sb.from("factures").update({numero:data.numero||"",montant_ht:e2n(data.montant),date_reception:data.dateReception||null,notes:data.notes||""}).eq("id",data.id)
+      if(error)throw error;return{}
+    }
+    if(action==="deleteFacture"){
+      const {error}=await _sb.from("factures").delete().eq("id",data.id)
+      if(error)throw error;return{}
+    }
+    if(action==="pointerFacture"){
+      const upd={pointe:!!data.pointed}
+      if(data.pointed)upd.date_pointage=new Date().toLocaleDateString("fr-FR")+" "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})
+      else upd.date_pointage=null
+      const {error}=await _sb.from("factures").update(upd).eq("id",data.id)
+      if(error)throw error;return{}
+    }
+    if(action==="saveLots"){
+      const rows=Object.entries(data.lots).map(([id,label])=>({id,nom:label||""}))
+      await _sb.from("lots").delete().neq("id","__x__")
+      if(rows.length){const {error}=await _sb.from("lots").insert(rows);if(error)throw error}
+      return{}
+    }
+    if(action==="saveEntreprises"){
+      const rows=(data.entreprises||[]).map(e=>({nom:e.nom,type:e.type||"",contact:e.contact||"",tel:e.tel||"",email:e.email||"",notes:e.notes||""}))
+      await _sb.from("entreprises").delete().neq("nom","__x__")
+      if(rows.length){const {error}=await _sb.from("entreprises").insert(rows);if(error)throw error}
+      return{}
+    }
+    if(action==="addDevis"){
+      const id=data.id||"DEV-"+Date.now()
+      const {error}=await _sb.from("devis").insert({id,entreprise:data.st||"",numero:data.numero||"",date:data.date||null,lot:data.lot||"",objet:data.description||"",montant:e2n(data.montant),signataire:data.signataire||"",validation:data.validation||"attente",date_validation:data.dateValidation||null,avenant:data.avenant||"non",num_avenant:data.numAvenant||"",notes:data.notes||""})
+      if(error)throw error;return{id}
+    }
+    if(action==="updateDevis"){
+      const {error}=await _sb.from("devis").update({entreprise:data.st||"",numero:data.numero||"",date:data.date||null,lot:data.lot||"",objet:data.description||"",montant:e2n(data.montant),signataire:data.signataire||"",validation:data.validation||"attente",date_validation:data.dateValidation||null,avenant:data.avenant||"non",num_avenant:data.numAvenant||"",notes:data.notes||""}).eq("id",data.id)
+      if(error)throw error;return{}
+    }
+    if(action==="deleteDevis"){
+      const {error}=await _sb.from("devis").delete().eq("id",data.id)
+      if(error)throw error;return{}
+    }
+    if(action==="saveJournal"){
+      const rows=(data.journal||[]).map(j=>({id:j.id,type:j.type||"",entreprise:j.entreprise||"",description:j.description||"",created_at:j.createdAt||new Date().toISOString()}))
+      if(rows.length){const {error}=await _sb.from("journal").upsert(rows,{onConflict:"id"});if(error)throw error}
+      return{}
+    }
+    if(action==="deleteJournal"){
+      const {error}=await _sb.from("journal").delete().eq("id",data.id)
+      if(error)throw error;return{}
+    }
+    if(action==="saveCR"){
+      const rows=(data.cr||[]).map(c=>({id:c.id,titre:c.titre||"",date:c.date||null,participants:c.participants||"",contenu:c.contenu||"",actions:c.actions||"",prochain_rdv:c.prochainRDV||null,created_at:c.createdAt||new Date().toISOString()}))
+      if(rows.length){const {error}=await _sb.from("comptes_rendus").upsert(rows,{onConflict:"id"});if(error)throw error}
+      return{}
+    }
+    if(action==="deleteCR"){
+      const {error}=await _sb.from("comptes_rendus").delete().eq("id",data.id)
+      if(error)throw error;return{}
+    }
+    if(action==="saveTodos"){
+      const rows=(data.todos||[]).map(t=>({id:t.id,titre:t.titre||"",priorite:t.priorite||"moyenne",statut:t.statut||"open",echeance:t.echeance||null,notes:t.notes||"",done_at:t.doneAt||null,created_at:t.createdAt||new Date().toISOString()}))
+      if(rows.length){const {error}=await _sb.from("todos").upsert(rows,{onConflict:"id"});if(error)throw error}
+      return{}
+    }
+    if(action==="deleteTodo"){
+      const {error}=await _sb.from("todos").delete().eq("id",data.id)
+      if(error)throw error;return{}
+    }
+    return{}
+  }catch(err){toast("Erreur BD : "+err.message,"error");return null}
+}
 async function reload(){
-  if(!APPS_URL){toast("URL API manquante","error");return}
   toast("Chargement…","info")
   try{
-    const r=await fetch(APPS_URL,{redirect:"follow",mode:"cors"})
-    const d=await r.json()
-    if(d.error)throw new Error(d.error)
-    C=d.commandes||[]
-    F=(d.factures||[]).map(f=>({...f,"Pointé":f["Pointé"]===true||String(f["Pointé"]).toUpperCase()==="OUI"}))
-    if(d.lots){LOTS=d.lots;/* lots in Sheet */}
-    if(d.signataires)SIGS=d.signataires
-    if(d.entreprises){ENTREPRISES=d.entreprises;/* ents in Sheet */}
-    if(d.devis){DEVIS=d.devis;/* devis in Sheet */}
-    syncMeta();rAll()
+    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes]=await Promise.all([
+      _sb.from("commandes").select("*").order("date",{ascending:false,nullsFirst:false}),
+      _sb.from("factures").select("*"),
+      _sb.from("devis").select("*").order("date",{ascending:false,nullsFirst:false}),
+      _sb.from("lots").select("*"),
+      _sb.from("entreprises").select("*"),
+      _sb.from("journal").select("*").order("created_at",{ascending:false}),
+      _sb.from("comptes_rendus").select("*").order("created_at",{ascending:false}),
+      _sb.from("todos").select("*")
+    ])
+    if(cRes.error)throw new Error(cRes.error.message)
+    if(fRes.error)throw new Error(fRes.error.message)
+    C=(cRes.data||[]).map(r=>({ID:r.id,Fournisseur:r.fournisseur,Description:r.description,Lot:r.lot,Type:r.type,"Montant HT":String(r.montant_ht||0),Date:r.date||"",Signataire:r.signataire,Notes:r.notes||""}))
+    F=(fRes.data||[]).map(r=>({ID:r.id,ID_Commande:r.id_commande,"N° Facture":r.numero||"","Montant HT":String(r.montant_ht||0),"Date réception":r.date_reception||"","Pointé":r.pointe||false,"Date pointage":r.date_pointage||"",Notes:r.notes||""}))
+    if(!dRes.error)DEVIS=(dRes.data||[]).map(r=>({id:r.id,st:r.entreprise||"",numero:r.numero||"",date:r.date||"",lot:r.lot||"",description:r.objet||"",montant:String(r.montant||0),signataire:r.signataire||"",validation:r.validation||"attente",dateValidation:r.date_validation||"",avenant:r.avenant||"non",numAvenant:r.num_avenant||"",notes:r.notes||""}))
+    LOTS={};(lotsRes.data||[]).forEach(l=>{LOTS[l.id]=l.nom||""})
+    SIGS=[...new Set(C.map(c=>c.Signataire).filter(Boolean))].sort()
+    if(!entsRes.error)ENTREPRISES=(entsRes.data||[]).map(r=>({id:"ENT-"+r.nom,nom:r.nom,type:r.type||"",contact:r.contact||"",tel:r.tel||"",email:r.email||"",notes:r.notes||""}))
+    if(!jRes.error)JOURNAL=(jRes.data||[]).map(r=>({id:r.id,type:r.type||"Autre",entreprise:r.entreprise||"",description:r.description||"",createdAt:r.created_at}))
+    if(!crRes.error)CRS=(crRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",date:r.date||"",participants:r.participants||"",contenu:r.contenu||"",actions:r.actions||"",prochainRDV:r.prochain_rdv||"",createdAt:r.created_at}))
+    if(!tdRes.error)TODOS=(tdRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",priorite:r.priorite||"moyenne",statut:r.statut||"open",echeance:r.echeance||"",notes:r.notes||"",doneAt:r.done_at||null,createdAt:r.created_at}))
+    rAll()
     const activeView=document.querySelector(".view.active")?.id
     if(activeView==="view-st")rST()
     if(activeView==="view-analytique")setAnaTab(anaTab)
@@ -900,19 +1006,29 @@ function _setSyncUI(state){
   }
 }
 async function silentReload(){
-  if(!APPS_URL)return
   try{
     _setSyncUI("loading")
-    const r=await fetch(APPS_URL,{redirect:"follow",mode:"cors"})
-    const d=await r.json()
-    if(d.error)return
-    C=d.commandes||[]
-    F=(d.factures||[]).map(f=>({...f,"Pointé":f["Pointé"]===true||String(f["Pointé"]).toUpperCase()==="OUI"}))
-    if(d.lots&&Object.keys(d.lots).length){LOTS=d.lots;/* lots in Sheet */}
-    if(d.signataires)SIGS=d.signataires
-    if(d.entreprises){ENTREPRISES=d.entreprises;/* ents in Sheet */}
-    if(d.devis){DEVIS=d.devis;/* devis in Sheet */}
-    syncMeta();rAll()
+    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes]=await Promise.all([
+      _sb.from("commandes").select("*").order("date",{ascending:false,nullsFirst:false}),
+      _sb.from("factures").select("*"),
+      _sb.from("devis").select("*").order("date",{ascending:false,nullsFirst:false}),
+      _sb.from("lots").select("*"),
+      _sb.from("entreprises").select("*"),
+      _sb.from("journal").select("*").order("created_at",{ascending:false}),
+      _sb.from("comptes_rendus").select("*").order("created_at",{ascending:false}),
+      _sb.from("todos").select("*")
+    ])
+    if(cRes.error)return
+    C=(cRes.data||[]).map(r=>({ID:r.id,Fournisseur:r.fournisseur,Description:r.description,Lot:r.lot,Type:r.type,"Montant HT":String(r.montant_ht||0),Date:r.date||"",Signataire:r.signataire,Notes:r.notes||""}))
+    F=(fRes.data||[]).map(r=>({ID:r.id,ID_Commande:r.id_commande,"N° Facture":r.numero||"","Montant HT":String(r.montant_ht||0),"Date réception":r.date_reception||"","Pointé":r.pointe||false,"Date pointage":r.date_pointage||"",Notes:r.notes||""}))
+    if(!dRes.error)DEVIS=(dRes.data||[]).map(r=>({id:r.id,st:r.entreprise||"",numero:r.numero||"",date:r.date||"",lot:r.lot||"",description:r.objet||"",montant:String(r.montant||0),signataire:r.signataire||"",validation:r.validation||"attente",dateValidation:r.date_validation||"",avenant:r.avenant||"non",numAvenant:r.num_avenant||"",notes:r.notes||""}))
+    LOTS={};(lotsRes.data||[]).forEach(l=>{LOTS[l.id]=l.nom||""})
+    SIGS=[...new Set(C.map(c=>c.Signataire).filter(Boolean))].sort()
+    if(!entsRes.error)ENTREPRISES=(entsRes.data||[]).map(r=>({id:"ENT-"+r.nom,nom:r.nom,type:r.type||"",contact:r.contact||"",tel:r.tel||"",email:r.email||"",notes:r.notes||""}))
+    if(!jRes.error)JOURNAL=(jRes.data||[]).map(r=>({id:r.id,type:r.type||"Autre",entreprise:r.entreprise||"",description:r.description||"",createdAt:r.created_at}))
+    if(!crRes.error)CRS=(crRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",date:r.date||"",participants:r.participants||"",contenu:r.contenu||"",actions:r.actions||"",prochainRDV:r.prochain_rdv||"",createdAt:r.created_at}))
+    if(!tdRes.error)TODOS=(tdRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",priorite:r.priorite||"moyenne",statut:r.statut||"open",echeance:r.echeance||"",notes:r.notes||"",doneAt:r.done_at||null,createdAt:r.created_at}))
+    rAll()
     const av=document.querySelector(".view.active")?.id
     if(av==="view-st")rST()
     if(av==="view-analytique")setAnaTab(anaTab)
@@ -930,7 +1046,6 @@ function startPolling(intervalMs=90000){
 
 function syncMeta(){C.forEach(c=>{if(c.Lot&&LOTS[c.Lot]===undefined)LOTS[c.Lot]=""});SIGS=[...new Set(C.map(c=>c.Signataire).filter(Boolean))].sort();saveLots()}
 async function saveLots(){
-  /* lots in Sheet */
   await apiPost("saveLots",{lots:LOTS})
 }
 let anaTab="achats"
@@ -2150,7 +2265,7 @@ let TODOS=[]
 let tdFSt="all",tdFPr="all"
 
 function loadTodos(){try{TODOS=JSON.parse(localStorage.getItem("todos18EL")||"[]")}catch{TODOS=[]}}
-function saveTodos(){localStorage.setItem("todos18EL",JSON.stringify(TODOS))}
+async function saveTodos(){localStorage.setItem("todos18EL",JSON.stringify(TODOS));await apiPost("saveTodos",{todos:TODOS})}
 function todoId(){return"td-"+Date.now()+"-"+Math.random().toString(36).slice(2,6)}
 loadTodos()
 
@@ -2259,7 +2374,8 @@ function toggleTodoDone(id){
 function delTodo(id){
   const t=TODOS.find(x=>x.id===id);if(!t)return
   if(!confirm(`Supprimer la tâche "${t.titre}" ?`))return
-  TODOS=TODOS.filter(x=>x.id!==id);saveTodos();rTodo();toast("Tâche supprimée")
+  apiPost("deleteTodo",{id})
+  TODOS=TODOS.filter(x=>x.id!==id);localStorage.setItem("todos18EL",JSON.stringify(TODOS));rTodo();toast("Tâche supprimée")
 }
 
 // ── JOURNAL DE BORD ──────────────────────────────────────
@@ -2384,7 +2500,8 @@ function subJournalEdit(id){
 function delJournal(id){
   const j=JOURNAL.find(x=>x.id===id);if(!j)return
   if(!confirm("Supprimer cette entrée du journal ?"))return
-  JOURNAL=JOURNAL.filter(x=>x.id!==id);saveJournal();rJournal();rDashboard();toast("Entrée supprimée")
+  apiPost("deleteJournal",{id})
+  JOURNAL=JOURNAL.filter(x=>x.id!==id);localStorage.setItem("journal18EL",JSON.stringify(JOURNAL));rJournal();rDashboard();toast("Entrée supprimée")
 }
 
 // ── COMPTES RENDUS ────────────────────────────────────────
@@ -2506,7 +2623,8 @@ function subCREdit(id){
 function delCR(id){
   const c=CRS.find(x=>x.id===id);if(!c)return
   if(!confirm("Supprimer ce compte rendu ?"))return
-  CRS=CRS.filter(x=>x.id!==id);saveCRS();rCR();rDashboard();toast("CR supprimé")
+  apiPost("deleteCR",{id})
+  CRS=CRS.filter(x=>x.id!==id);localStorage.setItem("cr18EL",JSON.stringify(CRS));rCR();rDashboard();toast("CR supprimé")
 }
 
 // ── TABLEAU DE BORD ───────────────────────────────────────
@@ -2559,44 +2677,138 @@ function rDashboard(){
   const prDot=p=>p==="haute"?`<span style="width:8px;height:8px;border-radius:50%;background:var(--re);display:inline-block;flex-shrink:0"></span>`:p==="moyenne"?`<span style="width:8px;height:8px;border-radius:50%;background:var(--wa);display:inline-block;flex-shrink:0"></span>`:`<span style="width:8px;height:8px;border-radius:50%;background:var(--gr);display:inline-block;flex-shrink:0"></span>`
 
   el.innerHTML=`
-  ${alerts.length?`<div style="margin-bottom:16px">${alerts.map(a=>`<div class="alert-row ${a.cl}" onclick="showView('${a.view}',document.querySelector('[onclick*=${a.view}]'))" style="cursor:pointer">${a.txt}</div>`).join("")}</div>`:""}
 
-  <div class="kpi-grid" style="margin-bottom:14px">
-    <div class="kpi kpi-e"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Engagé Achats</div><div class="kv">${f0(tEAch)}</div><div class="ks">${Cns.length} commandes</div></div>
+  <!-- ── Synthèse financière ── -->
+  <div class="db-section-title">Synthèse financière</div>
+  <div class="kpi-grid" style="margin-bottom:24px">
+    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Engagé Achats</div><div class="kv">${f0(tEAch)}</div><div class="ks">${Cns.length} commandes</div></div>
     <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--vi)"></div>Engagé ST</div><div class="kv" style="color:var(--vi)">${f0(tEST)}</div><div class="ks">${stC.length} commandes ST</div></div>
     <div class="kpi"><div class="kl"><div class="kl-dot" style="background:#2563EB"></div>Facturé total</div><div class="kv" style="color:#2563EB">${f0(tFTot)}</div><div class="ks">${F.length} factures</div></div>
-    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Pointé total</div><div class="kv g">${f0(tPTot)}</div><div class="ks">${tFTot?Math.round(tPTot/tFTot*100):0}% du facturé</div></div>
+    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Pointé total</div><div class="kv" style="color:var(--gr)">${f0(tPTot)}</div><div class="ks">${tFTot?Math.round(tPTot/tFTot*100):0}% du facturé</div></div>
   </div>
 
+  <!-- ── Volumes ── -->
+  <div class="db-section-title">Volumes</div>
+  <div class="kpi-grid" style="margin-bottom:24px">
+    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--tx3)"></div>Commandes</div><div class="kv" style="font-size:28px">${C.filter(c=>c.Type!=="Sous-traitance").length}</div><div class="ks">achats fournisseurs</div></div>
+    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--tx3)"></div>Commandes ST</div><div class="kv" style="font-size:28px">${stC.length}</div><div class="ks">sous-traitance</div></div>
+    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--tx3)"></div>Factures</div><div class="kv" style="font-size:28px">${F.length}</div><div class="ks">${F.filter(isP).length} pointées</div></div>
+    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--tx3)"></div>Devis ST</div><div class="kv" style="font-size:28px">${DEVIS.length}</div><div class="ks">${DEVIS.filter(d=>d.validation==="accepte").length} acceptés</div></div>
+  </div>
+
+  <!-- ── Graphiques 3 derniers mois ── -->
+  <div class="db-section-title">Activité — 3 derniers mois</div>
+  <div class="kpi-grid" style="margin-bottom:24px">
+  ${(()=>{
+    const months=[]
+    for(let i=2;i>=0;i--){
+      const d=new Date(now.getFullYear(),now.getMonth()-i,1)
+      months.push({year:d.getFullYear(),month:d.getMonth(),label:d.toLocaleDateString("fr-FR",{month:"short"})})
+    }
+
+    // ── Commandes ──
+    const cmdTotals=months.map(m=>{
+      const cmds=C.filter(c=>{if(!c.Date)return false;if(c.Type==="Sous-traitance")return false;const cd=new Date(c.Date);return cd.getFullYear()===m.year&&cd.getMonth()===m.month})
+      return{label:m.label,total:cmds.reduce((s,c)=>s+e2n(c["Montant HT"]),0),count:cmds.length}
+    })
+    const cmdMax=Math.max(...cmdTotals.map(t=>t.total),1)
+
+    // ── Devis ST ──
+    const devTotals=months.map(m=>{
+      const inMonth=DEVIS.filter(d=>{if(!d.date)return false;const dd=new Date(d.date);return dd.getFullYear()===m.year&&dd.getMonth()===m.month&&d.validation==="accepte"})
+      const avItems=inMonth.filter(d=>d.avenant==="oui")
+      const nonAvItems=inMonth.filter(d=>d.avenant!=="oui")
+      const avAmt=avItems.reduce((s,d)=>s+e2n(d.montant),0)
+      const nonAvAmt=nonAvItems.reduce((s,d)=>s+e2n(d.montant),0)
+      return{label:m.label,avAmt,nonAvAmt,total:avAmt+nonAvAmt,count:inMonth.length}
+    })
+    const devMax=Math.max(...devTotals.map(t=>t.total),1)
+
+    const barH=110
+
+    const cmdChart=`<div class="kpi" style="grid-column:span 2">
+      <div class="kl" style="margin-bottom:14px"><div class="kl-dot" style="background:var(--ac)"></div>Commandes achats (montant HT)</div>
+      <div style="display:flex;align-items:flex-end;gap:12px;height:${barH}px">
+        ${cmdTotals.map((t,i)=>{
+          const pct=Math.round((t.total/cmdMax)*100)
+          const isCurrent=i===2
+          return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end">
+            <div style="font-size:10px;font-weight:600;color:var(--tx2);white-space:nowrap">${f0(t.total)}</div>
+            <div style="width:100%;background:var(--ac);border-radius:5px 5px 0 0;height:${Math.max(pct,2)}%;opacity:${isCurrent?1:.45}"></div>
+            <div style="font-size:11px;color:var(--tx3);font-weight:${isCurrent?700:400}">${t.label}</div>
+            <div style="font-size:10px;color:var(--tx3)">${t.count} cmd</div>
+          </div>`
+        }).join("")}
+      </div>
+    </div>`
+
+    const devChart=`<div class="kpi" style="grid-column:span 2">
+      <div class="kl" style="margin-bottom:14px"><div class="kl-dot" style="background:#1957F7"></div>Devis ST acceptés</div>
+      <div style="display:flex;align-items:flex-end;gap:12px;height:${barH}px">
+        ${devTotals.map((t,i)=>{
+          const isCurrent=i===2
+          const avPct=Math.round((t.avAmt/devMax)*100)
+          const nonAvPct=Math.round((t.nonAvAmt/devMax)*100)
+          return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end">
+            <div style="font-size:10px;font-weight:600;color:var(--tx2);white-space:nowrap">${t.total?f0(t.total):"—"}</div>
+            <div style="width:100%;display:flex;flex-direction:column;border-radius:5px 5px 0 0;overflow:hidden;opacity:${isCurrent?1:.45}">
+              <div style="width:100%;height:${Math.max(nonAvPct,t.nonAvAmt?2:0)}%;background:repeating-linear-gradient(45deg,#1957F7,#1957F7 3px,#93AFFA 3px,#93AFFA 7px);min-height:${t.nonAvAmt?4:0}px"></div>
+              <div style="width:100%;height:${Math.max(avPct,t.avAmt?2:0)}%;background:#1957F7;min-height:${t.avAmt?4:0}px"></div>
+            </div>
+            <div style="font-size:11px;color:var(--tx3);font-weight:${isCurrent?700:400}">${t.label}</div>
+            <div style="font-size:10px;color:var(--tx3)">${t.count} devis</div>
+          </div>`
+        }).join("")}
+      </div>
+      <div style="display:flex;gap:12px;margin-top:10px;font-size:10.5px;color:var(--tx3)">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:#1957F7;border-radius:2px;display:inline-block"></span>Accepté + avenanté</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:repeating-linear-gradient(45deg,#1957F7,#1957F7 3px,#93AFFA 3px,#93AFFA 7px);border-radius:2px;display:inline-block"></span>Accepté, non avenanté</span>
+      </div>
+    </div>`
+
+    return cmdChart+devChart
+  })()}
+  </div>
+
+  <!-- ── Alertes ── -->
+  ${alerts.length?`<div class="db-section-title">Alertes</div><div style="margin-bottom:24px">${alerts.map(a=>`<div class="alert-row ${a.cl}" onclick="showView('${a.view}',document.querySelector('[onclick*=${a.view}]'))" style="cursor:pointer">${a.txt}</div>`).join("")}</div>`:""}
+
+  <!-- ── To-do & Journal ── -->
   <div class="db-2col">
-    <div class="panel">
-      <div class="pb">
-        <div class="db-ph">
-          <span>✅ To-do en attente</span>
-          <button class="db-link" onclick="showView('todo',document.querySelector('[onclick*=todo]'))">Voir tout →</button>
+    <div>
+      <div class="db-section-title">To-do en attente</div>
+      <div class="panel">
+        <div class="pb">
+          <div class="db-ph">
+            <span style="display:flex;align-items:center;gap:6px"><span class="material-symbols-outlined" style="font-size:14px;color:var(--ac)">check_circle</span>Tâches ouvertes</span>
+            <button class="db-link" onclick="showView('todo',document.querySelector('[onclick*=todo]'))">Voir tout →</button>
+          </div>
+          ${todoOpen.length?todoOpen.map(t=>{
+            const isLate=t.echeance&&new Date(t.echeance)<now
+            return`<div class="db-todo-mini">
+              <span style="flex-shrink:0">${prDot(t.priorite||"basse")}</span>
+              <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500">${t.titre}</span>
+              ${t.echeance?`<span style="font-size:11px;color:${isLate?"var(--re)":"var(--tx3)"}">${fd(t.echeance)}</span>`:""}
+            </div>`}).join(""):`<div class="db-empty">Aucune tâche en attente</div>`}
         </div>
-        ${todoOpen.length?todoOpen.map(t=>{
-          const isLate=!t.statut==="done"&&t.echeance&&new Date(t.echeance)<now
-          return`<div class="db-todo-mini">
-            <span style="flex-shrink:0">${prDot(t.priorite||"basse")}</span>
-            <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500">${t.titre}</span>
-            ${t.echeance?`<span style="font-size:11px;color:${isLate?"var(--re)":"var(--tx3)"}">📅 ${fd(t.echeance)}</span>`:""}
-          </div>`}).join(""):`<div class="db-empty">Aucune tâche en attente 🎉</div>`}
       </div>
     </div>
-    <div class="panel">
-      <div class="pb">
-        <div class="db-ph">
-          <span>📓 Journal récent</span>
-          <button class="db-link" onclick="showView('journal',document.querySelector('[onclick*=journal]'))">Voir tout →</button>
-        </div>
-        ${lastJrnl.length?lastJrnl.map(j=>`<div class="db-jrnl-mini">
-          <div style="display:flex;align-items:center;gap:7px;margin-bottom:2px">
-            <span class="jt jt-${(j.type||"Autre").replace(/\s/g,"")}" style="font-size:9.5px">${j.type||"Autre"}</span>
-            <span style="font-size:11px;color:var(--tx3)">${fd(j.date)}${j.auteur?" · "+j.auteur:""}</span>
+    <div>
+      <div class="db-section-title">Journal récent</div>
+      <div class="panel">
+        <div class="pb">
+          <div class="db-ph">
+            <span style="display:flex;align-items:center;gap:6px"><span class="material-symbols-outlined" style="font-size:14px;color:var(--tx2)">menu_book</span>Dernières entrées</span>
+            <button class="db-link" onclick="showView('journal',document.querySelector('[onclick*=journal]'))">Voir tout →</button>
           </div>
-          <div style="font-size:12.5px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${j.description||"—"}</div>
-        </div>`).join(""):`<div class="db-empty">Aucune entrée de journal</div>`}
+          ${lastJrnl.length?lastJrnl.map(j=>`<div class="db-jrnl-mini">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:2px">
+              <span class="jt jt-${(j.type||"Autre").replace(/\s/g,"")}" style="font-size:9.5px">${j.type||"Autre"}</span>
+              <span style="font-size:11px;color:var(--tx3)">${fd(j.date)}${j.auteur?" · "+j.auteur:""}</span>
+            </div>
+            <div style="font-size:12.5px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${j.description||"—"}</div>
+          </div>`).join(""):`<div class="db-empty">Aucune entrée de journal</div>`}
+        </div>
       </div>
     </div>
   </div>`
