@@ -27,8 +27,8 @@
   --bg:#F3F4F6;--sf:#FFFFFF;--sf2:#F9FAFB;--bg3:#F3F4F6;
   --bd:#E5E7EB;--bd2:#D1D5DB;
   --tx:#111827;--tx2:#6B7280;--tx3:#9CA3AF;
-  --ac:#4f46e5;--acl:#EEF3FF;--ach:#6366f1;
-  --gr:#4f46e5;--grl:#EEF3FF;
+  --ac:#1957F7;--acl:#EEF3FF;--ach:#3B6FF8;
+  --gr:#1957F7;--grl:#EEF3FF;
   --wa:#D97706;--wal:#FFFBEB;
   --re:#DC2626;--rel:#FEF2F2;
   --vi:#7C3AED;--vil:#F5F3FF;
@@ -39,10 +39,10 @@
 [data-theme="light"] .s-cairn{color:#111827}
 [data-theme="light"] .nav-lbl{color:#9CA3AF}
 [data-theme="light"] .nav-item{color:#6B7280}
-[data-theme="light"] .nav-item:hover{background:#F9FAFB;color:#111827}
-[data-theme="light"] .nav-item.active{background:#4f46e5}
+[data-theme="light"] .nav-item:not(.active):hover{background:#F9FAFB;color:#111827}
+[data-theme="light"] .nav-item.active{background:#1957F7}
 [data-theme="light"] .ni .material-symbols-outlined{color:#9CA3AF}
-[data-theme="light"] .nav-item:hover .ni .material-symbols-outlined{color:#374151}
+[data-theme="light"] .nav-item:not(.active):hover .ni .material-symbols-outlined{color:#374151}
 [data-theme="light"] .s-foot{border-top-color:#F3F4F6}
 [data-theme="light"] .s-user:hover{background:#F9FAFB}
 [data-theme="light"] .s-user-name{color:#111827}
@@ -62,7 +62,7 @@
 [data-theme="light"] .b-presta{background:#FFF3E0;color:#C2410C}
 [data-theme="light"] .jt-Pointage{background:#E8F4FD;color:#1A6FA3}
 [data-theme="light"] .jt-Réception{background:#F0ECFF;color:#5B3FCA}
-[data-theme="light"] .jt-Visite{background:#EEF3FF;color:#4f46e5}
+[data-theme="light"] .jt-Visite{background:#EEF3FF;color:#1957F7}
 [data-theme="light"] .jt-Incident{background:#FEF2F2;color:#DC2626}
 [data-theme="light"] .jt-Décision{background:#FFFBEB;color:#D97706}
 [data-theme="light"] .jt-Autre{background:#F3F4F6;color:#6B7280}
@@ -85,18 +85,17 @@ body::before{display:none}
 .sidebar.collapsed .sidebar-tab.in-brand{margin:0 auto}
 .s-cairn{font-family:'Oswald',sans-serif;font-weight:700;font-size:20px;color:#F1F5F9;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
 .sidebar.collapsed .s-cairn{display:none}
-
 .nav-sec{padding:20px 12px 8px;flex-shrink:0}
 .nav-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#334155;padding:0 10px;margin-bottom:6px;white-space:nowrap;transition:opacity .15s}
 .sidebar.collapsed .nav-lbl{opacity:0;height:0;margin:0;padding:0}
 .nav-sep{margin:8px 16px!important;background:rgba(255,255,255,.06)!important}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13.5px;font-weight:500;color:#64748B;cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:all .15s;white-space:nowrap;overflow:hidden}
-.nav-item:hover{background:rgba(255,255,255,.05);color:#CBD5E1}
-.nav-item.active{background:#4f46e5;color:#fff}
+.nav-item:not(.active):hover{background:rgba(255,255,255,.05);color:#CBD5E1}
+.nav-item.active{background:#1957F7;color:#fff}
 .nav-item.active .material-symbols-outlined{color:#fff}
 .ni{width:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ni .material-symbols-outlined{font-size:18px;color:#475569;transition:color .15s}
-.nav-item:hover .ni .material-symbols-outlined{color:#94A3B8}
+.nav-item:not(.active):hover .ni .material-symbols-outlined{color:#94A3B8}
 .nav-item.active .ni .material-symbols-outlined{color:#fff}
 .nav-label-txt{overflow:hidden;white-space:nowrap}
 .sidebar.collapsed .nav-label-txt{display:none}
@@ -108,6 +107,7 @@ body::before{display:none}
 .sidebar.collapsed .s-foot>div{justify-content:center;padding:0}
 .sidebar.collapsed .btn .nav-label-txt{display:none}
 .sidebar.collapsed .s-foot .btn{width:36px;height:36px;padding:0;justify-content:center;border-radius:8px;flex:none;margin:0 auto;display:flex}
+.sidebar.collapsed .logout-btn{justify-content:center;padding:8px;width:36px;margin:0 auto}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 .main{margin-left:var(--sw);min-height:100vh;display:flex;flex-direction:column;transition:margin-left .22s cubic-bezier(.4,0,.2,1);background:var(--bg)}
@@ -182,7 +182,7 @@ body::before{display:none}
 /* ── User profile sidebar ──────────────────────────────── */
 .s-user{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:8px;cursor:pointer;overflow:hidden;transition:background .15s}.sidebar.collapsed .s-user{display:none}
 .s-user:hover{background:rgba(255,255,255,.05)}
-.s-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#818cf8);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:.04em}
+.s-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1957F7,#818cf8);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:.04em}
 .s-user-info{flex:1;overflow:hidden}
 .s-user-name{font-size:12.5px;font-weight:600;color:#E2E8F0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .s-user-role{font-size:11px;color:#475569;white-space:nowrap}
@@ -194,7 +194,7 @@ body::before{display:none}
 .fl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);flex-shrink:0}
 .chip{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:500;padding:5px 14px;border:1px solid var(--bd);border-radius:20px;background:var(--sf2);color:var(--tx2);cursor:pointer;transition:all .15s}
 .chip:hover{border-color:var(--bd2);color:var(--tx);background:var(--sf)}
-.chip.on{background:#4f46e5;border-color:#4f46e5;color:#fff;font-weight:600}
+.chip.on{background:#1957F7;border-color:#1957F7;color:#fff;font-weight:600}
 .fsep{width:1px;height:18px;background:var(--bd);margin:0 6px;flex-shrink:0}
 /* Search card */
 .search-card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;box-shadow:var(--shadow);padding:12px 20px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -247,11 +247,11 @@ tbody tr:hover td{background:var(--sf2)}
 
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);z-index:200;opacity:0;pointer-events:none;transition:opacity .2s}
 .ov.open{opacity:1;pointer-events:all}
-.sp{position:fixed;top:0;right:0;bottom:0;width:440px;background:var(--sf);z-index:201;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;border-left:1px solid var(--bd);box-shadow:-12px 0 40px rgba(0,0,0,.1)}
+.sp{position:fixed;top:0;right:0;bottom:0;width:500px;background:var(--sf);z-index:201;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;border-left:1px solid var(--bd);box-shadow:-20px 0 60px rgba(0,0,0,.18)}
 .sp.open{transform:translateX(0)}
-.sp-hd{padding:16px 22px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--sf)}
-.sp-title{font-size:15px;font-weight:700;color:var(--tx);letter-spacing:-.2px}
-.sp-body{flex:1;overflow-y:auto;padding:22px}.sp-foot{padding:16px 22px;border-top:1px solid var(--bd);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;background:var(--sf2)}
+.sp-hd{padding:18px 24px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--sf);border-top:3px solid var(--ac)}
+.sp-title{font-size:16px;font-weight:700;color:var(--tx);letter-spacing:-.3px}
+.sp-body{flex:1;overflow-y:auto;padding:24px}.sp-foot{padding:14px 24px;border-top:1px solid var(--bd);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;background:var(--sf)}
 .fs{margin-bottom:18px}
 .fs-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bd)}
 .ff{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
@@ -430,12 +430,22 @@ input::placeholder{color:var(--tx3)}
 /* ── PROFILE PANEL ───────────────────────────────────────── */
 #profileModal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:15000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
 #profileModal.hidden{display:none}
-.profile-box{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:28px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:18px}
-.profile-title{font-size:15px;font-weight:700;color:#111827}
-.profile-field{display:flex;flex-direction:column;gap:5px}
-.profile-field label{font-size:10.5px;color:#6B7280;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
-.profile-field input{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:8px;padding:9px 12px;color:#111827;font-size:13.5px;outline:none;font-family:inherit;transition:border .15s}
-.profile-field input:focus{border-color:#1957F7}
+.profile-box{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:28px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:0}
+.profile-title{font-size:15px;font-weight:700;color:var(--tx)}
+.profile-section{padding:18px 0;border-bottom:1px solid var(--bd)}
+.profile-section:first-of-type{padding-top:0}
+.profile-section:last-of-type{border-bottom:none;padding-bottom:0}
+.profile-section-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:12px}
+.profile-field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.profile-field:last-child{margin-bottom:0}
+.profile-field label{font-size:10.5px;color:var(--tx2);font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.profile-field input{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:9px 12px;color:var(--tx);font-size:13.5px;outline:none;font-family:inherit;transition:border .15s}
+.profile-field input:focus{border-color:var(--ac)}
+.profile-field select{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:9px 12px;color:var(--tx);font-size:13px;outline:none;font-family:inherit;transition:border .15s}
+.profile-field select:focus{border-color:var(--ac)}
+.profile-theme-btns{display:flex;gap:8px}
+.profile-theme-btn{flex:1;padding:9px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--sf2);color:var(--tx2);font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s}
+.profile-theme-btn.active{background:var(--acl);border-color:var(--ac);color:var(--ac)}
 .profile-actions{display:flex;gap:8px;justify-content:flex-end}
 .profile-btn{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:inherit}
 .profile-btn-cancel{background:#F3F4F6;color:#374151}
@@ -464,7 +474,7 @@ input::placeholder{color:var(--tx3)}
 .auth-tile-glow{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(80px);opacity:.12;pointer-events:none;bottom:-80px;right:-80px}
 #authScreen.hidden{display:none}
 .auth-blob{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
-.auth-blob-1{width:800px;height:800px;background:linear-gradient(135deg,#4f46e5,#818cf8);top:-200px;right:-100px;opacity:.4}
+.auth-blob-1{width:800px;height:800px;background:linear-gradient(135deg,#1957F7,#818cf8);top:-200px;right:-100px;opacity:.4}
 .auth-blob-2{width:600px;height:600px;background:linear-gradient(135deg,#7c3aed,#c084fc);bottom:-100px;left:-100px;opacity:.3}
 .auth-blob-3{width:1000px;height:1000px;background:radial-gradient(circle,#1e293b 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.5}
 .auth-streak{position:absolute;top:20%;left:-10%;width:120%;height:400px;background:linear-gradient(90deg,transparent,rgba(99,102,241,.15),rgba(192,132,252,.1),transparent);transform:rotate(-15deg);filter:blur(100px);pointer-events:none}
@@ -552,7 +562,7 @@ input::placeholder{color:var(--tx3)}
           <div style="font-size:8px;color:#475569">46 commandes au total</div>
           <div style="font-size:8px;color:#818cf8;font-weight:600">Voir tout →</div>
         </div>
-        <div class="auth-tile-glow" style="background:#4f46e5"></div>
+        <div class="auth-tile-glow" style="background:#1957F7"></div>
       </div>
       <div class="auth-tile" style="gap:16px">
         <div style="display:flex;align-items:center;gap:12px">
@@ -587,15 +597,15 @@ input::placeholder{color:var(--tx3)}
           <div style="font-size:7px;color:#475569;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Dépenses par lot</div>
           <div style="display:flex;align-items:flex-end;gap:6px;height:44px">
             <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-              <div style="width:100%;background:linear-gradient(to top,#4f46e5,#818cf8);border-radius:3px 3px 0 0;height:40px"></div>
+              <div style="width:100%;background:linear-gradient(to top,#1957F7,#818cf8);border-radius:3px 3px 0 0;height:40px"></div>
               <div style="font-size:7px;color:#334155">Gros œuvre</div>
             </div>
             <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-              <div style="width:100%;background:linear-gradient(to top,#4f46e5,#818cf8);border-radius:3px 3px 0 0;height:28px;opacity:.8"></div>
+              <div style="width:100%;background:linear-gradient(to top,#1957F7,#818cf8);border-radius:3px 3px 0 0;height:28px;opacity:.8"></div>
               <div style="font-size:7px;color:#334155">Électricité</div>
             </div>
             <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-              <div style="width:100%;background:linear-gradient(to top,#4f46e5,#818cf8);border-radius:3px 3px 0 0;height:22px;opacity:.7"></div>
+              <div style="width:100%;background:linear-gradient(to top,#1957F7,#818cf8);border-radius:3px 3px 0 0;height:22px;opacity:.7"></div>
               <div style="font-size:7px;color:#334155">Plomberie</div>
             </div>
             <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
@@ -615,7 +625,7 @@ input::placeholder{color:var(--tx3)}
             <span style="font-size:8px;font-weight:700;color:#818cf8">68%</span>
           </div>
           <div style="height:4px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden">
-            <div style="width:68%;height:100%;background:linear-gradient(to right,#4f46e5,#c084fc);border-radius:4px"></div>
+            <div style="width:68%;height:100%;background:linear-gradient(to right,#1957F7,#c084fc);border-radius:4px"></div>
           </div>
         </div>
         <div class="auth-tile-glow" style="background:#7c3aed"></div>
@@ -634,7 +644,7 @@ input::placeholder{color:var(--tx3)}
         <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between">
           <div style="display:flex;align-items:center;gap:-6px">
             <div style="display:flex;margin-right:12px">
-              <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#818cf8);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;box-shadow:0 0 0 2px #0f1624">AG</div>
+              <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1957F7,#818cf8);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;box-shadow:0 0 0 2px #0f1624">AG</div>
               <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#c084fc);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;box-shadow:0 0 0 2px #0f1624;margin-left:-10px">ML</div>
               <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0891b2,#67e8f9);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;box-shadow:0 0 0 2px #0f1624;margin-left:-10px">TR</div>
             </div>
@@ -672,11 +682,38 @@ input::placeholder{color:var(--tx3)}
 
 <div id="profileModal" class="hidden">
   <div class="profile-box">
-    <div class="profile-title">Mon profil</div>
-    <div class="profile-field"><label>Nom affiché</label><input id="profDisplayName" type="text" placeholder="Prénom Nom"></div>
-    <div class="profile-field"><label>Initiales</label><input id="profInitials" type="text" maxlength="3" placeholder="PN"></div>
-    <div class="profile-actions" style="justify-content:space-between">
-      <button class="profile-btn" onclick="doLogout()" style="background:#FEF2F2;color:#DC2626">Se déconnecter</button>
+    <div class="profile-title" style="margin-bottom:18px">Paramètres</div>
+
+    <div class="profile-section">
+      <div class="profile-section-title">Identité</div>
+      <div class="profile-field"><label>Nom affiché</label><input id="profDisplayName" type="text" placeholder="Prénom Nom"></div>
+      <div class="profile-field"><label>Initiales</label><input id="profInitials" type="text" maxlength="3" placeholder="PN"></div>
+    </div>
+
+    <div class="profile-section">
+      <div class="profile-section-title">Apparence</div>
+      <div class="profile-theme-btns">
+        <button class="profile-theme-btn" id="profThemeDark" onclick="setTheme('dark')">
+          <span class="material-symbols-outlined" style="font-size:15px">dark_mode</span>Sombre
+        </button>
+        <button class="profile-theme-btn" id="profThemeLight" onclick="setTheme('light')">
+          <span class="material-symbols-outlined" style="font-size:15px">light_mode</span>Clair
+        </button>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <div class="profile-section-title">Page de démarrage</div>
+      <div class="profile-field">
+        <label>À l'ouverture, afficher</label>
+        <select id="profStartPage">
+          <option value="picker">Sélection des projets</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="profile-actions" style="justify-content:space-between;margin-top:18px">
+      <button class="profile-btn" onclick="doLogout()" style="background:var(--rel);color:var(--re)">Se déconnecter</button>
       <div style="display:flex;gap:8px">
         <button class="profile-btn profile-btn-cancel" onclick="closeProfilePanel()">Annuler</button>
         <button class="profile-btn profile-btn-save" onclick="saveProfilePanel()">Enregistrer</button>
@@ -753,7 +790,7 @@ input::placeholder{color:var(--tx3)}
         <div class="s-user-role" id="sUserRole">…</div>
       </div>
     </div>
-    <button onclick="doLogout()" style="display:flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:12px;padding:4px 2px;font-family:inherit;width:100%" title="Déconnexion">
+    <button class="logout-btn" onclick="doLogout()" style="display:flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:12px;padding:4px 2px;font-family:inherit;width:100%" title="Déconnexion">
       <span class="material-symbols-outlined" style="font-size:16px">logout</span>
       <span class="nav-label-txt">Déconnexion</span>
     </button>
@@ -761,6 +798,7 @@ input::placeholder{color:var(--tx3)}
 </aside>
 
 <div class="main" id="main">
+  <div id="sProjectName" style="display:none;padding:8px 24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--tx2);background:var(--sf2);border:1px solid var(--bd);border-radius:5px;padding:3px 9px"></span></div>
   <div id="view-dashboard" class="view active">
     <div class="topbar"><div class="topbar-head"><div class="topbar-title">Tableau de bord</div><div class="topbar-sub">Vue d'ensemble du projet</div></div></div>
     <div class="content" id="dbContent"></div>
@@ -769,9 +807,16 @@ input::placeholder{color:var(--tx3)}
   <div id="view-journal" class="view">
     <div class="topbar">
       <div class="topbar-head"><div class="topbar-title">Journal de bord</div><div class="topbar-sub">Historique des visites et événements</div></div>
-      <div class="ta"><button class="btn btn-p btn-sm" onclick="openPanel('journal',null)">+ Nouvelle entrée</button></div>
+      <div class="ta" id="jTopbarActions">
+        <button class="btn btn-p btn-sm" onclick="openPanel('journal',null)">+ Nouvelle entrée</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--bd);background:var(--sf);padding:0 24px">
+      <button id="jTabJournal" onclick="setJTab('journal')" style="padding:10px 18px;font-size:13px;font-weight:600;border:none;background:none;cursor:pointer;color:var(--ac);border-bottom:2px solid var(--ac);font-family:inherit;transition:all .15s">Journal</button>
+      <button id="jTabPointage" onclick="setJTab('pointage')" style="padding:10px 18px;font-size:13px;font-weight:400;border:none;background:none;cursor:pointer;color:var(--tx2);border-bottom:2px solid transparent;font-family:inherit;transition:all .15s">Pointage chantier</button>
     </div>
     <div class="content">
+      <div id="jContentJournal">
       <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr)">
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Entrées ce mois</div><div class="kv" id="jKM">—</div><div class="ks" id="jKMs"></div></div>
         <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--tx3)"></div>Dernière entrée</div><div class="kv" style="font-size:14px;font-weight:500" id="jKL">—</div><div class="ks" id="jKLs"></div></div>
@@ -794,6 +839,36 @@ input::placeholder{color:var(--tx3)}
         </div>
         <div id="jList"></div>
         <div id="jEmpty" class="empty" style="display:none"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">menu_book</span></div><p style="font-size:13px">Aucune entrée.</p></div>
+      </div>
+      </div>
+      <div id="jContentPointage" style="display:none">
+        <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Personnes ce mois</div><div class="kv" id="ptKM">—</div><div class="ks" id="ptKMs">jours·personnes</div></div>
+          <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--vi)"></div>Entreprises actives</div><div class="kv" id="ptKE">—</div><div class="ks" id="ptKEs"></div></div>
+          <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Dernier pointage</div><div class="kv" style="font-size:14px;font-weight:500" id="ptKL">—</div><div class="ks" id="ptKLs"></div></div>
+        </div>
+        <div class="panel" style="margin-bottom:14px">
+          <div class="ph" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span class="pt">Période</span>
+            <div style="display:flex;gap:4px">
+              <button class="chip on" id="ptP7" onclick="setPtPeriod(7)">7 jours</button>
+              <button class="chip" id="ptP30" onclick="setPtPeriod(30)">30 jours</button>
+              <button class="chip" id="ptP90" onclick="setPtPeriod(90)">3 mois</button>
+            </div>
+            <select id="ptEntFilter" onchange="rPointage()" style="font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);font-family:inherit;margin-left:auto"><option value="">Toutes les entreprises</option></select>
+          </div>
+          <div class="pb" id="ptChart" style="overflow-x:auto;padding:16px"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <div class="panel">
+            <div class="ph"><span class="pt">Récap par entreprise</span></div>
+            <div id="ptRecap" style="padding:0"></div>
+          </div>
+          <div class="panel">
+            <div class="ph"><span class="pt">Entrées récentes</span></div>
+            <div id="ptList" style="padding:0"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1051,9 +1126,42 @@ input::placeholder{color:var(--tx3)}
     </div>
   </div>
   <div id="view-lots" class="view">
-    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Configuration</div><div class="topbar-sub">Lots et références du projet</div></div><div class="ta"><button class="btn btn-p btn-sm" onclick="openLotF()">+ Nouveau lot</button></div></div>
-    <div class="content">
-      <div class="panel" id="lotFD" style="display:none;margin-bottom:12px">
+    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Configuration</div><div class="topbar-sub">Projet, lots et utilisateurs</div></div></div>
+    <div class="content" style="display:flex;flex-direction:column;gap:14px">
+
+      <!-- Infos projet -->
+      <div class="panel">
+        <div class="ph"><span class="pt">Informations du projet</span><button class="btn btn-p btn-sm" onclick="saveProjectInfo()">Enregistrer</button></div>
+        <div class="pb">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="ff" style="margin:0"><label>Nom du projet</label><input id="cfgProjName" placeholder="18 Elysée"></div>
+            <div class="ff" style="margin:0"><label>Adresse</label><input id="cfgProjAddress" placeholder="18 Avenue des Champs-Élysées, Paris"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Membres -->
+      <div class="panel">
+        <div class="ph"><span class="pt">Membres du projet</span><button class="btn btn-p btn-sm" onclick="openAddMemberForm()">+ Ajouter</button></div>
+        <div id="cfgMembersAdd" style="display:none;padding:14px 20px;border-bottom:1px solid var(--bd)">
+          <div style="display:flex;gap:9px;align-items:flex-end;flex-wrap:wrap">
+            <div class="ff" style="margin:0;flex:1;min-width:180px"><label>Rechercher un utilisateur</label>
+              <input id="cfgAddSearch" placeholder="Nom ou initiales…" oninput="searchUsersToAdd()">
+            </div>
+            <div class="ff" style="margin:0;width:130px"><label>Rôle</label>
+              <select id="cfgAddRole"><option value="membre">Membre</option><option value="admin">Admin</option></select>
+            </div>
+            <div style="display:flex;gap:6px;padding-bottom:1px">
+              <button class="btn btn-s btn-sm" onclick="closeAddMemberForm()">Annuler</button>
+            </div>
+          </div>
+          <div id="cfgAddResults" style="margin-top:10px;display:flex;flex-direction:column;gap:4px"></div>
+        </div>
+        <div id="cfgMembersList"></div>
+      </div>
+
+      <!-- Lots -->
+      <div class="panel" id="lotFD" style="display:none">
         <div class="ph"><span class="pt">Nouveau lot</span><button class="btn btn-g btn-sm" onclick="closeLotF()"><span class="material-symbols-outlined">close</span></button></div>
         <div class="pb"><div style="display:flex;gap:9px;align-items:flex-end">
           <div class="ff" style="margin:0"><label>Code *</label><input id="lCode" style="width:80px" placeholder="S1A"></div>
@@ -1061,21 +1169,8 @@ input::placeholder{color:var(--tx3)}
           <button class="btn btn-p" onclick="addLot()">Créer</button>
         </div></div>
       </div>
-      <div class="panel"><div class="ph"><span class="pt">Lots actifs</span><span style="font-size:11.5px;color:var(--tx3);font-weight:400">Cliquer sur le nom pour modifier</span></div><div class="pb"><div class="lots-grid" id="lgrid"></div></div></div>
-      <div class="panel" style="margin-top:14px">
-        <div class="ph"><span class="pt">Apparence</span></div>
-        <div class="pb" style="display:flex;align-items:center;gap:16px">
-          <span style="font-size:13px;color:var(--tx2)">Thème</span>
-          <div style="display:flex;gap:8px">
-            <button onclick="setTheme('dark')" id="themeBtnDark" class="btn btn-s btn-sm" style="display:flex;align-items:center;gap:6px">
-              <span class="material-symbols-outlined" style="font-size:15px">dark_mode</span> Sombre
-            </button>
-            <button onclick="setTheme('light')" id="themeBtnLight" class="btn btn-s btn-sm" style="display:flex;align-items:center;gap:6px">
-              <span class="material-symbols-outlined" style="font-size:15px">light_mode</span> Clair
-            </button>
-          </div>
-        </div>
-      </div>
+      <div class="panel"><div class="ph"><span class="pt">Lots actifs</span><button class="btn btn-p btn-sm" onclick="openLotF()">+ Nouveau lot</button></div><div class="pb"><div class="lots-grid" id="lgrid"></div></div></div>
+
     </div>
   </div>
   <div id="view-todo" class="view">
@@ -1153,6 +1248,21 @@ const SB_URL="https://sxljxnydakmsozpkhinc.supabase.co"
 const SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4bGp4bnlkYWttc296cGtoaW5jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjUyMDksImV4cCI6MjA5MDQ0MTIwOX0.UJAdQltLbXLWKFKCEsWJnWjEd9YgHTiQWu3i5fx8pFk"
 const _sb=supabase.createClient(SB_URL,SB_KEY)
 let C=[],F=[],LOTS={},SIGS=[]
+let ACTIVITY_LOG=[]
+let POINTAGE=[]
+
+async function logActivity(action,entityType,entityLabel){
+  if(!currentProject||!currentUser)return
+  const userName=currentUserMeta?.display_name||currentUserMeta?.initials||currentUser.email||''
+  const entry={id:crypto.randomUUID(),project_id:currentProject.id,user_id:currentUser.id,user_name:userName,action,entity_type:entityType,entity_label:entityLabel,created_at:new Date().toISOString()}
+  ACTIVITY_LOG.unshift({id:entry.id,userName,action,entityType,entityLabel,createdAt:entry.created_at})
+  await _sb.from('activity_log').insert(entry)
+  // Garde seulement les 20 dernières en base
+  if(ACTIVITY_LOG.length>20){
+    const toDelete=ACTIVITY_LOG.splice(20)
+    if(toDelete.length)await _sb.from('activity_log').delete().in('id',toDelete.map(x=>x.id))
+  }
+}
 let fLot=new Set(),fSig=new Set(),fType=new Set(),fSt="all",fFac="all"
 let fStEnt=new Set(),fStSt="all"
 let DEVIS=[]  // chargé depuis le Sheet
@@ -1266,7 +1376,7 @@ async function reload(){
   toast("Chargement…","info")
   try{
     const pid=currentProject?.id
-    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes]=await Promise.all([
+    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes,actRes,ptRes]=await Promise.all([
       _sb.from("commandes").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
       _sb.from("factures").select("*").eq("project_id",pid),
       _sb.from("devis").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
@@ -1274,7 +1384,9 @@ async function reload(){
       _sb.from("entreprises").select("*").eq("project_id",pid),
       _sb.from("journal").select("*").eq("project_id",pid).order("created_at",{ascending:false}),
       _sb.from("comptes_rendus").select("*").eq("project_id",pid).order("created_at",{ascending:false}),
-      _sb.from("todos").select("*").eq("project_id",pid)
+      _sb.from("todos").select("*").eq("project_id",pid),
+      _sb.from("activity_log").select("*").eq("project_id",pid).order("created_at",{ascending:false}).limit(20),
+      _sb.from("pointage").select("*").eq("project_id",pid).order("date",{ascending:false})
     ])
     if(cRes.error)throw new Error(cRes.error.message)
     if(fRes.error)throw new Error(fRes.error.message)
@@ -1287,6 +1399,8 @@ async function reload(){
     if(!jRes.error)JOURNAL=(jRes.data||[]).map(r=>({id:r.id,type:r.type||"Autre",entreprise:r.entreprise||"",description:r.description||"",createdAt:r.created_at}))
     if(!crRes.error)CRS=(crRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",date:r.date||"",participants:r.participants||"",contenu:r.contenu||"",actions:r.actions||"",prochainRDV:r.prochain_rdv||"",createdAt:r.created_at}))
     if(!tdRes.error)TODOS=(tdRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",priorite:r.priorite||"moyenne",statut:r.statut||"open",echeance:r.echeance||"",notes:r.notes||"",doneAt:r.done_at||null,createdAt:r.created_at}))
+    if(!actRes?.error)ACTIVITY_LOG=(actRes?.data||[]).map(r=>({id:r.id,userName:r.user_name||"",action:r.action,entityType:r.entity_type,entityLabel:r.entity_label||"",createdAt:r.created_at}))
+    if(!ptRes?.error)POINTAGE=(ptRes?.data||[]).map(r=>({id:r.id,date:r.date,entreprise:r.entreprise,nb:r.nb_personnes,notes:r.notes||"",createdAt:r.created_at}))
     rAll()
     const activeView=document.querySelector(".view.active")?.id
     if(activeView==="view-st")rST()
@@ -1307,7 +1421,7 @@ function _onRealtimeChange(){
 async function silentReload(){
   try{
     const pid=currentProject?.id
-    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes]=await Promise.all([
+    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes,actRes,ptRes]=await Promise.all([
       _sb.from("commandes").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
       _sb.from("factures").select("*").eq("project_id",pid),
       _sb.from("devis").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
@@ -1315,7 +1429,9 @@ async function silentReload(){
       _sb.from("entreprises").select("*").eq("project_id",pid),
       _sb.from("journal").select("*").eq("project_id",pid).order("created_at",{ascending:false}),
       _sb.from("comptes_rendus").select("*").eq("project_id",pid).order("created_at",{ascending:false}),
-      _sb.from("todos").select("*").eq("project_id",pid)
+      _sb.from("todos").select("*").eq("project_id",pid),
+      _sb.from("activity_log").select("*").eq("project_id",pid).order("created_at",{ascending:false}).limit(20),
+      _sb.from("pointage").select("*").eq("project_id",pid).order("date",{ascending:false})
     ])
     if(cRes.error)return
     C=(cRes.data||[]).map(r=>({ID:r.id,Fournisseur:r.fournisseur,Description:r.description,Lot:r.lot,Type:r.type,"Montant HT":String(r.montant_ht||0),Date:r.date||"",Signataire:r.signataire,Notes:r.notes||""}))
@@ -1327,6 +1443,8 @@ async function silentReload(){
     if(!jRes.error)JOURNAL=(jRes.data||[]).map(r=>({id:r.id,type:r.type||"Autre",entreprise:r.entreprise||"",description:r.description||"",createdAt:r.created_at}))
     if(!crRes.error)CRS=(crRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",date:r.date||"",participants:r.participants||"",contenu:r.contenu||"",actions:r.actions||"",prochainRDV:r.prochain_rdv||"",createdAt:r.created_at}))
     if(!tdRes.error)TODOS=(tdRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",priorite:r.priorite||"moyenne",statut:r.statut||"open",echeance:r.echeance||"",notes:r.notes||"",doneAt:r.done_at||null,createdAt:r.created_at}))
+    if(!actRes?.error)ACTIVITY_LOG=(actRes?.data||[]).map(r=>({id:r.id,userName:r.user_name||"",action:r.action,entityType:r.entity_type,entityLabel:r.entity_label||"",createdAt:r.created_at}))
+    if(!ptRes?.error)POINTAGE=(ptRes?.data||[]).map(r=>({id:r.id,date:r.date,entreprise:r.entreprise,nb:r.nb_personnes,notes:r.notes||"",createdAt:r.created_at}))
     rAll()
     const av=document.querySelector(".view.active")?.id
     if(av==="view-st")rST()
@@ -1372,7 +1490,7 @@ function showView(id,btn){
   if(v)v.classList.add("active")
   if(btn)btn.classList.add("active")
   if(id==="analytique"){setAnaTab(anaTab)}
-  if(id==="lots")rLots()
+  if(id==="lots"){rLots();rConfigProject()}
   if(id==="st")rST()
   if(id==="entreprises")rEnts()
   if(id==="devis-st")rDevis()
@@ -1527,26 +1645,59 @@ function doPoint(fid){const idx=F.findIndex(f=>f.ID===fid);if(idx<0)return;const
 function reqUnpoint(fid){confirmPending[fid]=true;rCmd()}
 function cancelConf(fid){delete confirmPending[fid];rCmd()}
 function doUnpoint(fid){delete confirmPending[fid];const idx=F.findIndex(f=>f.ID===fid);if(idx<0)return;F[idx]["Pointé"]=false;F[idx]["Date pointage"]="";rCmd();toast("Pointage annulé");apiPost("pointerFacture",{id:fid,pointed:false})}
-async function delC(id){if(!confirm("Supprimer cette commande et ses factures ?"))return;C=C.filter(c=>c.ID!==id);F=F.filter(f=>f.ID_Commande!==id);if(expId===id)expId=null;rAll();toast("Supprimée");apiPost("deleteCommande",{id})}
-async function delF(id){if(!confirm("Supprimer ?"))return;F=F.filter(f=>f.ID!==id);rAll();toast("Supprimée");apiPost("deleteFacture",{id})}
+async function delC(id){if(!confirm("Supprimer cette commande et ses factures ?"))return;const c=C.find(x=>x.ID===id);C=C.filter(c=>c.ID!==id);F=F.filter(f=>f.ID_Commande!==id);if(expId===id)expId=null;rAll();toast("Supprimée");apiPost("deleteCommande",{id});logActivity("supprimé","Commande",c?.Fournisseur||id)}
+async function delF(id){if(!confirm("Supprimer ?"))return;const f=F.find(x=>x.ID===id);F=F.filter(f=>f.ID!==id);rAll();toast("Supprimée");apiPost("deleteFacture",{id});logActivity("supprimé","Facture",f?.["N° Facture"]||id)}
 function openPanel(mode,id){pMode=mode;pData={id};const title=document.getElementById("spTitle"),body=document.getElementById("spBody"),foot=document.getElementById("spFoot");const cancel=`<button class="btn btn-s" onclick="closePanel()">Annuler</button>`
-  if(mode==="commande"){title.textContent="Nouvelle commande";body.innerHTML=cmdF();foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subCmd(false)">Enregistrer</button>`}
-  if(mode==="editCommande"){const c=C.find(x=>x.ID===id);if(!c)return;title.textContent="Modifier la commande";body.innerHTML=cmdF(c);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subCmd(true)">Enregistrer</button>`}
-  if(mode==="facture"){const c=C.find(x=>x.ID===id);title.textContent="Ajouter une facture";body.innerHTML=`<div style="background:var(--acl);border-radius:8px;padding:9px 12px;margin-bottom:14px;font-size:12px;color:var(--ac);font-weight:500">${c?.Fournisseur||""} ${c?.Description?" · "+c.Description:""}</div>${facF()}`;foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subFac(false)">Enregistrer</button>`}
+  if(mode==="commande"){title.textContent="Nouvelle commande";body.innerHTML=cmdF();foot.innerHTML=cancel+save("subCmd(false)")}
+  if(mode==="editCommande"){const c=C.find(x=>x.ID===id);if(!c)return;title.textContent="Modifier la commande";body.innerHTML=cmdF(c);foot.innerHTML=cancel+save("subCmd(true)","Mettre à jour")}
+  if(mode==="facture"){const c=C.find(x=>x.ID===id);title.textContent="Ajouter une facture";body.innerHTML=`<div style="display:flex;align-items:center;gap:9px;background:var(--acl);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;margin-bottom:16px"><span class="material-symbols-outlined" style="font-size:15px;color:var(--ac)">inventory_2</span><span style="font-size:13px;font-weight:600;color:var(--tx)">${c?.Fournisseur||""}</span>${c?.Description?`<span style="font-size:12px;color:var(--tx3)">· ${c.Description}</span>`:""}</div>${facF()}`;foot.innerHTML=cancel+save("subFac(false)")}
   if(mode==="commandeST"){title.textContent="Nouvelle commande ST";body.innerHTML=cmdF(null,true);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subCmdST(false)">Enregistrer</button>`}
   if(mode==="editCommandeST"){const c=C.find(x=>x.ID===id);if(!c)return;title.textContent="Modifier la commande ST";body.innerHTML=cmdF(c,true);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subCmdST(true)">Enregistrer</button>`}
-  if(mode==="factureST"){const c=C.find(x=>x.ID===id);title.textContent="Ajouter une facture";body.innerHTML=`<div style="background:var(--acl);border-radius:8px;padding:9px 12px;margin-bottom:14px;font-size:12px;color:var(--ac);font-weight:500">${c?.Fournisseur||""} ${c?.Description?" · "+c.Description:""}</div>${facF()}`;foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subFacST(false)">Enregistrer</button>`}
-  if(mode==="editFacture"){const f=F.find(x=>x.ID===id);if(!f)return;title.textContent="Modifier la facture";body.innerHTML=facF(f);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subFac(true)">Enregistrer</button>`}
+  if(mode==="factureST"){const c=C.find(x=>x.ID===id);title.textContent="Ajouter une facture ST";body.innerHTML=`<div style="display:flex;align-items:center;gap:9px;background:var(--vil);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;margin-bottom:16px"><span class="material-symbols-outlined" style="font-size:15px;color:var(--vi)">construction</span><span style="font-size:13px;font-weight:600;color:var(--tx)">${c?.Fournisseur||""}</span>${c?.Description?`<span style="font-size:12px;color:var(--tx3)">· ${c.Description}</span>`:""}</div>${facF()}`;foot.innerHTML=cancel+save("subFacST(false)")}
+  if(mode==="editFacture"){const f=F.find(x=>x.ID===id);if(!f)return;title.textContent="Modifier la facture";body.innerHTML=facF(f);foot.innerHTML=cancel+save("subFac(true)","Mettre à jour")}
   if(mode==="devis"){title.textContent="Nouveau devis ST";body.innerHTML=devisForm(null,id);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subDevisNew()">Enregistrer</button>`}
   if(mode==="editDevis"){const dv=DEVIS.find(x=>x.id===id);if(!dv)return;title.textContent="Modifier le devis";body.innerHTML=devisForm(dv);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subDevisEdit('${id}')">Enregistrer</button>`}
   if(mode==="todo"){title.textContent="Nouvelle tâche";body.innerHTML=todoForm();foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subTodoNew()">Enregistrer</button>`}
   if(mode==="editTodo"){const td=TODOS.find(x=>x.id===id);if(!td)return;title.textContent="Modifier la tâche";body.innerHTML=todoForm(td);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subTodoEdit('${id}')">Enregistrer</button>`}
+  if(mode==="pointage"){
+    title.textContent="Pointage chantier"
+    const today=new Date().toISOString().slice(0,10)
+    body.innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:14px">
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">calendar_today</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Date</span></div>
+        <div style="display:flex;gap:6px">
+          <input id="ptDate" type="date" value="${today}" style="flex:1">
+          <button type="button" onclick="document.getElementById('ptDate').value='${today}'" style="padding:0 10px;border-radius:7px;border:1px solid var(--bd);background:var(--sf);color:var(--tx2);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;height:36px">Auj.</button>
+        </div>
+      </div>
+      <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:14px">
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:10px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">groups</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Entreprises présentes</span></div>
+        <div id="ptRows" style="display:flex;flex-direction:column;gap:8px"></div>
+        <button type="button" onclick="ptAddRow()" style="margin-top:10px;width:100%;padding:9px;border:1px dashed var(--bd);border-radius:8px;background:none;color:var(--tx3);font-size:12px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px"><span class="material-symbols-outlined" style="font-size:14px">add</span>Ajouter une entreprise</button>
+      </div>
+      <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:14px">
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">sticky_note_2</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Notes</span></div>
+        <textarea id="ptNotes" placeholder="Observations, remarques…" style="min-height:60px;resize:vertical;width:100%;box-sizing:border-box;font-family:inherit;font-size:13px;padding:9px 11px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);outline:none;line-height:1.5;display:block"></textarea>
+      </div>
+    </div>`
+    foot.innerHTML=cancel+save("subPointage()")
+    // Pré-remplir avec les entreprises de la veille
+    const yest=new Date();yest.setDate(yest.getDate()-1)
+    const yStr=yest.toISOString().slice(0,10)
+    const yEnts=POINTAGE.filter(p=>p.date===yStr)
+    if(yEnts.length){yEnts.forEach(p=>ptAddRow(p.entreprise,p.nb))}
+    else{ptAddRow()}
+    document.getElementById("ov").classList.add("open")
+    document.getElementById("spanel").classList.add("open")
+  }
   if(mode==="journal"){title.textContent="Nouvelle entrée journal";body.innerHTML=journalForm(null);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subJournalNew()">Enregistrer</button>`}
   if(mode==="editJournal"){const j=JOURNAL.find(x=>x.id===id);if(!j)return;title.textContent="Modifier l'entrée";body.innerHTML=journalForm(j);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subJournalEdit('${id}')">Enregistrer</button>`}
   if(mode==="cr"){title.textContent="Nouveau compte rendu";body.innerHTML=crForm(null);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subCRNew()">Enregistrer</button>`}
   if(mode==="editCR"){const c=CRS.find(x=>x.id===id);if(!c)return;title.textContent="Modifier le CR";body.innerHTML=crForm(c);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subCREdit('${id}')">Enregistrer</button>`}
   document.getElementById("ov").classList.add("open");document.getElementById("spanel").classList.add("open")}
 function closePanel(){document.getElementById("ov").classList.remove("open");document.getElementById("spanel").classList.remove("open")}
+function save(fn,label="Enregistrer"){return`<button class="btn btn-p" style="display:flex;align-items:center;gap:6px;padding:9px 20px" onclick="${fn}"><span>${label}</span><span class="material-symbols-outlined" style="font-size:15px">arrow_forward</span></button>`}
 function cmdF(c,forceST){
   const lo=Object.keys(LOTS).map(k=>`<option value="${k}"${c?.Lot===k?" selected":""}>${k}${LOTS[k]?" — "+LOTS[k]:""}</option>`).join("")
   const so=SIGS.map(s=>`<option${c?.Signataire===s?" selected":""}>${s}</option>`).join("")
@@ -1557,39 +1708,194 @@ function cmdF(c,forceST){
   const cur=c?.Fournisseur||""
   const eo=ents.map(n=>`<option value="${n}"${cur===n?" selected":""}>${n}</option>`).join("")
   const fField=ents.length
-    ?`<select id="pF"><option value="">— Sélectionner —</option>${eo}${cur&&!ents.includes(cur)?`<option value="${cur}" selected>${cur} (existant)</option>`:""}</select>
+    ?`<select id="pF" onchange="updFAvatar(this)"><option value="">— Sélectionner —</option>${eo}${cur&&!ents.includes(cur)?`<option value="${cur}" selected>${cur} (existant)</option>`:""}</select>
       <div style="font-size:11px;color:var(--tx3);margin-top:3px">Gérer dans <a href="#" onclick="event.preventDefault();closePanel();showView('entreprises',document.querySelector('[onclick*=entreprises]'))" style="color:var(--ac)">Config → Fournisseurs / ST</a></div>`
     :`<input id="pF" value="${cur}" placeholder="Nom du fournisseur">
       <div style="font-size:11px;color:var(--wa);margin-top:3px;display:flex;align-items:center;gap:4px"><span class="material-symbols-outlined" style="font-size:14px">warning</span> Aucune entreprise enregistrée — <a href="#" onclick="event.preventDefault();closePanel();showView('entreprises',document.querySelector('[onclick*=entreprises]'))" style="color:var(--ac)">en ajouter</a></div>`
-  return`<div class="fs"><div class="fs-title">Informations commande</div>
-  <div class="ff"><label>Fournisseur *</label>${fField}</div>
-  <div class="ff2">
-    <div class="ff"><label>Type</label><select id="pTy">
-      <option value="">— Sélectionner —</option>
-      <option value="Achats"${ty==="Achats"?" selected":""}>🛒 Achats</option>
-      <option value="Location"${ty==="Location"?" selected":""}>📦 Location</option>
-      <option value="Sous-traitance"${ty==="Sous-traitance"?" selected":""}>🔧 Sous-traitance</option>
-      <option value="Prestataire"${ty==="Prestataire"?" selected":""}>🏢 Prestataire</option>
-    </select></div>
-    <div class="ff"><label>Description</label><input id="pD" value="${c?.Description||""}" placeholder="Objet de la commande"></div>
+  const types=forceST?[{v:"Sous-traitance",ic:"construction"}]:[{v:"Achats",ic:"shopping_cart"},{v:"Location",ic:"package_2"},{v:"Prestataire",ic:"corporate_fare"}]
+  const initF=cur?cur.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2):""
+  const colors=["#1957F7","#7c3aed","#059669","#d97706","#dc2626"]
+  const avatarColor=colors[cur.charCodeAt(0)%colors.length]||colors[0]
+  const lbl=(icon,text)=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">${icon}</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2);letter-spacing:.1px">${text}</span></div>`
+  return`
+  <!-- Montant HT -->
+  <div style="border-radius:12px;padding:20px 22px;margin-bottom:16px;background:linear-gradient(135deg,var(--acl) 0%,var(--sf2) 100%);border:1px solid var(--bd2)">
+    <div style="font-size:11px;font-weight:700;color:var(--ac);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+      <span class="material-symbols-outlined" style="font-size:13px">payments</span>Montant HT *
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px">
+      <input id="pM" value="${c?.["Montant HT"]||""}" placeholder="0" oninput="fmtAmt(this)" style="background:none;border:none;outline:none;font-size:36px;font-weight:800;color:var(--tx);width:100%;font-family:var(--amt-font);padding:0;letter-spacing:-1px">
+      <span style="font-size:22px;font-weight:700;color:var(--tx2);flex-shrink:0">€</span>
+    </div>
+    <div id="pMHint" style="font-size:11px;color:var(--tx3);margin-top:6px;min-height:14px"></div>
   </div>
-  <div class="ff2">
-    <div class="ff"><label>Lot</label><select id="pL"><option value="">— À attribuer —</option>${lo}</select></div>
-    <div class="ff"><label>Montant HT *</label><input id="pM" value="${c?.["Montant HT"]||""}" placeholder="0,00"></div>
+
+  <!-- Carte : Fournisseur + Type -->
+  <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;flex-direction:column;gap:14px">
+
+    <div>
+      ${lbl('domain','Fournisseur *')}
+      <div style="display:flex;align-items:center;gap:10px">
+        <div id="pFAvatar" style="width:36px;height:36px;border-radius:50%;background:${cur?avatarColor:'var(--bg)'};border:${cur?'none':'1.5px dashed var(--bd2)'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;transition:all .2s">${initF||`<span style="color:var(--tx3);font-size:15px" class="material-symbols-outlined">domain</span>`}</div>
+        <div style="flex:1">${fField}</div>
+      </div>
+    </div>
+
+    <div>
+      ${lbl('category','Type')}
+      <input type="hidden" id="pTy" value="${ty}">
+      <div style="display:grid;grid-template-columns:repeat(${types.length},1fr);gap:6px">
+        ${types.map(t=>`<button type="button" onclick="setPTy('${t.v}')" id="pTyBtn_${t.v}" style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 4px;border-radius:10px;border:1.5px solid ${ty===t.v?'var(--ac)':'var(--bd)'};background:${ty===t.v?'var(--acl)':'var(--sf)'};color:${ty===t.v?'var(--ac)':'var(--tx3)'};font-size:10.5px;font-weight:${ty===t.v?700:400};cursor:pointer;transition:all .15s;font-family:inherit;letter-spacing:.1px">
+          <span class="material-symbols-outlined" style="font-size:20px">${t.ic}</span>${t.v}
+        </button>`).join('')}
+      </div>
+    </div>
+
   </div>
-  <div class="ff2">
-    <div class="ff"><label>Date</label><input id="pDt" type="date" value="${dv}"></div>
-    <div class="ff"><label>Signataire</label><select id="pS" onchange="tNS(this.value)"><option value="">—</option>${so}<option value="__new">+ Autre…</option></select></div>
+
+  <!-- Carte : Détails -->
+  <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;flex-direction:column;gap:14px">
+
+    <div>
+      ${lbl('edit_note','Description')}
+      <input id="pD" value="${c?.Description||""}" placeholder="Objet de la commande" style="background:var(--sf)">
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        ${lbl('layers','Lot')}
+        <select id="pL" style="background:var(--sf)"><option value="">— À attribuer —</option>${lo}</select>
+      </div>
+      <div>
+        ${lbl('calendar_today','Date')}
+        <div style="display:flex;gap:5px">
+          <input id="pDt" type="date" value="${dv}" style="flex:1;background:var(--sf);min-width:0">
+          <button type="button" onclick="document.getElementById('pDt').value=new Date().toISOString().slice(0,10)" style="padding:0 9px;border-radius:7px;border:1px solid var(--bd);background:var(--sf);color:var(--tx2);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;height:36px">Auj.</button>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      ${lbl('badge','Signataire')}
+      <select id="pS" onchange="tNS(this.value)" style="background:var(--sf)"><option value="">—</option>${so}<option value="__new">+ Autre…</option></select>
+    </div>
+    <div id="nSF" style="display:none">
+      ${lbl('person_add','Nouveau signataire')}
+      <input id="pNS" placeholder="Initiales" style="background:var(--sf)">
+    </div>
+
   </div>
-  <div class="ff" id="nSF" style="display:none"><label>Nouveau signataire</label><input id="pNS" placeholder="Initiales"></div>
-  <div class="ff"><label>Commentaires</label><textarea id="pNote" placeholder="Notes internes, remarques…" style="min-height:80px;resize:vertical;width:100%;box-sizing:border-box;font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);outline:none;line-height:1.5">${c?.Notes||""}</textarea></div>
+
+  <!-- Notes -->
+  <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px">
+    ${lbl('sticky_note_2','Notes internes')}
+    <textarea id="pNote" placeholder="Remarques, références…" style="min-height:64px;resize:vertical;width:100%;box-sizing:border-box;font-family:inherit;font-size:13px;padding:9px 11px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);outline:none;line-height:1.5;display:block">${c?.Notes||""}</textarea>
   </div>`
 }
 
-function facF(f){const dv=f?.["Date réception"]?(f["Date réception"].includes("/")?f["Date réception"].split("/").reverse().join("-"):f["Date réception"]):"";return`<div class="fs"><div class="fs-title">Informations facture</div><div class="ff"><label>N° Facture</label><input id="pN" value="${f?.["N° Facture"]||""}" placeholder="FAC-2025-001"></div><div class="ff"><label>Montant HT *</label><input id="pMF" value="${f?.["Montant HT"]||""}" placeholder="0,00"></div><div class="ff"><label>Date de réception</label><input id="pDF" type="date" value="${dv}"></div><div class="ff"><label>Commentaires</label><textarea id="pFNote" placeholder="Notes internes, remarques…" style="min-height:80px;resize:vertical;width:100%;box-sizing:border-box;font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);outline:none;line-height:1.5">${f?.Notes||""}</textarea></div></div>`}
+function facF(f,afterAmountHtml=""){
+  const dv=f?.["Date réception"]?(f["Date réception"].includes("/")?f["Date réception"].split("/").reverse().join("-"):f["Date réception"]):""
+  const lbl=(icon,text)=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">${icon}</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2);letter-spacing:.1px">${text}</span></div>`
+  return`
+  <!-- Montant HT -->
+  <div style="border-radius:12px;padding:20px 22px;margin-bottom:16px;background:linear-gradient(135deg,rgba(37,99,235,.1) 0%,var(--sf2) 100%);border:1px solid var(--bd2)">
+    <div style="font-size:11px;font-weight:700;color:#2563EB;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+      <span class="material-symbols-outlined" style="font-size:13px">receipt</span>Montant HT *
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px">
+      <input id="pMF" value="${f?.["Montant HT"]||""}" placeholder="0" oninput="fmtAmtFac(this)" style="background:none;border:none;outline:none;font-size:36px;font-weight:800;color:var(--tx);width:100%;font-family:var(--amt-font);padding:0;letter-spacing:-1px">
+      <span style="font-size:22px;font-weight:700;color:var(--tx2);flex-shrink:0">€</span>
+    </div>
+    <div id="pMFHint" style="font-size:11px;color:var(--tx3);margin-top:6px;min-height:14px"></div>
+  </div>
+
+  ${afterAmountHtml}
+
+  <!-- Références + Date -->
+  <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;flex-direction:column;gap:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        ${lbl('tag','N° Facture')}
+        <input id="pN" value="${f?.["N° Facture"]||""}" placeholder="FAC-2025-001" style="background:var(--sf)">
+      </div>
+      <div>
+        ${lbl('calendar_today','Date de réception')}
+        <div style="display:flex;gap:5px">
+          <input id="pDF" type="date" value="${dv}" style="flex:1;background:var(--sf);min-width:0">
+          <button type="button" onclick="document.getElementById('pDF').value=new Date().toISOString().slice(0,10)" style="padding:0 9px;border-radius:7px;border:1px solid var(--bd);background:var(--sf);color:var(--tx2);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;height:36px">Auj.</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px">
+    ${lbl('sticky_note_2','Notes internes')}
+    <textarea id="pFNote" placeholder="Remarques, références…" style="min-height:64px;resize:vertical;width:100%;box-sizing:border-box;font-family:inherit;font-size:13px;padding:9px 11px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);outline:none;line-height:1.5;display:block">${f?.Notes||""}</textarea>
+  </div>`
+}
 function tNS(v){document.getElementById("nSF").style.display=v==="__new"?"block":"none"}
-async function subCmd(isEdit){const fo=(document.getElementById("pF")?.value||"").trim(),lot=document.getElementById("pL")?.value,mt=(document.getElementById("pM")?.value||"").trim(),sv=document.getElementById("pS")?.value,sig=sv==="__new"?(document.getElementById("pNS")?.value||"").trim():sv,desc=(document.getElementById("pD")?.value||"").trim(),dt=document.getElementById("pDt")?.value,notes=(document.getElementById("pNote")?.value||"").trim();if(!fo||!mt){toast("Fournisseur et montant requis","error");return};const ty=document.getElementById("pTy")?.value||"";const data={fournisseur:fo,description:desc,lot,montant:mt,date:dt,signataire:sig,type:ty,notes};if(isEdit){data.id=pData.id;const idx=C.findIndex(c=>c.ID===data.id);if(idx>=0)C[idx]={...C[idx],Fournisseur:fo,Description:desc,Lot:lot,Type:ty,"Montant HT":mt,Date:dt,Signataire:sig,Notes:notes};closePanel();syncMeta();rAll();toast("Commande modifiée");apiPost("updateCommande",data)}else{const res=await apiPost("addCommande",data);const nid=res?.id||"CMD-"+Date.now();C.unshift({ID:nid,Fournisseur:fo,Description:desc,Lot:lot,Type:ty,"Montant HT":mt,Date:dt,Signataire:sig,Notes:notes});closePanel();syncMeta();rAll();toast("Commande créée")}}
-async function subFac(isEdit){const num=(document.getElementById("pN")?.value||"").trim(),mt=(document.getElementById("pMF")?.value||"").trim(),dt=document.getElementById("pDF")?.value,notes=(document.getElementById("pFNote")?.value||"").trim();if(!mt){toast("Montant requis","error");return};if(isEdit){const idx=F.findIndex(f=>f.ID===pData.id);if(idx>=0)F[idx]={...F[idx],"N° Facture":num,"Montant HT":mt,"Date réception":dt,Notes:notes};closePanel();rAll();toast("Facture modifiée");apiPost("updateFacture",{id:pData.id,numero:num,montant:mt,dateReception:dt,notes})}else{const cid=pData.id;const res=await apiPost("addFacture",{commandeId:cid,numero:num,montant:mt,dateReception:dt,notes});const nid=res?.id||"FAC-"+Date.now();F.push({ID:nid,ID_Commande:cid,"N° Facture":num,"Montant HT":mt,"Date réception":dt,Notes:notes,"Pointé":false,"Date pointage":""});closePanel();expId=cid;rAll();toast("Facture ajoutée")}}
+function fmtAmt(inp){
+  const v=parseFloat(inp.value.replace(/[^\d.,]/g,"").replace(",","."))
+  const hint=document.getElementById("pMHint")
+  if(hint)hint.textContent=isNaN(v)||!inp.value.trim()?"":new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR"}).format(v)
+}
+function fmtAmtFac(inp){
+  const v=parseFloat(inp.value.replace(/[^\d.,]/g,"").replace(",","."))
+  const hint=document.getElementById("pMFHint")
+  if(hint)hint.textContent=isNaN(v)||!inp.value.trim()?"":new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR"}).format(v)
+}
+function fmtAmtDv(inp){
+  const v=parseFloat(inp.value.replace(/[^\d.,]/g,"").replace(",","."))
+  const hint=document.getElementById("dvMtHint")
+  if(hint)hint.textContent=isNaN(v)||!inp.value.trim()?"":new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR"}).format(v)
+}
+function updDvAvatar(sel){
+  const av=document.getElementById("dvStAvatar");if(!av)return
+  const v=sel.value;if(!v){av.innerHTML='<span style="color:var(--tx3);font-size:15px" class="material-symbols-outlined">construction</span>';av.style.background="var(--bg)";av.style.border="1.5px dashed var(--bd2)";return}
+  const colors=["#7c3aed","#1957F7","#059669","#d97706","#dc2626"]
+  av.style.background=colors[v.charCodeAt(0)%colors.length];av.style.border="none"
+  av.innerHTML=v.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2)
+}
+function setDvVal(v){
+  document.getElementById("dvVal").value=v
+  const cols={accepte:"var(--gr)",refuse:"var(--re)",attente:"var(--tx3)"}
+  const bgs={accepte:"var(--grl)",refuse:"var(--rel)",attente:"var(--sf)"}
+  document.querySelectorAll("[id^='dvValBtn_']").forEach(b=>{
+    const sel=b.id==="dvValBtn_"+v
+    const key=b.id.replace("dvValBtn_","")
+    b.style.borderColor=sel?cols[key]:"var(--bd)";b.style.background=sel?bgs[key]:"var(--sf)"
+    b.style.color=sel?cols[key]:"var(--tx3)";b.style.fontWeight=sel?"700":"400"
+  })
+}
+function setDvAv(v){
+  document.getElementById("dvAv").value=v
+  document.querySelectorAll("[id^='dvAvBtn_']").forEach(b=>{
+    const sel=b.id==="dvAvBtn_"+v
+    b.style.borderColor=sel?"var(--ac)":"var(--bd)";b.style.background=sel?"var(--acl)":"var(--sf)"
+    b.style.color=sel?"var(--ac)":"var(--tx3)";b.style.fontWeight=sel?"700":"400"
+  })
+}
+function updFAvatar(sel){
+  const av=document.getElementById("pFAvatar");if(!av)return
+  const v=sel.value;if(!v){av.innerHTML='<span style="color:var(--tx3);font-size:16px" class="material-symbols-outlined">domain</span>';av.style.background="var(--sf2)";av.style.border="1px dashed var(--bd)";return}
+  const colors=["#1957F7","#7c3aed","#059669","#d97706","#dc2626"]
+  av.style.background=colors[v.charCodeAt(0)%colors.length]
+  av.style.border="none"
+  av.innerHTML=v.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2)
+}
+function setPTy(v){
+  document.getElementById("pTy").value=v
+  document.querySelectorAll("[id^='pTyBtn_']").forEach(b=>{
+    const sel=b.id==="pTyBtn_"+v
+    b.style.borderColor=sel?"var(--ac)":"var(--bd)"
+    b.style.background=sel?"var(--acl)":"var(--sf2)"
+    b.style.color=sel?"var(--ac)":"var(--tx2)"
+    b.style.fontWeight=sel?"600":"400"
+  })
+}
+async function subCmd(isEdit){const fo=(document.getElementById("pF")?.value||"").trim(),lot=document.getElementById("pL")?.value,mt=(document.getElementById("pM")?.value||"").trim(),sv=document.getElementById("pS")?.value,sig=sv==="__new"?(document.getElementById("pNS")?.value||"").trim():sv,desc=(document.getElementById("pD")?.value||"").trim(),dt=document.getElementById("pDt")?.value,notes=(document.getElementById("pNote")?.value||"").trim();if(!fo||!mt){toast("Fournisseur et montant requis","error");return};const ty=document.getElementById("pTy")?.value||"";const data={fournisseur:fo,description:desc,lot,montant:mt,date:dt,signataire:sig,type:ty,notes};if(isEdit){data.id=pData.id;const idx=C.findIndex(c=>c.ID===data.id);if(idx>=0)C[idx]={...C[idx],Fournisseur:fo,Description:desc,Lot:lot,Type:ty,"Montant HT":mt,Date:dt,Signataire:sig,Notes:notes};closePanel();syncMeta();rAll();toast("Commande modifiée");apiPost("updateCommande",data);logActivity("modifié","Commande",fo+(desc?" — "+desc:""))}else{const res=await apiPost("addCommande",data);const nid=res?.id||"CMD-"+Date.now();C.unshift({ID:nid,Fournisseur:fo,Description:desc,Lot:lot,Type:ty,"Montant HT":mt,Date:dt,Signataire:sig,Notes:notes});closePanel();syncMeta();rAll();toast("Commande créée");logActivity("créé","Commande",fo+(desc?" — "+desc:""))}}
+async function subFac(isEdit){const num=(document.getElementById("pN")?.value||"").trim(),mt=(document.getElementById("pMF")?.value||"").trim(),dt=document.getElementById("pDF")?.value,notes=(document.getElementById("pFNote")?.value||"").trim();if(!mt){toast("Montant requis","error");return};if(isEdit){const idx=F.findIndex(f=>f.ID===pData.id);if(idx>=0)F[idx]={...F[idx],"N° Facture":num,"Montant HT":mt,"Date réception":dt,Notes:notes};closePanel();rAll();toast("Facture modifiée");apiPost("updateFacture",{id:pData.id,numero:num,montant:mt,dateReception:dt,notes});logActivity("modifié","Facture",num||pData.id)}else{const cid=pData.id;const res=await apiPost("addFacture",{commandeId:cid,numero:num,montant:mt,dateReception:dt,notes});const nid=res?.id||"FAC-"+Date.now();F.push({ID:nid,ID_Commande:cid,"N° Facture":num,"Montant HT":mt,"Date réception":dt,Notes:notes,"Pointé":false,"Date pointage":""});closePanel();expId=cid;rAll();toast("Facture ajoutée");logActivity("créé","Facture",num||nid)}}
 async function subCmdST(isEdit){
   const fo=(document.getElementById("pF")?.value||"").trim()
   const lot=document.getElementById("pL")?.value
@@ -2011,18 +2317,15 @@ function openNewFacST(){
   const stOpts=allST.length
     ?allST.map(n=>`<option value="${n}">${n}</option>`).join("")
     :`<option value="">Aucun sous-traitant enregistré</option>`
-  body.innerHTML=`<div class="fs"><div class="fs-title">Sous-traitant &amp; facture</div>
-    <div class="ff"><label>Sous-traitant *</label>
-      <select id="stNomPick">
-        <option value="">— Sélectionner —</option>
-        ${stOpts}
-      </select>
-      <div style="font-size:11px;color:var(--tx3);margin-top:3px">Gérer dans <a href="#" onclick="event.preventDefault();closePanel();showView('entreprises',document.querySelector('[onclick*=entreprises]'))" style="color:var(--ac)">Config → Fournisseurs / ST</a></div>
-    </div>
-    ${facF()}
+  const stCard=`<div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px">
+    <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">construction</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Sous-traitant *</span></div>
+    <select id="stNomPick" onchange="updStPickAvatar(this)" style="background:var(--sf)">
+      <option value="">— Sélectionner —</option>${stOpts}
+    </select>
   </div>`
-  foot.innerHTML=`<button class="btn btn-g btn-sm" onclick="closePanel()">Annuler</button>
-    <button class="btn btn-p" onclick="subFacSTNew()">Enregistrer</button>`
+  body.innerHTML=facF(null,stCard)
+  foot.innerHTML=`<button class="btn btn-s" onclick="closePanel()">Annuler</button>
+    ${save("subFacSTNew()")}`
   document.getElementById("ov").classList.add("open")
   document.getElementById("spanel").classList.add("open")
 }
@@ -2030,9 +2333,9 @@ function openNewFacST(){
 function openNewFacForST(nom){
   const title=document.getElementById("spTitle"),body=document.getElementById("spBody"),foot=document.getElementById("spFoot")
   title.textContent="Nouvelle facture — "+nom
-  body.innerHTML=`<div class="fs"><div class="fs-title">${nom}</div>${facF()}</div>`
-  foot.innerHTML=`<button class="btn btn-g btn-sm" onclick="closePanel()">Annuler</button>
-    <button class="btn btn-p" onclick="subFacForST('${nom}')">Enregistrer</button>`
+  body.innerHTML=`<div style="display:flex;align-items:center;gap:9px;background:var(--vil);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;margin-bottom:16px"><span class="material-symbols-outlined" style="font-size:15px;color:var(--vi)">construction</span><span style="font-size:13px;font-weight:600;color:var(--tx)">${nom}</span></div>${facF()}`
+  foot.innerHTML=`<button class="btn btn-s" onclick="closePanel()">Annuler</button>
+    ${save("subFacForST('"+nom+"')")}`
   document.getElementById("ov").classList.add("open")
   document.getElementById("spanel").classList.add("open")
 }
@@ -2185,11 +2488,11 @@ async function saveEnt(){
     tel:(document.getElementById("eTel")?.value||"").trim(),
     email:(document.getElementById("eEmail")?.value||"").trim(),
     notes:(document.getElementById("eNotes")?.value||"").trim()})
-  await saveEnts();closeEntF();rEnts();toast("Entreprise ajoutée")
+  await saveEnts();closeEntF();rEnts();toast("Entreprise ajoutée");logActivity("créé","Fournisseur",nom)
 }
 async function delEnt(id){
   if(!confirm("Supprimer cette entreprise ?"))return
-  ENTREPRISES=ENTREPRISES.filter(e=>e.id!==id);await saveEnts();rEnts();toast("Supprimée")
+  const eD=ENTREPRISES.find(x=>x.id===id);ENTREPRISES=ENTREPRISES.filter(e=>e.id!==id);await saveEnts();rEnts();toast("Supprimée");logActivity("supprimé","Fournisseur",eD?.nom||id)
 }
 function editEnt(id){
   const e=ENTREPRISES.find(x=>x.id===id);if(!e)return
@@ -2203,14 +2506,28 @@ function editEnt(id){
   document.getElementById("eNotes").value=e.notes||""
   const btn=document.getElementById("entSaveBtn")
   btn.textContent="Mettre à jour"
-  btn.onclick=()=>{
-    e.nom=(document.getElementById("eNom")?.value||"").trim()||e.nom
+  btn.onclick=async()=>{
+    const oldNom=e.nom
+    const newNom=(document.getElementById("eNom")?.value||"").trim()||e.nom
+    e.nom=newNom
     e.type=document.getElementById("eType").value
     e.contact=(document.getElementById("eContact")?.value||"").trim()
     e.tel=(document.getElementById("eTel")?.value||"").trim()
     e.email=(document.getElementById("eEmail")?.value||"").trim()
     e.notes=(document.getElementById("eNotes")?.value||"").trim()
-    saveEnts().then(()=>{closeEntF();rEnts();toast("Mis à jour")})
+    await saveEnts()
+    logActivity("modifié","Fournisseur",newNom+(newNom!==oldNom?" (ex: "+oldNom+")":""))
+    if(newNom!==oldNom){
+      // Mise à jour des commandes et devis liés
+      await Promise.all([
+        _sb.from("commandes").update({fournisseur:newNom}).eq("project_id",currentProject.id).eq("fournisseur",oldNom),
+        _sb.from("devis").update({entreprise:newNom}).eq("project_id",currentProject.id).eq("entreprise",oldNom)
+      ])
+      // Mise à jour des tableaux locaux
+      C.forEach(c=>{if(c.Fournisseur===oldNom)c.Fournisseur=newNom})
+      DEVIS.forEach(d=>{if(d.st===oldNom)d.st=newNom})
+    }
+    closeEntF();rEnts();toast("Mis à jour")
   }
 }
 function setEntType(t){
@@ -2327,11 +2644,13 @@ function _hideAuthScreen(){document.getElementById('authScreen').classList.add('
 function _showAuthErr(msg){const el=document.getElementById('authErr');if(el){el.textContent=msg;el.classList.add('show')}}
 
 function showLoginForm(){
+  const savedEmail=localStorage.getItem('cairn-remember-email')||''
   _showAuthScreen(`
     <div class="auth-logo">CAIRN</div>
     <div style="text-align:center"><div class="auth-title">Connexion</div><div class="auth-sub" style="margin-top:4px">Entrez vos identifiants pour continuer</div></div>
-    <div class="auth-field"><label>Email</label><input id="authEmail" type="email" placeholder="vous@exemple.com" autocomplete="email"></div>
+    <div class="auth-field"><label>Email</label><input id="authEmail" type="email" placeholder="vous@exemple.com" autocomplete="email" value="${savedEmail}"></div>
     <div class="auth-field"><label>Mot de passe</label><input id="authPassword" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:rgba(148,163,184,.8)"><input id="authRemember" type="checkbox" ${savedEmail?'checked':''} style="width:auto;accent-color:#1957F7">Mémoriser mon identifiant</label>
     <div class="auth-error" id="authErr"></div>
     <button class="auth-btn" id="authBtn" onclick="doLogin()">Se connecter</button>`)
 }
@@ -2349,7 +2668,10 @@ function showSetPasswordForm(){
 async function doLogin(){
   const email=document.getElementById('authEmail')?.value.trim()
   const password=document.getElementById('authPassword')?.value
+  const remember=document.getElementById('authRemember')?.checked
   if(!email||!password){_showAuthErr('Email et mot de passe requis');return}
+  if(remember)localStorage.setItem('cairn-remember-email',email)
+  else localStorage.removeItem('cairn-remember-email')
   const btn=document.getElementById('authBtn');btn.textContent='Connexion…';btn.disabled=true
   const {error}=await _sb.auth.signInWithPassword({email,password})
   if(error){_showAuthErr('Email ou mot de passe incorrect');btn.textContent='Se connecter';btn.disabled=false}
@@ -2382,9 +2704,30 @@ function _updateSidebarUser(){
   const ppNm=document.getElementById('ppUserName');if(ppNm)ppNm.textContent=name
 }
 
-function openProfilePanel(){
+async function openProfilePanel(){
   document.getElementById('profDisplayName').value=currentUserMeta.display_name||''
   document.getElementById('profInitials').value=currentUserMeta.initials||''
+  // Populate start page options with projects
+  const sel=document.getElementById('profStartPage')
+  const saved=localStorage.getItem('cairn-start-page')||'picker'
+  sel.innerHTML='<option value="picker">Sélection des projets</option>'
+  try{
+    const {data:members}=await _sb.from('project_members').select('*').eq('user_id',currentUser.id)
+    const ids=(members||[]).map(m=>m.project_id)
+    if(ids.length){
+      const {data:projects}=await _sb.from('projects').select('*').in('id',ids)
+      ;(projects||[]).forEach(p=>{
+        const opt=document.createElement('option')
+        opt.value='dashboard:'+p.id
+        opt.textContent='Tableau de bord — '+p.name
+        sel.appendChild(opt)
+      })
+    }
+  }catch(e){}
+  sel.value=saved
+  const t=localStorage.getItem('cairn-theme')||'dark'
+  document.getElementById('profThemeDark').classList.toggle('active',t!=='light')
+  document.getElementById('profThemeLight').classList.toggle('active',t==='light')
   document.getElementById('profileModal').classList.remove('hidden')
 }
 function closeProfilePanel(){
@@ -2393,16 +2736,19 @@ function closeProfilePanel(){
 async function saveProfilePanel(){
   const display_name=document.getElementById('profDisplayName').value.trim()
   const initials=document.getElementById('profInitials').value.trim().toUpperCase().slice(0,3)
+  const startPage=document.getElementById('profStartPage').value
   if(!display_name){toast('Le nom ne peut pas être vide','error');return}
+  localStorage.setItem('cairn-start-page',startPage)
   const {error}=await _sb.from('project_members')
     .update({display_name,initials})
     .eq('user_id',currentUser.id)
     .eq('project_id',currentProject.id)
   if(error){toast('Erreur : '+error.message,'error');return}
+  await _sb.from('user_meta').upsert({user_id:currentUser.id,display_name,initials},{onConflict:'user_id'})
   currentUserMeta={display_name,initials}
   _updateSidebarUser()
   closeProfilePanel()
-  toast('Profil mis à jour','success')
+  toast('Paramètres sauvegardés','success')
 }
 
 async function afterLogin(){
@@ -2436,6 +2782,14 @@ async function afterLogin(){
   const ppAv=document.getElementById('ppAvatar');if(ppAv)ppAv.textContent=currentUserMeta.initials||'?'
   const ppUn=document.getElementById('ppUserName');if(ppUn)ppUn.textContent=(currentUserMeta.display_name||currentUser.email)+(currentUserRole==='admin'?' — Admin':' — Membre')
   _hideAuthScreen()
+  // Si un seul projet, on y va directement
+  if((projects||[]).length===1){await selectProject(projects[0].id,projects,members);return}
+  const startPage=localStorage.getItem('cairn-start-page')||'picker'
+  if(startPage.startsWith('dashboard:')){
+    const pid=startPage.split(':')[1]
+    const proj=(projects||[]).find(p=>p.id===pid)
+    if(proj){await selectProject(proj.id,projects,members);return}
+  }
   document.getElementById('projectPicker').classList.remove('hidden')
 }
 
@@ -2450,6 +2804,10 @@ async function selectProject(projectId,projectsCache,membersCache){
     if(mem){currentUserRole=mem.role||'membre';currentUserMeta={display_name:mem.display_name||currentUser.email,initials:mem.initials||''}}
   }
   _updateSidebarUser()
+  const pName=currentProject?.name||''
+  const pEl=document.getElementById('sProjectName')
+  if(pEl){const sp=pEl.querySelector('span');if(sp)sp.textContent=pName;pEl.style.display=pName?'block':'none'}
+  document.title=pName?`${pName} | CAIRN`:'CAIRN'
   document.getElementById('projectPicker').classList.add('hidden')
   _hideAuthScreen()
   document.getElementById('sidebar').style.display=''
@@ -2460,8 +2818,87 @@ async function selectProject(projectId,projectsCache,membersCache){
 }
 
 async function createProject(){
-  // Placeholder - admin can create projects
   toast('Fonctionnalité à venir','info')
+}
+
+// ── CONFIG PROJET ─────────────────────────────────────────
+async function rConfigProject(){
+  if(!currentProject)return
+  document.getElementById('cfgProjName').value=currentProject.name||''
+  document.getElementById('cfgProjAddress').value=currentProject.address||''
+  await rConfigMembers()
+}
+
+async function saveProjectInfo(){
+  const name=document.getElementById('cfgProjName').value.trim()
+  const address=document.getElementById('cfgProjAddress').value.trim()
+  if(!name){toast('Le nom est requis','error');return}
+  const {error}=await _sb.from('projects').update({name,address}).eq('id',currentProject.id)
+  if(error){toast('Erreur : '+error.message,'error');return}
+  currentProject={...currentProject,name,address}
+  const pEl=document.getElementById('sProjectName');if(pEl){const sp=pEl.querySelector('span');if(sp)sp.textContent=name;pEl.style.display='block'}
+  document.title=`${name} | CAIRN`
+  toast('Projet mis à jour','success')
+}
+
+async function rConfigMembers(){
+  const {data:members}=await _sb.from('project_members').select('*').eq('project_id',currentProject.id)
+  const el=document.getElementById('cfgMembersList')
+  if(!el)return
+  if(!members?.length){el.innerHTML='<div style="padding:16px 20px;font-size:13px;color:var(--tx3)">Aucun membre</div>';return}
+  el.innerHTML=members.map(m=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid var(--bd)">
+      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1957F7,#5B7FF8);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${m.initials||'?'}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600;color:var(--tx)">${m.display_name||'—'}</div>
+        <div style="font-size:11px;color:var(--tx3)">${m.role==='admin'?'Administrateur':'Membre'}</div>
+      </div>
+      ${m.user_id!==currentUser.id&&currentUserRole==='admin'?`<button class="btn btn-xs btn-del" onclick="removeMember('${m.user_id}')">Retirer</button>`:'<span style="font-size:11px;color:var(--tx3);font-style:italic">Vous</span>'}
+    </div>`).join('')
+}
+
+function openAddMemberForm(){
+  document.getElementById('cfgMembersAdd').style.display='block'
+  document.getElementById('cfgAddSearch').value=''
+  document.getElementById('cfgAddResults').innerHTML=''
+  document.getElementById('cfgAddSearch').focus()
+}
+function closeAddMemberForm(){document.getElementById('cfgMembersAdd').style.display='none'}
+
+async function searchUsersToAdd(){
+  const q=document.getElementById('cfgAddSearch').value.trim()
+  const el=document.getElementById('cfgAddResults')
+  if(q.length<2){el.innerHTML='';return}
+  // Membres déjà dans le projet
+  const {data:existing}=await _sb.from('project_members').select('user_id').eq('project_id',currentProject.id)
+  const existingIds=(existing||[]).map(m=>m.user_id)
+  // Cherche dans user_meta par nom ou initiales
+  const {data:all}=await _sb.from('user_meta').select('*').or(`display_name.ilike.%${q}%,initials.ilike.%${q}%`)
+  const filtered=(all||[]).filter(u=>!existingIds.includes(u.user_id))
+  if(!filtered.length){el.innerHTML='<div style="font-size:12px;color:var(--tx3);padding:4px 2px">Aucun utilisateur trouvé</div>';return}
+  el.innerHTML=filtered.map(u=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;background:var(--sf2);border:1px solid var(--bd)">
+      <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1957F7,#5B7FF8);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0">${u.initials||'?'}</div>
+      <div style="flex:1;font-size:13px;font-weight:500;color:var(--tx)">${u.display_name||u.initials||'—'}</div>
+      <button class="btn btn-p btn-xs" onclick="confirmAddMember('${u.user_id}','${(u.display_name||'').replace(/'/g,"\\'")}','${u.initials||''}')">Ajouter</button>
+    </div>`).join('')
+}
+
+async function confirmAddMember(userId,displayName,initials){
+  const role=document.getElementById('cfgAddRole').value
+  const {error}=await _sb.from('project_members').insert({project_id:currentProject.id,user_id:userId,role,display_name:displayName,initials})
+  if(error){toast('Erreur : '+error.message,'error');return}
+  toast(displayName+' ajouté au projet','success')
+  closeAddMemberForm()
+  rConfigMembers()
+}
+
+async function removeMember(userId){
+  if(!confirm('Retirer ce membre du projet ?'))return
+  const {error}=await _sb.from('project_members').delete().eq('project_id',currentProject.id).eq('user_id',userId)
+  if(error){toast('Erreur : '+error.message,'error');return}
+  toast('Membre retiré','success')
+  rConfigMembers()
 }
 
 async function initAuth(){
@@ -2494,6 +2931,9 @@ function setTheme(t){
   if(btnD)btnD.classList.toggle('btn-s', t==='light')
   if(btnL)btnL.classList.toggle('btn-p', t==='light')
   if(btnL)btnL.classList.toggle('btn-s', t!=='light')
+  // Sync panel buttons if open
+  const pD=document.getElementById('profThemeDark');if(pD)pD.classList.toggle('active',t!=='light')
+  const pL=document.getElementById('profThemeLight');if(pL)pL.classList.toggle('active',t==='light')
 }
 ;(function(){const t=localStorage.getItem('cairn-theme')||'dark';setTheme(t)})()
 
@@ -2567,9 +3007,9 @@ function rDevis(){
     const hasAlert=devs.some(d=>d.validation==="accepte"&&d.avenant!=="oui")
 
     html+=`<div class="tbl-wrap">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--sf2);border-bottom:1px solid var(--bd)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--acl);border-bottom:1px solid var(--bd2)">
         <div style="display:flex;align-items:center;gap:10px">
-          <span style="font-weight:600;font-size:14px">${st}</span>
+          <span style="font-weight:700;font-size:16px;letter-spacing:.3px;color:var(--tx)">${st}</span>
           <span class="badge b-st">${devs.length} devis</span>
           ${hasAlert?`<span class="badge" style="background:var(--wal);color:var(--wa)"><span class="material-symbols-outlined" style="font-size:12px">warning</span> Avenant à faire</span>`:""}
         </div>
@@ -2634,39 +3074,109 @@ function rDevis(){
 }
 
 function devisForm(d,preST){
-  const stOpts=entNames("Sous-traitant").map(n=>`<option value="${n}"${(d?.st||preST)===n?" selected":""}>${n}</option>`).join("")
+  const cur=d?.st||preST||""
+  const stOpts=entNames("Sous-traitant").map(n=>`<option value="${n}"${cur===n?" selected":""}>${n}</option>`).join("")
   const sigOpts=SIGS.map(s=>`<option value="${s}"${d?.signataire===s?" selected":""}>${s}</option>`).join("")
-  return `
-    <div class="fg"><label>Sous-traitant *</label>
-      <select id="dvSt">${stOpts}</select></div>
-    <div class="fg"><label>N° Devis</label>
-      <input id="dvNum" value="${d?.numero||""}" placeholder="ex: DEV-2025-001"></div>
-    <div class="fg"><label>Date de réception</label>
-      <input id="dvDate" type="date" value="${d?.date||""}"></div>
-    <div class="fg"><label>Montant HT (€)</label>
-      <input id="dvMt" type="number" step="0.01" value="${d?.montant||""}" placeholder="0.00"></div>
-    <div class="fg"><label>Description / Objet</label>
-      <input id="dvDesc" value="${d?.description||""}" placeholder="Objet du devis…"></div>
-    <div class="fg"><label>Signataire</label>
-      <select id="dvSig"><option value="">— Sélectionner —</option>${sigOpts}</select></div>
-    <div class="fg"><label>Validation</label>
-      <select id="dvVal">
-        <option value="attente"${(!d||d.validation==="attente")?" selected":""}>En attente</option>
-        <option value="accepte"${d?.validation==="accepte"?" selected":""}>Accepté</option>
-        <option value="refuse"${d?.validation==="refuse"?" selected":""}>Refusé</option>
-      </select></div>
-    <div class="fg"><label>Date de validation</label>
-      <input id="dvDateVal" type="date" value="${d?.dateValidation||""}"></div>
-    <div class="fg"><label>Avenanté</label>
-      <select id="dvAv">
-        <option value="non"${(!d||d.avenant!=="oui")?" selected":""}>Non</option>
-        <option value="oui"${d?.avenant==="oui"?" selected":""}>✓ Oui</option>
-      </select></div>
-    <div class="fg"><label>N° Avenant</label>
-      <input id="dvAvNum" value="${d?.numAvenant||""}" placeholder="ex: AVN-001"></div>
-    <div class="fg"><label>Notes</label>
-      <textarea id="dvNotes" rows="3" placeholder="Remarques…">${d?.notes||""}</textarea></div>
-  `
+  const initST=cur?cur.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2):""
+  const colors=["#7c3aed","#1957F7","#059669","#d97706","#dc2626"]
+  const avatarColor=colors[cur.charCodeAt(0)%colors.length]||colors[0]
+  const lbl=(icon,text)=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">${icon}</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2);letter-spacing:.1px">${text}</span></div>`
+  const val=d?.validation||"attente"
+  const valChips=[{v:"attente",ic:"schedule",label:"En attente"},{v:"accepte",ic:"check_circle",label:"Accepté"},{v:"refuse",ic:"cancel",label:"Refusé"}]
+  const avChips=[{v:"non",label:"Non"},{v:"oui",label:"Oui"}]
+  return`
+  <!-- Montant HT -->
+  <div style="border-radius:12px;padding:20px 22px;margin-bottom:16px;background:linear-gradient(135deg,rgba(124,58,237,.1) 0%,var(--sf2) 100%);border:1px solid var(--bd2)">
+    <div style="font-size:11px;font-weight:700;color:var(--vi);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+      <span class="material-symbols-outlined" style="font-size:13px">request_quote</span>Montant HT *
+    </div>
+    <div style="display:flex;align-items:baseline;gap:8px">
+      <input id="dvMt" value="${d?.montant||""}" placeholder="0" oninput="fmtAmtDv(this)" style="background:none;border:none;outline:none;font-size:36px;font-weight:800;color:var(--tx);width:100%;font-family:var(--amt-font);padding:0;letter-spacing:-1px">
+      <span style="font-size:22px;font-weight:700;color:var(--tx2);flex-shrink:0">€</span>
+    </div>
+    <div id="dvMtHint" style="font-size:11px;color:var(--tx3);margin-top:6px;min-height:14px"></div>
+  </div>
+
+  <!-- Sous-traitant + Références -->
+  <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;flex-direction:column;gap:14px">
+
+    <div>
+      ${lbl('construction','Sous-traitant *')}
+      <div style="display:flex;align-items:center;gap:10px">
+        <div id="dvStAvatar" style="width:36px;height:36px;border-radius:50%;background:${cur?avatarColor:'var(--bg)'};border:${cur?'none':'1.5px dashed var(--bd2)'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;transition:all .2s">${initST||`<span style="color:var(--tx3);font-size:15px" class="material-symbols-outlined">construction</span>`}</div>
+        <select id="dvSt" onchange="updDvAvatar(this)" style="flex:1;background:var(--sf)"><option value="">— Sélectionner —</option>${stOpts}</select>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        ${lbl('tag','N° Devis')}
+        <input id="dvNum" value="${d?.numero||""}" placeholder="DEV-2025-001" style="background:var(--sf)">
+      </div>
+      <div>
+        ${lbl('calendar_today','Date de réception')}
+        <div style="display:flex;gap:5px">
+          <input id="dvDate" type="date" value="${d?.date||""}" style="flex:1;background:var(--sf);min-width:0">
+          <button type="button" onclick="document.getElementById('dvDate').value=new Date().toISOString().slice(0,10)" style="padding:0 9px;border-radius:7px;border:1px solid var(--bd);background:var(--sf);color:var(--tx2);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;height:36px">Auj.</button>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      ${lbl('edit_note','Description / Objet')}
+      <input id="dvDesc" value="${d?.description||""}" placeholder="Objet du devis…" style="background:var(--sf)">
+    </div>
+
+    <div>
+      ${lbl('badge','Signataire')}
+      <select id="dvSig" style="background:var(--sf)"><option value="">— Sélectionner —</option>${sigOpts}</select>
+    </div>
+
+  </div>
+
+  <!-- Validation + Avenant -->
+  <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;flex-direction:column;gap:14px">
+
+    <div>
+      ${lbl('verified','Validation')}
+      <input type="hidden" id="dvVal" value="${val}">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+        ${valChips.map(ch=>{
+          const col=ch.v==="accepte"?"var(--gr)":ch.v==="refuse"?"var(--re)":"var(--tx3)"
+          const bg=ch.v==="accepte"?"var(--grl)":ch.v==="refuse"?"var(--rel)":"var(--sf)"
+          const sel=val===ch.v
+          return`<button type="button" onclick="setDvVal('${ch.v}')" id="dvValBtn_${ch.v}" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:10px;border:1.5px solid ${sel?col:'var(--bd)'};background:${sel?bg:'var(--sf)'};color:${sel?col:'var(--tx3)'};font-size:10.5px;font-weight:${sel?700:400};cursor:pointer;transition:all .15s;font-family:inherit">
+            <span class="material-symbols-outlined" style="font-size:18px">${ch.ic}</span>${ch.label}
+          </button>`}).join('')}
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        ${lbl('calendar_today','Date de validation')}
+        <input id="dvDateVal" type="date" value="${d?.dateValidation||""}" style="background:var(--sf)">
+      </div>
+      <div>
+        ${lbl('edit_document','Avenant')}
+        <input type="hidden" id="dvAv" value="${d?.avenant||'non'}">
+        <div style="display:flex;gap:6px">
+          ${avChips.map(ch=>{const sel=(d?.avenant||"non")===ch.v;return`<button type="button" onclick="setDvAv('${ch.v}')" id="dvAvBtn_${ch.v}" style="flex:1;padding:8px;border-radius:8px;border:1.5px solid ${sel?'var(--ac)':'var(--bd)'};background:${sel?'var(--acl)':'var(--sf)'};color:${sel?'var(--ac)':'var(--tx3)'};font-size:12px;font-weight:${sel?700:400};cursor:pointer;font-family:inherit;transition:all .15s">${ch.label}</button>`}).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div>
+      ${lbl('numbers','N° Avenant')}
+      <input id="dvAvNum" value="${d?.numAvenant||""}" placeholder="AVN-001" style="background:var(--sf)">
+    </div>
+
+  </div>
+
+  <!-- Notes -->
+  <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px">
+    ${lbl('sticky_note_2','Notes internes')}
+    <textarea id="dvNotes" placeholder="Remarques…" style="min-height:64px;resize:vertical;width:100%;box-sizing:border-box;font-family:inherit;font-size:13px;padding:9px 11px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);outline:none;line-height:1.5;display:block">${d?.notes||""}</textarea>
+  </div>`
 }
 
 function openNewDevis(){
@@ -2702,6 +3212,7 @@ async function subDevisNew(){
   closePanel()
   rDevis()
   toast("Devis créé")
+  logActivity("créé","Devis ST",st+(d.numero?" — "+d.numero:""))
 }
 
 function openEditDevis(id){
@@ -2727,6 +3238,7 @@ async function subDevisEdit(id){
   closePanel()
   rDevis()
   toast("Devis mis à jour")
+  logActivity("modifié","Devis ST",d.st+(d.numero?" — "+d.numero:""))
 }
 
 async function delDevis(id){
@@ -2734,6 +3246,7 @@ async function delDevis(id){
   if(!d)return
   if(!confirm(`Supprimer le devis ${d.numero||d.id} ?`))return
   await apiPost("deleteDevis",{id})
+  logActivity("supprimé","Devis ST",d.st+(d.numero?" — "+d.numero:""))
   DEVIS=DEVIS.filter(x=>x.id!==id)
   saveDevis()
   rDevis()
@@ -2860,6 +3373,196 @@ function delTodo(id){
 
 // ── JOURNAL DE BORD ──────────────────────────────────────
 let JOURNAL=[]
+let ptPeriod=7
+
+function setJTab(tab){
+  const isJournal=tab==='journal'
+  document.getElementById('jContentJournal').style.display=isJournal?'':'none'
+  document.getElementById('jContentPointage').style.display=isJournal?'none':''
+  const jTopbar=document.getElementById('jTopbarActions')
+  if(jTopbar)jTopbar.innerHTML=isJournal
+    ?'<button class="btn btn-p btn-sm" onclick="openPanel(\'journal\',null)">+ Nouvelle entrée</button>'
+    :'<button class="btn btn-p btn-sm" onclick="openPanel(\'pointage\',null)">+ Pointer</button>'
+  const tJ=document.getElementById('jTabJournal'),tP=document.getElementById('jTabPointage')
+  if(tJ){tJ.style.color=isJournal?'var(--ac)':'var(--tx2)';tJ.style.borderBottomColor=isJournal?'var(--ac)':'transparent';tJ.style.fontWeight=isJournal?'600':'400'}
+  if(tP){tP.style.color=!isJournal?'var(--ac)':'var(--tx2)';tP.style.borderBottomColor=!isJournal?'var(--ac)':'transparent';tP.style.fontWeight=!isJournal?'600':'400'}
+  if(!isJournal)rPointage()
+}
+
+function setPtPeriod(d){
+  ptPeriod=d
+  ;[7,30,90].forEach(v=>{const b=document.getElementById('ptP'+v);if(b)b.classList.toggle('on',v===d)})
+  rPointage()
+}
+
+function rPointage(){
+  const now=new Date();now.setHours(0,0,0,0)
+  const cutoff=new Date(now);cutoff.setDate(cutoff.getDate()-ptPeriod+1)
+  const entF=document.getElementById('ptEntFilter')?.value||''
+
+  // Update entreprise filter options
+  const allEnts=[...new Set(POINTAGE.map(p=>p.entreprise))].sort()
+  const sel=document.getElementById('ptEntFilter')
+  if(sel){
+    const cur=sel.value
+    sel.innerHTML='<option value="">Toutes les entreprises</option>'+allEnts.map(e=>`<option value="${e}"${e===cur?' selected':''}>${e}</option>`).join('')
+  }
+
+  const filtered=POINTAGE.filter(p=>{
+    const d=new Date(p.date);d.setHours(0,0,0,0)
+    return d>=cutoff&&d<=now&&(!entF||p.entreprise===entF)
+  })
+
+  // KPIs
+  const thisMonth=new Date(now.getFullYear(),now.getMonth(),1)
+  const monthData=POINTAGE.filter(p=>new Date(p.date)>=thisMonth)
+  const totalMonth=monthData.reduce((s,p)=>s+p.nb,0)
+  const activeEnts=[...new Set(monthData.map(p=>p.entreprise))].length
+  const last=POINTAGE[0]
+  const el=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v}
+  el('ptKM',totalMonth||'—')
+  el('ptKMs',totalMonth?`sur ${monthData.length} jour${monthData.length>1?'s':''}`:' ')
+  el('ptKE',activeEnts||'—')
+  el('ptKEs',activeEnts?`entreprise${activeEnts>1?'s':''} actives`:'')
+  el('ptKL',last?new Date(last.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'}):'—')
+  el('ptKLs',last?last.entreprise:'')
+
+  // Build daily data for chart
+  const days=[]
+  for(let i=ptPeriod-1;i>=0;i--){
+    const d=new Date(now);d.setDate(d.getDate()-i)
+    days.push(d.toISOString().slice(0,10))
+  }
+  const entColors=['#1957F7','#7c3aed','#059669','#d97706','#dc2626','#0891b2','#be185d','#92400e']
+  const ents=[...new Set(filtered.map(p=>p.entreprise))].sort()
+
+  // Chart: stacked bars per day
+  const dayMap={}
+  filtered.forEach(p=>{
+    if(!dayMap[p.date])dayMap[p.date]={}
+    dayMap[p.date][p.entreprise]=(dayMap[p.date][p.entreprise]||0)+p.nb
+  })
+  const maxTotal=Math.max(...days.map(d=>Object.values(dayMap[d]||{}).reduce((s,v)=>s+v,0)),1)
+  const chartH=160
+
+  const barsHtml=days.map(d=>{
+    const dayData=dayMap[d]||{}
+    const total=Object.values(dayData).reduce((s,v)=>s+v,0)
+    const dd=new Date(d)
+    const isToday=d===now.toISOString().slice(0,10)
+    const isWeekend=dd.getDay()===0||dd.getDay()===6
+    const labelStep=ptPeriod<=7?1:ptPeriod<=30?7:14
+    const dayIdx=days.indexOf(d)
+    const showLabel=ptPeriod<=7||(dayIdx%labelStep===0)||isToday
+    const label=showLabel
+      ?(ptPeriod<=7
+        ?dd.toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit'})
+        :dd.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'}))
+      :''
+    let stackedBars=''
+    if(total>0){
+      let firstSeg=true
+      ents.forEach((e,i)=>{
+        const v=dayData[e]||0
+        if(!v)return
+        const h=Math.round((v/maxTotal)*chartH)
+        stackedBars+=`<div title="${e}: ${v} pers." style="width:100%;height:${h}px;background:${entColors[i%entColors.length]};${firstSeg?'border-radius:4px 4px 0 0':''}"></div>`
+        firstSeg=false
+      })
+    }
+    return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0">
+      <div style="font-size:10px;font-weight:700;color:${total?'var(--tx2)':'transparent'};height:14px">${total||'0'}</div>
+      <div style="width:min(100%,52px);height:${chartH}px;display:flex;flex-direction:column;justify-content:flex-end;background:${isWeekend?'rgba(0,0,0,.03)':'transparent'};border-radius:6px;overflow:hidden">
+        ${stackedBars||`<div style="width:100%;height:3px;background:var(--bd);border-radius:2px;opacity:.4"></div>`}
+      </div>
+      <div style="font-size:10px;color:${isToday?'var(--ac)':'var(--tx3)'};font-weight:${isToday?700:400};text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;padding:0 2px;margin-top:3px">${label}</div>
+    </div>`
+  }).join('')
+
+  const legendHtml=ents.map((e,i)=>`<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><div style="width:10px;height:10px;border-radius:2px;background:${entColors[i%entColors.length]};flex-shrink:0"></div>${e}</div>`).join('')
+
+  const chartEl=document.getElementById('ptChart')
+  if(chartEl)chartEl.innerHTML=filtered.length
+    ?`<div style="display:flex;align-items:flex-end;gap:6px;width:100%">${barsHtml}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)">${legendHtml}</div>`
+    :'<div style="font-size:13px;color:var(--tx3);text-align:center;padding:24px">Aucun pointage sur cette période</div>'
+
+  // Récap par entreprise
+  const recap={}
+  filtered.forEach(p=>{
+    if(!recap[p.entreprise])recap[p.entreprise]={total:0,jours:new Set()}
+    recap[p.entreprise].total+=p.nb
+    recap[p.entreprise].jours.add(p.date)
+  })
+  const recapEl=document.getElementById('ptRecap')
+  if(recapEl)recapEl.innerHTML=Object.entries(recap).sort((a,b)=>b[1].total-a[1].total).map(([e,v],i)=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--bd)">
+      <div style="width:8px;height:8px;border-radius:50%;background:${entColors[i%entColors.length]};flex-shrink:0"></div>
+      <div style="flex:1;font-size:13px;font-weight:500;color:var(--tx)">${e}</div>
+      <div style="text-align:right">
+        <div style="font-size:13px;font-weight:700;color:var(--tx)">${v.total} <span style="font-size:11px;font-weight:400;color:var(--tx3)">pers.</span></div>
+        <div style="font-size:11px;color:var(--tx3)">${v.jours.size} jour${v.jours.size>1?'s':''}</div>
+      </div>
+    </div>`).join('')||'<div style="padding:16px;font-size:13px;color:var(--tx3)">Aucune donnée</div>'
+
+  // Liste entrées récentes
+  const listEl=document.getElementById('ptList')
+  if(listEl)listEl.innerHTML=[...POINTAGE].slice(0,15).map(p=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--bd)">
+      <div style="flex-shrink:0;text-align:center;min-width:36px">
+        <div style="font-size:13px;font-weight:700;color:var(--tx)">${new Date(p.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})}</div>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:500;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.entreprise}</div>
+        ${p.notes?`<div style="font-size:11px;color:var(--tx3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.notes}</div>`:''}
+      </div>
+      <div style="font-size:16px;font-weight:700;color:var(--ac);flex-shrink:0">${p.nb}</div>
+      <button onclick="delPointage('${p.id}')" style="background:none;border:none;cursor:pointer;color:var(--tx3);padding:2px;display:flex;align-items:center" title="Supprimer"><span class="material-symbols-outlined" style="font-size:15px">delete</span></button>
+    </div>`).join('')||'<div style="padding:16px;font-size:13px;color:var(--tx3)">Aucune entrée</div>'
+}
+
+function ptAddRow(ent='',nb=1){
+  const rid='ptr'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)
+  const ents=[...new Set([...entNames("Sous-traitant"),...entNames("Fournisseur"),...POINTAGE.map(p=>p.entreprise)])].sort()
+  const opts=ents.map(e=>`<option value="${e}"${e===ent?' selected':''}>${e}</option>`).join('')
+  const container=document.getElementById('ptRows')
+  if(!container)return
+  const row=document.createElement('div')
+  row.id=rid
+  row.style.cssText='display:flex;align-items:center;gap:8px'
+  const btnS='width:32px;height:32px;border-radius:8px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);font-size:18px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1'
+  row.innerHTML=`<select style="flex:1;font-size:13px;padding:7px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);font-family:inherit"><option value="">— Entreprise —</option>${opts}</select><button type="button" onclick="ptChgNb('${rid}',-1)" style="${btnS}">−</button><input type="number" min="0" value="${nb}" style="width:52px;text-align:center;font-size:14px;font-weight:700;padding:5px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);font-family:inherit"><button type="button" onclick="ptChgNb('${rid}',1)" style="${btnS}">+</button><button type="button" onclick="document.getElementById('${rid}').remove()" style="width:28px;height:28px;border:none;background:none;color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="material-symbols-outlined" style="font-size:16px">close</span></button>`
+  container.appendChild(row)
+}
+function ptChgNb(rid,delta){
+  const inp=document.getElementById(rid)?.querySelector('input[type=number]')
+  if(!inp)return
+  inp.value=Math.max(0,(parseInt(inp.value)||0)+delta)
+}
+async function subPointage(){
+  const date=document.getElementById('ptDate')?.value
+  const notes=(document.getElementById('ptNotes')?.value||'').trim()
+  if(!date){toast('Date requise','error');return}
+  const rows=[...document.querySelectorAll('#ptRows>div')]
+  const entries=rows.map(r=>({ent:(r.querySelector('select')?.value||'').trim(),nb:parseInt(r.querySelector('input[type=number]')?.value)||0})).filter(r=>r.ent&&r.nb>0)
+  if(!entries.length){toast('Aucune entrée valide','error');return}
+  const inserts=entries.map(r=>({id:crypto.randomUUID(),project_id:currentProject.id,date,entreprise:r.ent,nb_personnes:r.nb,notes}))
+  const{error}=await _sb.from('pointage').insert(inserts)
+  if(error){toast('Erreur : '+error.message,'error');return}
+  inserts.forEach(e=>POINTAGE.unshift({id:e.id,date:e.date,entreprise:e.entreprise,nb:e.nb_personnes,notes:e.notes}))
+  POINTAGE.sort((a,b)=>b.date.localeCompare(a.date))
+  closePanel()
+  rPointage()
+  toast(`${inserts.length} pointage${inserts.length>1?'s':''} enregistré${inserts.length>1?'s':''}`)
+}
+
+async function delPointage(id){
+  if(!confirm('Supprimer ce pointage ?'))return
+  await _sb.from('pointage').delete().eq('id',id)
+  POINTAGE=POINTAGE.filter(p=>p.id!==id)
+  rPointage()
+  toast('Pointage supprimé')
+}
+
 let jFType="all"
 const JTYPES=["Pointage","Réception","Visite","Incident","Décision","Autre"]
 
@@ -3290,6 +3993,32 @@ function rDashboard(){
           </div>`).join(""):`<div class="db-empty">Aucune entrée de journal</div>`}
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ── Historique ── -->
+  <div class="db-section-title" style="margin-top:14px">Historique des modifications</div>
+  <div class="panel" style="margin-bottom:24px">
+    <div class="pb" style="padding:0">
+      ${ACTIVITY_LOG.length?ACTIVITY_LOG.slice(0,20).map(a=>{
+        const icons={Commande:'inventory_2','Devis ST':'request_quote',Facture:'receipt',Fournisseur:'groups'}
+        const icon=icons[a.entityType]||'edit'
+        const actionColor=a.action==='créé'?'var(--gr)':a.action==='supprimé'?'var(--re)':'var(--ac)'
+        const dt=a.createdAt?new Date(a.createdAt):null
+        const dtStr=dt?dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'})+' '+dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):''
+        return`<div style="display:flex;align-items:center;gap:12px;padding:9px 16px;border-bottom:1px solid var(--bd)">
+          <span class="material-symbols-outlined" style="font-size:16px;color:var(--tx3);flex-shrink:0">${icon}</span>
+          <div style="flex:1;min-width:0">
+            <span style="font-size:12px;font-weight:600;color:${actionColor};text-transform:uppercase;letter-spacing:.3px">${a.action}</span>
+            <span style="font-size:12px;color:var(--tx3);margin:0 5px">·</span>
+            <span style="font-size:12px;color:var(--tx2)">${a.entityType}</span>
+            ${a.entityLabel?`<span style="font-size:12px;color:var(--tx3);margin:0 5px">—</span><span style="font-size:12px;color:var(--tx);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;display:inline-block;vertical-align:bottom">${a.entityLabel}</span>`:''}
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            ${a.userName?`<div style="font-size:11px;font-weight:600;color:var(--tx2)">${a.userName}</div>`:''}
+            <div style="font-size:11px;color:var(--tx3)">${dtStr}</div>
+          </div>
+        </div>`}).join(''):`<div class="db-empty" style="padding:16px">Aucune modification enregistrée</div>`}
     </div>
   </div>`
 }

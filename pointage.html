@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pointage">
+<meta name="theme-color" content="#1957F7">
+<title>Pointage — CAIRN</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%;background:#1957F7}
+body{height:100%;font-family:'Inter',sans-serif;color:#111827;background:#F0F4FF;overscroll-behavior:none;-webkit-font-smoothing:antialiased}
+.material-symbols-outlined{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-smoothing:antialiased;display:inline-flex;align-items:center}
+
+/* ── Auth ── */
+#authScreen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#1957F7 0%,#0D3CB8 100%);padding:32px 24px;gap:20px;z-index:100}
+.auth-logo{font-size:32px;font-weight:800;color:#fff;letter-spacing:-1.5px}
+.auth-sub{font-size:13px;color:rgba(255,255,255,.65);letter-spacing:.3px}
+.auth-card{background:#fff;border-radius:22px;padding:26px;width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.auth-inp{width:100%;padding:13px 15px;border:1.5px solid #E5E7EB;border-radius:12px;font-size:15px;font-family:inherit;outline:none;color:#111827;transition:border .15s}
+.auth-inp:focus{border-color:#1957F7}
+.auth-btn{width:100%;padding:14px;background:#1957F7;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:4px}
+.auth-btn:active{opacity:.88}
+.auth-err{font-size:12px;color:#dc2626;text-align:center;display:none}
+
+/* ── Layout ── */
+#app{display:none;height:100%;flex-direction:column}
+#app.visible{display:flex}
+header{background:#1957F7;flex-shrink:0;padding-top:env(safe-area-inset-top,0px)}
+main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 100px;display:flex;flex-direction:column;gap:12px}
+
+/* ── Header ── */
+.hd-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 8px}
+.hd-info{}
+.hd-title{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.hd-proj{font-size:11px;font-weight:500;color:rgba(255,255,255,.6);margin-top:1px}
+.logout-btn{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:10px;padding:8px 13px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+
+.week-nav{display:flex;align-items:center;gap:10px;padding:6px 14px 12px}
+.week-lbl{flex:1;text-align:center;font-size:14px;font-weight:700;color:#fff;letter-spacing:-.2px}
+.wk-btn{background:rgba(255,255,255,.18);border:none;color:#fff;border-radius:10px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wk-btn:active{background:rgba(255,255,255,.3)}
+
+/* ── Day tabs ── */
+.day-tabs{display:flex;gap:5px;padding:0 14px 14px;overflow-x:auto;scrollbar-width:none}
+.day-tabs::-webkit-scrollbar{display:none}
+.day-tab{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 6px;border-radius:12px;border:none;background:rgba(255,255,255,.15);color:rgba(255,255,255,.8);cursor:pointer;font-family:inherit;transition:all .15s;position:relative}
+.day-tab.active{background:#fff;color:#1957F7}
+.day-tab.is-today:not(.active){background:rgba(255,255,255,.28)}
+.day-tab.has-data::after{content:'';position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.7)}
+.day-tab.active.has-data::after{background:#1957F7}
+.dt-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;opacity:.85}
+.day-tab.active .dt-lbl{opacity:1}
+.dt-num{font-size:17px;font-weight:800;line-height:1.1}
+
+/* ── Cards ── */
+.card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.card-hd{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid #F3F4F6}
+.card-title{font-size:14px;font-weight:700;color:#111827}
+.card-sub{font-size:11px;color:#9CA3AF;font-weight:500}
+
+/* ── Entry rows ── */
+.entry-row{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #F9FAFB}
+.entry-row:last-child{border-bottom:none}
+.ent-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.ent-name{flex:1;font-size:14px;font-weight:500;color:#111827;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-wrap{display:flex;flex-direction:column;align-items:center;min-width:28px}
+.nb-val{font-size:20px;font-weight:800;color:#111827;line-height:1.1}
+.nb-lbl{font-size:10px;color:#9CA3AF;margin-top:1px}
+.pm-btn{width:34px;height:34px;border-radius:10px;border:1.5px solid #E5E7EB;background:#F9FAFB;color:#374151;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:inherit;line-height:1}
+.pm-btn:active{background:#E5E7EB}
+.del-btn{background:none;border:none;color:#D1D5DB;cursor:pointer;padding:3px;display:flex;align-items:center;flex-shrink:0}
+.del-btn:active{color:#dc2626}
+
+.total-bar{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:#EEF2FF;border-top:1px solid #E0E7FF}
+.total-lbl{font-size:11px;font-weight:700;color:#6366F1;text-transform:uppercase;letter-spacing:.5px}
+.total-val{font-size:18px;font-weight:800;color:#1957F7}
+
+.empty-state{display:flex;flex-direction:column;align-items:center;gap:8px;padding:32px 16px;color:#9CA3AF;text-align:center}
+.empty-icon{font-size:36px;opacity:.35}
+.empty-txt{font-size:13px}
+
+/* ── Week recap ── */
+.recap-row{padding:11px 16px;border-bottom:1px solid #F9FAFB}
+.recap-row:last-child{border-bottom:none}
+.recap-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.recap-name{flex:1;font-size:13px;font-weight:600;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.recap-val{font-size:15px;font-weight:800;color:#111827;flex-shrink:0}
+.recap-unit{font-size:11px;font-weight:400;color:#9CA3AF}
+.recap-days{font-size:11px;color:#9CA3AF;margin-top:3px;padding-left:18px}
+.prog{height:4px;background:#F3F4F6;border-radius:2px;margin-top:6px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px}
+
+/* ── Bottom bar ── */
+#bottomBar{display:none;position:fixed;bottom:0;left:0;right:0;padding:10px 14px env(safe-area-inset-bottom,10px);background:rgba(240,244,255,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid #E0E7FF;gap:10px;z-index:50}
+#bottomBar.visible{display:flex}
+.btn-add{flex:1;padding:15px;background:#1957F7;color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-add:active{opacity:.88}
+.btn-share{padding:15px 16px;background:#fff;color:#1957F7;border:1.5px solid #C7D7FC;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px}
+.btn-share:active{background:#EEF2FF}
+
+/* ── Bottom sheet ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:80;opacity:0;pointer-events:none;transition:opacity .25s}
+.overlay.open{opacity:1;pointer-events:all}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:24px 24px 0 0;z-index:90;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,0,.67,0);max-height:92dvh;display:flex;flex-direction:column}
+.sheet.open{transform:translateY(0)}
+.sheet-handle{width:40px;height:4px;background:#E5E7EB;border-radius:2px;margin:12px auto 0;flex-shrink:0}
+.sheet-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 10px;flex-shrink:0}
+.sheet-title{font-size:17px;font-weight:700;color:#111827}
+.sheet-close{background:none;border:none;color:#9CA3AF;cursor:pointer;padding:4px;display:flex}
+.sheet-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 14px 14px}
+.sheet-foot{padding:10px 14px env(safe-area-inset-bottom,12px);border-top:1px solid #F3F4F6;flex-shrink:0}
+
+.date-row{display:flex;gap:8px;align-items:center;margin-bottom:14px}
+.date-inp{flex:1;padding:11px 13px;border:1.5px solid #E5E7EB;border-radius:12px;font-size:14px;font-family:inherit;color:#111827;outline:none;background:#fff}
+.date-inp:focus{border-color:#1957F7}
+.today-btn{padding:11px 13px;background:#EEF2FF;color:#1957F7;border:1.5px solid #C7D7FC;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+
+.srow{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.srow select{flex:1;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:12px;font-size:13px;font-family:inherit;color:#111827;outline:none;background:#fff;min-width:0}
+.srow select:focus{border-color:#1957F7}
+.spm{width:34px;height:34px;border-radius:10px;border:1.5px solid #E5E7EB;background:#F9FAFB;color:#374151;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:inherit;line-height:1}
+.spm:active{background:#E5E7EB}
+.snb{width:44px;text-align:center;font-size:15px;font-weight:700;padding:8px 4px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;color:#111827;outline:none}
+.snb:focus{border-color:#1957F7}
+.sclose{background:none;border:none;color:#D1D5DB;cursor:pointer;padding:4px;display:flex;flex-shrink:0}
+.sclose:active{color:#dc2626}
+.add-row-btn{width:100%;padding:11px;border:1.5px dashed #D1D5DB;border-radius:12px;background:none;color:#9CA3AF;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;margin-top:2px}
+.add-row-btn:active{background:#F9FAFB}
+.save-btn{width:100%;padding:15px;background:#1957F7;color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+.save-btn:active{opacity:.88}
+
+/* ── Toast ── */
+#toast{position:fixed;top:max(env(safe-area-inset-top,16px),16px);left:50%;transform:translateX(-50%) translateY(-80px);background:#1E293B;color:#fff;padding:10px 20px;border-radius:14px;font-size:13px;font-weight:500;z-index:200;transition:transform .25s;white-space:nowrap;pointer-events:none}
+#toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<!-- ── Auth ─────────────────────────────────────────── -->
+<div id="authScreen">
+  <div class="auth-logo">CAIRN</div>
+  <div class="auth-sub">Pointage chantier</div>
+  <div class="auth-card">
+    <input class="auth-inp" id="aEmail" type="email" placeholder="Email" autocomplete="email" inputmode="email">
+    <input class="auth-inp" id="aPass" type="password" placeholder="Mot de passe" autocomplete="current-password">
+    <div id="aErr" class="auth-err"></div>
+    <button class="auth-btn" onclick="doLogin()">Se connecter</button>
+  </div>
+</div>
+
+<!-- ── App ──────────────────────────────────────────── -->
+<div id="app">
+  <header>
+    <div class="hd-top">
+      <div class="hd-info">
+        <div class="hd-title">Pointage</div>
+        <div class="hd-proj" id="projName"></div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">Déconnexion</button>
+    </div>
+    <div class="week-nav">
+      <button class="wk-btn" onclick="shiftWeek(-1)"><span class="material-symbols-outlined" style="font-size:20px">chevron_left</span></button>
+      <div class="week-lbl" id="weekLabel"></div>
+      <button class="wk-btn" onclick="shiftWeek(1)"><span class="material-symbols-outlined" style="font-size:20px">chevron_right</span></button>
+    </div>
+    <div class="day-tabs" id="dayTabs"></div>
+  </header>
+
+  <main>
+    <div class="card" id="dayCard">
+      <div class="card-hd">
+        <div class="card-title" id="dayTitle"></div>
+        <div class="card-sub" id="daySub"></div>
+      </div>
+      <div id="dayEntries"></div>
+      <div class="total-bar" id="dayTotalBar" style="display:none">
+        <span class="total-lbl">Total jour</span>
+        <span class="total-val" id="dayTotalVal"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title">Récap semaine</div>
+        <div class="card-sub" id="weekTotalSub"></div>
+      </div>
+      <div id="weekRecap"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ── Bottom bar ──────────────────────────────────── -->
+<div id="bottomBar">
+  <button class="btn-add" onclick="openSheet()">
+    <span class="material-symbols-outlined" style="font-size:20px">add</span>Pointer
+  </button>
+  <button class="btn-share" onclick="shareWeek()">
+    <span class="material-symbols-outlined" style="font-size:18px">share</span>Envoyer
+  </button>
+</div>
+
+<!-- ── Add sheet ──────────────────────────────────── -->
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-hd">
+    <div class="sheet-title">Nouveau pointage</div>
+    <button class="sheet-close" onclick="closeSheet()"><span class="material-symbols-outlined" style="font-size:22px">close</span></button>
+  </div>
+  <div class="sheet-body">
+    <div class="date-row">
+      <input class="date-inp" type="date" id="sDate">
+      <button class="today-btn" onclick="setToday()">Auj.</button>
+    </div>
+    <div id="sRows"></div>
+    <button class="add-row-btn" onclick="addSheetRow()">
+      <span class="material-symbols-outlined" style="font-size:16px">add</span>Ajouter une entreprise
+    </button>
+  </div>
+  <div class="sheet-foot">
+    <button class="save-btn" onclick="submitSheet()">Enregistrer</button>
+  </div>
+</div>
+
+<script>
+const SB_URL="https://sxljxnydakmsozpkhinc.supabase.co"
+const SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4bGp4bnlkYWttc296cGtoaW5jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjUyMDksImV4cCI6MjA5MDQ0MTIwOX0.UJAdQltLbXLWKFKCEsWJnWjEd9YgHTiQWu3i5fx8pFk"
+const _sb=supabase.createClient(SB_URL,SB_KEY)
+const COLORS=['#1957F7','#7c3aed','#059669','#d97706','#dc2626','#0891b2','#be185d','#92400e','#475569','#b45309']
+
+let currentUser=null,currentProject=null
+let POINTAGE=[],ENTREPRISES=[]
+let selectedDay=new Date().toISOString().slice(0,10)
+let weekOffset=0
+
+// ── Toast ──────────────────────────────────────────────
+function toast(msg){
+  const el=document.getElementById('toast')
+  el.textContent=msg;el.classList.add('show')
+  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2800)
+}
+
+// ── Auth ───────────────────────────────────────────────
+async function init(){
+  const{data:{session}}=await _sb.auth.getSession()
+  if(session){currentUser=session.user;await boot()}
+  else document.getElementById('authScreen').style.display='flex'
+}
+
+async function doLogin(){
+  const email=document.getElementById('aEmail').value.trim()
+  const pass=document.getElementById('aPass').value
+  const err=document.getElementById('aErr')
+  err.style.display='none'
+  const{data,error}=await _sb.auth.signInWithPassword({email,password:pass})
+  if(error){err.textContent=error.message;err.style.display='block';return}
+  currentUser=data.user
+  await boot()
+}
+
+async function doLogout(){await _sb.auth.signOut();location.reload()}
+
+// ── Boot ───────────────────────────────────────────────
+async function boot(){
+  const{data:members}=await _sb.from('project_members').select('project_id').eq('user_id',currentUser.id)
+  const ids=(members||[]).map(m=>m.project_id)
+  if(!ids.length){toast('Aucun projet trouvé');return}
+  const{data:projects}=await _sb.from('projects').select('*').in('id',ids)
+  if(!projects?.length){toast('Projet introuvable');return}
+  currentProject=projects[0]
+  document.getElementById('projName').textContent=currentProject.name||''
+  document.getElementById('authScreen').style.display='none'
+  document.getElementById('app').classList.add('visible')
+  document.getElementById('bottomBar').classList.add('visible')
+  await loadData()
+  render()
+}
+
+// ── Data ───────────────────────────────────────────────
+async function loadData(){
+  const from=new Date();from.setDate(from.getDate()-120)
+  const[{data:pt},{data:ents}]=await Promise.all([
+    _sb.from('pointage').select('*').eq('project_id',currentProject.id).gte('date',from.toISOString().slice(0,10)).order('date',{ascending:false}),
+    _sb.from('entreprises').select('nom,type').eq('project_id',currentProject.id)
+  ])
+  POINTAGE=(pt||[]).map(p=>({id:p.id,date:p.date,entreprise:p.entreprise,nb:p.nb_personnes,notes:p.notes||''}))
+  ENTREPRISES=[...new Set([...(ents||[]).map(e=>e.nom),...POINTAGE.map(p=>p.entreprise)])].sort()
+}
+
+// ── Week helpers ───────────────────────────────────────
+function weekDays(offset=0){
+  const t=new Date();t.setHours(0,0,0,0)
+  const di=(t.getDay()+6)%7 // Mon=0
+  const mon=new Date(t);mon.setDate(t.getDate()-di+offset*7)
+  return Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d.toISOString().slice(0,10)})
+}
+
+function weekLabel(days){
+  const a=new Date(days[0]),b=new Date(days[6])
+  if(a.getMonth()===b.getMonth()){
+    return`${a.getDate()} – ${b.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}`
+  }
+  return`${a.toLocaleDateString('fr-FR',{day:'numeric',month:'short'})} – ${b.toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'})}`
+}
+
+function shiftWeek(d){
+  weekOffset+=d
+  const days=weekDays(weekOffset)
+  if(!days.includes(selectedDay))selectedDay=days[0]
+  render()
+}
+
+function colorOf(name){
+  const idx=ENTREPRISES.indexOf(name)
+  return COLORS[idx>=0?idx%COLORS.length:0]
+}
+
+// ── Render ─────────────────────────────────────────────
+function render(){
+  const days=weekDays(weekOffset)
+  const today=new Date().toISOString().slice(0,10)
+  document.getElementById('weekLabel').textContent=weekLabel(days)
+
+  const dayNames=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim']
+  const dayPt={}
+  POINTAGE.forEach(p=>{if(days.includes(p.date))dayPt[p.date]=(dayPt[p.date]||0)+p.nb})
+
+  document.getElementById('dayTabs').innerHTML=days.map((d,i)=>`
+    <button class="day-tab${d===selectedDay?' active':''}${d===today?' is-today':''}${dayPt[d]?' has-data':''}" onclick="selectDay('${d}')">
+      <div class="dt-lbl">${dayNames[i]}</div>
+      <div class="dt-num">${new Date(d).getDate()}</div>
+    </button>`).join('')
+
+  renderDay()
+  renderRecap(days)
+}
+
+function renderDay(){
+  const dd=new Date(selectedDay)
+  const today=new Date().toISOString().slice(0,10)
+  const dayNames=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche']
+  const di=(dd.getDay()+6)%7
+
+  document.getElementById('dayTitle').textContent=`${dayNames[di]} ${dd.toLocaleDateString('fr-FR',{day:'numeric',month:'long'})}`
+  document.getElementById('daySub').textContent=selectedDay===today?'Aujourd\'hui':''
+
+  const entries=POINTAGE.filter(p=>p.date===selectedDay)
+  const total=entries.reduce((s,p)=>s+p.nb,0)
+  const el=document.getElementById('dayEntries')
+
+  if(!entries.length){
+    el.innerHTML=`<div class="empty-state"><span class="material-symbols-outlined empty-icon">groups</span><span class="empty-txt">Aucun pointage ce jour</span></div>`
+    document.getElementById('dayTotalBar').style.display='none'
+    return
+  }
+
+  el.innerHTML=entries.map(p=>`
+    <div class="entry-row">
+      <div class="ent-dot" style="background:${colorOf(p.entreprise)}"></div>
+      <div class="ent-name">${p.entreprise}</div>
+      <button class="pm-btn" onclick="chgNb('${p.id}',-1,${p.nb})">−</button>
+      <div class="nb-wrap"><div class="nb-val">${p.nb}</div><div class="nb-lbl">pers.</div></div>
+      <button class="pm-btn" onclick="chgNb('${p.id}',1,${p.nb})">+</button>
+      <button class="del-btn" onclick="delEntry('${p.id}')"><span class="material-symbols-outlined" style="font-size:20px">delete</span></button>
+    </div>`).join('')
+
+  const tb=document.getElementById('dayTotalBar')
+  tb.style.display='flex'
+  document.getElementById('dayTotalVal').textContent=`${total} pers.`
+}
+
+function renderRecap(days){
+  const recap={}
+  days.forEach(d=>{
+    POINTAGE.filter(p=>p.date===d).forEach(p=>{
+      if(!recap[p.entreprise])recap[p.entreprise]={total:0,jours:new Set()}
+      recap[p.entreprise].total+=p.nb
+      recap[p.entreprise].jours.add(d)
+    })
+  })
+  const sorted=Object.entries(recap).sort((a,b)=>b[1].total-a[1].total)
+  const max=sorted[0]?.[1].total||1
+  const weekTotal=sorted.reduce((s,[,v])=>s+v.total,0)
+
+  document.getElementById('weekTotalSub').textContent=weekTotal?`${weekTotal} pers.-jours`:''
+
+  const el=document.getElementById('weekRecap')
+  if(!sorted.length){
+    el.innerHTML=`<div class="empty-state"><span class="material-symbols-outlined empty-icon">bar_chart</span><span class="empty-txt">Aucun pointage cette semaine</span></div>`
+    return
+  }
+  el.innerHTML=sorted.map(([name,v])=>`
+    <div class="recap-row">
+      <div class="recap-top">
+        <div class="ent-dot" style="background:${colorOf(name)};flex-shrink:0"></div>
+        <div class="recap-name">${name}</div>
+        <div><span class="recap-val">${v.total}</span><span class="recap-unit"> pers.</span></div>
+      </div>
+      <div class="prog"><div class="prog-fill" style="width:${Math.round(v.total/max*100)}%;background:${colorOf(name)}"></div></div>
+      <div class="recap-days">${v.jours.size} jour${v.jours.size>1?'s':''} de présence</div>
+    </div>`).join('')
+}
+
+function selectDay(d){
+  selectedDay=d
+  document.querySelectorAll('.day-tab').forEach(b=>{
+    const m=b.getAttribute('onclick').match(/'([^']+)'/)
+    if(m)b.classList.toggle('active',m[1]===d)
+  })
+  renderDay()
+}
+
+// ── Entry actions ──────────────────────────────────────
+async function chgNb(id,delta,cur){
+  const nv=Math.max(0,cur+delta)
+  if(nv===0&&!confirm('Mettre à 0 ? Préférez utiliser Supprimer.'))return
+  const{error}=await _sb.from('pointage').update({nb_personnes:nv}).eq('id',id)
+  if(error){toast('Erreur');return}
+  const p=POINTAGE.find(x=>x.id===id);if(p)p.nb=nv
+  renderDay()
+  renderRecap(weekDays(weekOffset))
+}
+
+async function delEntry(id){
+  if(!confirm('Supprimer ce pointage ?'))return
+  await _sb.from('pointage').delete().eq('id',id)
+  POINTAGE=POINTAGE.filter(p=>p.id!==id)
+  render();toast('Supprimé')
+}
+
+// ── Sheet ──────────────────────────────────────────────
+function openSheet(){
+  const today=new Date().toISOString().slice(0,10)
+  document.getElementById('sDate').value=selectedDay||today
+  document.getElementById('sRows').innerHTML=''
+  const yest=new Date();yest.setDate(yest.getDate()-1)
+  const yStr=yest.toISOString().slice(0,10)
+  const yEnts=POINTAGE.filter(p=>p.date===yStr)
+  if(yEnts.length)yEnts.forEach(p=>addSheetRow(p.entreprise,p.nb))
+  else addSheetRow()
+  document.getElementById('overlay').classList.add('open')
+  document.getElementById('sheet').classList.add('open')
+  document.body.style.overflow='hidden'
+}
+
+function closeSheet(){
+  document.getElementById('overlay').classList.remove('open')
+  document.getElementById('sheet').classList.remove('open')
+  document.body.style.overflow=''
+}
+
+function setToday(){document.getElementById('sDate').value=new Date().toISOString().slice(0,10)}
+
+function addSheetRow(ent='',nb=1){
+  const rid='sr'+Date.now().toString(36)+Math.random().toString(36).slice(2,4)
+  const opts=ENTREPRISES.map(e=>`<option value="${e}"${e===ent?' selected':''}>${e}</option>`).join('')
+  const row=document.createElement('div')
+  row.className='srow';row.id=rid
+  row.innerHTML=`<select><option value="">— Entreprise —</option>${opts}</select><button class="spm" onclick="snb('${rid}',-1)">−</button><input class="snb" type="number" min="0" value="${nb}"><button class="spm" onclick="snb('${rid}',1)">+</button><button class="sclose" onclick="document.getElementById('${rid}').remove()"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>`
+  document.getElementById('sRows').appendChild(row)
+}
+
+function snb(rid,delta){
+  const inp=document.getElementById(rid)?.querySelector('input')
+  if(inp)inp.value=Math.max(0,(parseInt(inp.value)||0)+delta)
+}
+
+async function submitSheet(){
+  const date=document.getElementById('sDate').value
+  if(!date){toast('Date requise');return}
+  const rows=[...document.querySelectorAll('#sRows .srow')]
+  const entries=rows.map(r=>({ent:(r.querySelector('select')?.value||'').trim(),nb:parseInt(r.querySelector('input')?.value)||0})).filter(r=>r.ent&&r.nb>0)
+  if(!entries.length){toast('Aucune entrée valide');return}
+  const inserts=entries.map(r=>({id:crypto.randomUUID(),project_id:currentProject.id,date,entreprise:r.ent,nb_personnes:r.nb,notes:''}))
+  const{error}=await _sb.from('pointage').insert(inserts)
+  if(error){toast('Erreur : '+error.message);return}
+  inserts.forEach(e=>POINTAGE.unshift({id:e.id,date:e.date,entreprise:e.entreprise,nb:e.nb_personnes,notes:''}))
+  POINTAGE.sort((a,b)=>b.date.localeCompare(a.date))
+  selectedDay=date
+  const days=weekDays(weekOffset)
+  if(!days.includes(date)){
+    const t=new Date();t.setHours(0,0,0,0)
+    const tg=new Date(date);tg.setHours(0,0,0,0)
+    weekOffset=Math.round((tg-t)/(7*864e5))
+  }
+  closeSheet();render()
+  toast(`${inserts.length} pointage${inserts.length>1?'s':''} enregistré${inserts.length>1?'s':''}`)
+}
+
+// ── Share week ─────────────────────────────────────────
+function shareWeek(){
+  const days=weekDays(weekOffset)
+  const dn=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche']
+  const lines=[`📋 Pointage — ${weekLabel(days)}`,`Projet : ${currentProject.name||''}`,``]
+
+  days.forEach((d,i)=>{
+    const entries=POINTAGE.filter(p=>p.date===d)
+    if(!entries.length)return
+    const total=entries.reduce((s,p)=>s+p.nb,0)
+    const dd=new Date(d)
+    lines.push(`${dn[i]} ${dd.getDate()} : ${entries.map(p=>`${p.entreprise} (${p.nb})`).join(', ')} — ${total} pers.`)
+  })
+
+  const recap={}
+  days.forEach(d=>{POINTAGE.filter(p=>p.date===d).forEach(p=>{recap[p.entreprise]=(recap[p.entreprise]||0)+p.nb})})
+  const sorted=Object.entries(recap).sort((a,b)=>b[1]-a[1])
+  const wTotal=sorted.reduce((s,[,v])=>s+v,0)
+
+  if(sorted.length){
+    lines.push(``,`Récapitulatif :`)
+    sorted.forEach(([n,v])=>lines.push(`  ${n} : ${v} pers.`))
+    lines.push(`  TOTAL : ${wTotal} pers.-jours`)
+  }
+
+  const text=lines.join('\n')
+  if(navigator.share){navigator.share({title:`Pointage semaine`,text})}
+  else{navigator.clipboard?.writeText(text).then(()=>toast('Copié dans le presse-papier'))}
+}
+
+init()
+</script>
+</body>
+</html>
