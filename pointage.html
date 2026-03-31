@@ -29,10 +29,10 @@ body{height:100%;font-family:'Inter',sans-serif;color:#111827;background:#F0F4FF
 .auth-err{font-size:12px;color:#dc2626;text-align:center;display:none}
 
 /* ── Layout ── */
-#app{display:none;height:100%;flex-direction:column}
+#app{display:none;height:100dvh;flex-direction:column}
 #app.visible{display:flex}
 header{background:#1957F7;flex-shrink:0;padding-top:env(safe-area-inset-top,0px)}
-main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 100px;display:flex;flex-direction:column;gap:12px}
+main{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 100px}
 
 /* ── Header ── */
 .hd-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 8px}
@@ -59,8 +59,9 @@ main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 1
 .dt-num{font-size:17px;font-weight:800;line-height:1.1}
 
 /* ── Cards ── */
-.card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07)}
-.card-hd{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid #F3F4F6}
+.card{background:#fff;border-radius:18px;box-shadow:0 1px 6px rgba(0,0,0,.07);margin-bottom:12px}
+.card:last-child{margin-bottom:0}
+.card-hd{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid #F3F4F6;border-radius:18px 18px 0 0}
 .card-title{font-size:14px;font-weight:700;color:#111827}
 .card-sub{font-size:11px;color:#9CA3AF;font-weight:500}
 
@@ -77,7 +78,7 @@ main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 1
 .del-btn{background:none;border:none;color:#D1D5DB;cursor:pointer;padding:3px;display:flex;align-items:center;flex-shrink:0}
 .del-btn:active{color:#dc2626}
 
-.total-bar{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:#EEF2FF;border-top:1px solid #E0E7FF}
+.total-bar{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:#EEF2FF;border-top:1px solid #E0E7FF;border-radius:0 0 18px 18px}
 .total-lbl{font-size:11px;font-weight:700;color:#6366F1;text-transform:uppercase;letter-spacing:.5px}
 .total-val{font-size:18px;font-weight:800;color:#1957F7}
 
@@ -187,13 +188,6 @@ main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 1
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-title">Récap semaine</div>
-        <div class="card-sub" id="weekTotalSub"></div>
-      </div>
-      <div id="weekRecap"></div>
-    </div>
   </main>
 </div>
 
@@ -238,8 +232,13 @@ const COLORS=['#1957F7','#7c3aed','#059669','#d97706','#dc2626','#0891b2','#be18
 
 let currentUser=null,currentProject=null
 let POINTAGE=[],ENTREPRISES=[]
-let selectedDay=new Date().toISOString().slice(0,10)
 let weekOffset=0
+
+function lds(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function parseDate(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)}
+function todayStr(){return lds(new Date())}
+
+let selectedDay=todayStr()
 
 // ── Toast ──────────────────────────────────────────────
 function toast(msg){
@@ -288,7 +287,7 @@ async function boot(){
 async function loadData(){
   const from=new Date();from.setDate(from.getDate()-120)
   const[{data:pt},{data:ents}]=await Promise.all([
-    _sb.from('pointage').select('*').eq('project_id',currentProject.id).gte('date',from.toISOString().slice(0,10)).order('date',{ascending:false}),
+    _sb.from('pointage').select('*').eq('project_id',currentProject.id).gte('date',lds(from)).order('date',{ascending:false}),
     _sb.from('entreprises').select('nom,type').eq('project_id',currentProject.id)
   ])
   POINTAGE=(pt||[]).map(p=>({id:p.id,date:p.date,entreprise:p.entreprise,nb:p.nb_personnes,notes:p.notes||''}))
@@ -300,11 +299,11 @@ function weekDays(offset=0){
   const t=new Date();t.setHours(0,0,0,0)
   const di=(t.getDay()+6)%7 // Mon=0
   const mon=new Date(t);mon.setDate(t.getDate()-di+offset*7)
-  return Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d.toISOString().slice(0,10)})
+  return Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return lds(d)})
 }
 
 function weekLabel(days){
-  const a=new Date(days[0]),b=new Date(days[6])
+  const a=parseDate(days[0]),b=parseDate(days[6])
   if(a.getMonth()===b.getMonth()){
     return`${a.getDate()} – ${b.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}`
   }
@@ -326,7 +325,7 @@ function colorOf(name){
 // ── Render ─────────────────────────────────────────────
 function render(){
   const days=weekDays(weekOffset)
-  const today=new Date().toISOString().slice(0,10)
+  const today=todayStr()
   document.getElementById('weekLabel').textContent=weekLabel(days)
 
   const dayNames=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim']
@@ -336,16 +335,15 @@ function render(){
   document.getElementById('dayTabs').innerHTML=days.map((d,i)=>`
     <button class="day-tab${d===selectedDay?' active':''}${d===today?' is-today':''}${dayPt[d]?' has-data':''}" onclick="selectDay('${d}')">
       <div class="dt-lbl">${dayNames[i]}</div>
-      <div class="dt-num">${new Date(d).getDate()}</div>
+      <div class="dt-num">${parseDate(d).getDate()}</div>
     </button>`).join('')
 
   renderDay()
-  renderRecap(days)
 }
 
 function renderDay(){
-  const dd=new Date(selectedDay)
-  const today=new Date().toISOString().slice(0,10)
+  const dd=parseDate(selectedDay)
+  const today=todayStr()
   const dayNames=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche']
   const di=(dd.getDay()+6)%7
 
@@ -377,37 +375,6 @@ function renderDay(){
   document.getElementById('dayTotalVal').textContent=`${total} pers.`
 }
 
-function renderRecap(days){
-  const recap={}
-  days.forEach(d=>{
-    POINTAGE.filter(p=>p.date===d).forEach(p=>{
-      if(!recap[p.entreprise])recap[p.entreprise]={total:0,jours:new Set()}
-      recap[p.entreprise].total+=p.nb
-      recap[p.entreprise].jours.add(d)
-    })
-  })
-  const sorted=Object.entries(recap).sort((a,b)=>b[1].total-a[1].total)
-  const max=sorted[0]?.[1].total||1
-  const weekTotal=sorted.reduce((s,[,v])=>s+v.total,0)
-
-  document.getElementById('weekTotalSub').textContent=weekTotal?`${weekTotal} pers.-jours`:''
-
-  const el=document.getElementById('weekRecap')
-  if(!sorted.length){
-    el.innerHTML=`<div class="empty-state"><span class="material-symbols-outlined empty-icon">bar_chart</span><span class="empty-txt">Aucun pointage cette semaine</span></div>`
-    return
-  }
-  el.innerHTML=sorted.map(([name,v])=>`
-    <div class="recap-row">
-      <div class="recap-top">
-        <div class="ent-dot" style="background:${colorOf(name)};flex-shrink:0"></div>
-        <div class="recap-name">${name}</div>
-        <div><span class="recap-val">${v.total}</span><span class="recap-unit"> pers.</span></div>
-      </div>
-      <div class="prog"><div class="prog-fill" style="width:${Math.round(v.total/max*100)}%;background:${colorOf(name)}"></div></div>
-      <div class="recap-days">${v.jours.size} jour${v.jours.size>1?'s':''} de présence</div>
-    </div>`).join('')
-}
 
 function selectDay(d){
   selectedDay=d
@@ -426,7 +393,6 @@ async function chgNb(id,delta,cur){
   if(error){toast('Erreur');return}
   const p=POINTAGE.find(x=>x.id===id);if(p)p.nb=nv
   renderDay()
-  renderRecap(weekDays(weekOffset))
 }
 
 async function delEntry(id){
@@ -438,14 +404,17 @@ async function delEntry(id){
 
 // ── Sheet ──────────────────────────────────────────────
 function openSheet(){
-  const today=new Date().toISOString().slice(0,10)
-  document.getElementById('sDate').value=selectedDay||today
+  const date=selectedDay||todayStr()
+  document.getElementById('sDate').value=date
   document.getElementById('sRows').innerHTML=''
-  const yest=new Date();yest.setDate(yest.getDate()-1)
-  const yStr=yest.toISOString().slice(0,10)
-  const yEnts=POINTAGE.filter(p=>p.date===yStr)
-  if(yEnts.length)yEnts.forEach(p=>addSheetRow(p.entreprise,p.nb))
-  else addSheetRow()
+  const todayEnts=POINTAGE.filter(p=>p.date===date)
+  if(todayEnts.length){todayEnts.forEach(p=>addSheetRow(p.entreprise,p.nb))}
+  else{
+    const yest=parseDate(date);yest.setDate(yest.getDate()-1)
+    const yEnts=POINTAGE.filter(p=>p.date===lds(yest))
+    if(yEnts.length)yEnts.forEach(p=>addSheetRow(p.entreprise,p.nb))
+    else addSheetRow()
+  }
   document.getElementById('overlay').classList.add('open')
   document.getElementById('sheet').classList.add('open')
   document.body.style.overflow='hidden'
@@ -457,7 +426,7 @@ function closeSheet(){
   document.body.style.overflow=''
 }
 
-function setToday(){document.getElementById('sDate').value=new Date().toISOString().slice(0,10)}
+function setToday(){document.getElementById('sDate').value=todayStr()}
 
 function addSheetRow(ent='',nb=1){
   const rid='sr'+Date.now().toString(36)+Math.random().toString(36).slice(2,4)

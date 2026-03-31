@@ -506,7 +506,7 @@ input::placeholder{color:var(--tx3)}
   <div class="auth-streak"></div>
   <div class="auth-hero">
     <div class="auth-box" id="authBox"></div>
-    <div class="auth-footer" style="margin-top:0">© 2025 Cairn Ecosystem. Tous droits réservés.</div>
+    <div class="auth-footer" style="margin-top:20px"><span style="display:inline-flex;align-items:center;gap:6px;background:rgba(25,87,247,.18);border:1px solid rgba(25,87,247,.35);color:#93B8FF;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase">Beta</span></div>
     <div class="auth-scroll-hint" onclick="document.getElementById('authFeatures').scrollIntoView({behavior:'smooth'})">
       <span>Découvrir Cairn</span>
       <span class="material-symbols-outlined" style="font-size:18px">keyboard_arrow_down</span>
@@ -859,15 +859,9 @@ input::placeholder{color:var(--tx3)}
           </div>
           <div class="pb" id="ptChart" style="overflow-x:auto;padding:16px"></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-          <div class="panel">
-            <div class="ph"><span class="pt">Récap par entreprise</span></div>
-            <div id="ptRecap" style="padding:0"></div>
-          </div>
-          <div class="panel">
-            <div class="ph"><span class="pt">Entrées récentes</span></div>
-            <div id="ptList" style="padding:0"></div>
-          </div>
+        <div class="panel" style="margin-bottom:14px">
+          <div class="ph"><span class="pt">Récap par entreprise</span></div>
+          <div id="ptRecap" style="padding:0"></div>
         </div>
       </div>
     </div>
@@ -1661,7 +1655,7 @@ function openPanel(mode,id){pMode=mode;pData={id};const title=document.getElemen
   if(mode==="editTodo"){const td=TODOS.find(x=>x.id===id);if(!td)return;title.textContent="Modifier la tâche";body.innerHTML=todoForm(td);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subTodoEdit('${id}')">Enregistrer</button>`}
   if(mode==="pointage"){
     title.textContent="Pointage chantier"
-    const today=new Date().toISOString().slice(0,10)
+    const today=lds(new Date())
     body.innerHTML=`
     <div style="display:flex;flex-direction:column;gap:12px">
       <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:14px">
@@ -1682,12 +1676,15 @@ function openPanel(mode,id){pMode=mode;pData={id};const title=document.getElemen
       </div>
     </div>`
     foot.innerHTML=cancel+save("subPointage()")
-    // Pré-remplir avec les entreprises de la veille
-    const yest=new Date();yest.setDate(yest.getDate()-1)
-    const yStr=yest.toISOString().slice(0,10)
-    const yEnts=POINTAGE.filter(p=>p.date===yStr)
-    if(yEnts.length){yEnts.forEach(p=>ptAddRow(p.entreprise,p.nb))}
-    else{ptAddRow()}
+    // Pré-remplir : aujourd'hui si déjà pointé, sinon la veille
+    const todayEnts=POINTAGE.filter(p=>p.date===today)
+    if(todayEnts.length){todayEnts.forEach(p=>ptAddRow(p.entreprise,p.nb))}
+    else{
+      const yest=new Date();yest.setDate(yest.getDate()-1)
+      const yEnts=POINTAGE.filter(p=>p.date===lds(yest))
+      if(yEnts.length){yEnts.forEach(p=>ptAddRow(p.entreprise,p.nb))}
+      else{ptAddRow()}
+    }
     document.getElementById("ov").classList.add("open")
     document.getElementById("spanel").classList.add("open")
   }
@@ -3395,6 +3392,8 @@ function setPtPeriod(d){
   rPointage()
 }
 
+function lds(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function parseDate(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)}
 function rPointage(){
   const now=new Date();now.setHours(0,0,0,0)
   const cutoff=new Date(now);cutoff.setDate(cutoff.getDate()-ptPeriod+1)
@@ -3431,7 +3430,7 @@ function rPointage(){
   const days=[]
   for(let i=ptPeriod-1;i>=0;i--){
     const d=new Date(now);d.setDate(d.getDate()-i)
-    days.push(d.toISOString().slice(0,10))
+    days.push(lds(d))
   }
   const entColors=['#1957F7','#7c3aed','#059669','#d97706','#dc2626','#0891b2','#be185d','#92400e']
   const ents=[...new Set(filtered.map(p=>p.entreprise))].sort()
@@ -3448,17 +3447,24 @@ function rPointage(){
   const barsHtml=days.map(d=>{
     const dayData=dayMap[d]||{}
     const total=Object.values(dayData).reduce((s,v)=>s+v,0)
-    const dd=new Date(d)
-    const isToday=d===now.toISOString().slice(0,10)
+    const dd=parseDate(d)
+    const isToday=d===lds(now)
     const isWeekend=dd.getDay()===0||dd.getDay()===6
-    const labelStep=ptPeriod<=7?1:ptPeriod<=30?7:14
     const dayIdx=days.indexOf(d)
-    const showLabel=ptPeriod<=7||(dayIdx%labelStep===0)||isToday
-    const label=showLabel
-      ?(ptPeriod<=7
-        ?dd.toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit'})
-        :dd.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'}))
-      :''
+    const isMonthStart=dd.getDate()===1
+    const labelStep=ptPeriod<=7?1:ptPeriod<=30?5:7
+    const showLabel=ptPeriod<=7||(dayIdx%labelStep===0)||isToday||(ptPeriod>30&&isMonthStart)
+    const prevDay=dayIdx>0?parseDate(days[dayIdx-1]):null
+    const isNewMonth=!prevDay||prevDay.getMonth()!==dd.getMonth()
+    const monthStr=dd.toLocaleDateString('fr-FR',{month:'short'}).replace('.','')
+    let labelHtml=''
+    if(showLabel){
+      if(ptPeriod<=7){
+        labelHtml=`<div style="font-size:9px;font-weight:600;color:${isToday?'var(--ac)':'var(--tx3)'}">${dd.toLocaleDateString('fr-FR',{weekday:'short'})}</div><div style="font-size:11px;font-weight:700;color:${isToday?'var(--ac)':'var(--tx2)'}">${dd.getDate()}</div>`
+      } else {
+        labelHtml=`<div style="font-size:11px;font-weight:700;color:${isToday?'var(--ac)':'var(--tx2)'}">${dd.getDate()}</div><div style="font-size:9px;font-weight:${isNewMonth?700:400};color:${isToday?'var(--ac)':isNewMonth?'var(--tx2)':'var(--tx3)'}">${isNewMonth?monthStr:''}</div>`
+      }
+    }
     let stackedBars=''
     if(total>0){
       let firstSeg=true
@@ -3475,7 +3481,7 @@ function rPointage(){
       <div style="width:min(100%,52px);height:${chartH}px;display:flex;flex-direction:column;justify-content:flex-end;background:${isWeekend?'rgba(0,0,0,.03)':'transparent'};border-radius:6px;overflow:hidden">
         ${stackedBars||`<div style="width:100%;height:3px;background:var(--bd);border-radius:2px;opacity:.4"></div>`}
       </div>
-      <div style="font-size:10px;color:${isToday?'var(--ac)':'var(--tx3)'};font-weight:${isToday?700:400};text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;padding:0 2px;margin-top:3px">${label}</div>
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:3px;min-height:26px;width:100%">${labelHtml}</div>
     </div>`
   }).join('')
 
@@ -3504,20 +3510,6 @@ function rPointage(){
       </div>
     </div>`).join('')||'<div style="padding:16px;font-size:13px;color:var(--tx3)">Aucune donnée</div>'
 
-  // Liste entrées récentes
-  const listEl=document.getElementById('ptList')
-  if(listEl)listEl.innerHTML=[...POINTAGE].slice(0,15).map(p=>`
-    <div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--bd)">
-      <div style="flex-shrink:0;text-align:center;min-width:36px">
-        <div style="font-size:13px;font-weight:700;color:var(--tx)">${new Date(p.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})}</div>
-      </div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:500;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.entreprise}</div>
-        ${p.notes?`<div style="font-size:11px;color:var(--tx3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.notes}</div>`:''}
-      </div>
-      <div style="font-size:16px;font-weight:700;color:var(--ac);flex-shrink:0">${p.nb}</div>
-      <button onclick="delPointage('${p.id}')" style="background:none;border:none;cursor:pointer;color:var(--tx3);padding:2px;display:flex;align-items:center" title="Supprimer"><span class="material-symbols-outlined" style="font-size:15px">delete</span></button>
-    </div>`).join('')||'<div style="padding:16px;font-size:13px;color:var(--tx3)">Aucune entrée</div>'
 }
 
 function ptAddRow(ent='',nb=1){
