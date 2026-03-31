@@ -9,6 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <style>
 :root{
   --bg:#0d1117;--sf:#161b27;--sf2:#1c2333;--bg3:#1c2333;
@@ -194,6 +196,7 @@ body::before{display:none}
 .fl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);flex-shrink:0}
 .chip{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:500;padding:5px 14px;border:1px solid var(--bd);border-radius:20px;background:var(--sf2);color:var(--tx2);cursor:pointer;transition:all .15s}
 .chip:hover{border-color:var(--bd2);color:var(--tx);background:var(--sf)}
+.chip.on:hover{background:#1957F7;border-color:#1957F7;color:#fff}
 .chip.on{background:#1957F7;border-color:#1957F7;color:#fff;font-weight:600}
 .fsep{width:1px;height:18px;background:var(--bd);margin:0 6px;flex-shrink:0}
 /* Search card */
@@ -457,6 +460,12 @@ input::placeholder{color:var(--tx3)}
 .auth-scroll-hint{display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.7);font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;margin-top:36px;animation:bounce-hint 2s ease-in-out infinite;border:1px solid rgba(255,255,255,.15);border-radius:100px;padding:10px 20px;backdrop-filter:blur(8px);background:rgba(255,255,255,.05);flex-direction:row;gap:8px}
 .auth-scroll-hint:hover{color:#fff;border-color:rgba(255,255,255,.35)}
 @keyframes bounce-hint{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+#splash{position:fixed;inset:0;background:#0d1117;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:30000;transition:opacity .3s ease}
+#splash.fade-out{opacity:0;pointer-events:none}
+#splash.gone{display:none}
+.splash-logo{font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;letter-spacing:.08em;color:#F1F5F9}
+.splash-spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,.12);border-top-color:rgba(255,255,255,.5);border-radius:50%;animation:spin .7s linear infinite}
 .auth-features{width:100%;max-width:960px;padding:80px 24px 100px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:48px}
 .auth-features-header{text-align:center;display:flex;flex-direction:column;gap:10px}
 .auth-features-label{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.25em;text-transform:uppercase}
@@ -499,13 +508,15 @@ input::placeholder{color:var(--tx3)}
 </head>
 <body>
 
-<div id="authScreen">
+<div id="splash"><div class="splash-logo">CAIRN</div><div class="splash-spinner"></div></div>
+
+<div id="authScreen" class="hidden">
   <div class="auth-blob auth-blob-1"></div>
   <div class="auth-blob auth-blob-2"></div>
   <div class="auth-blob auth-blob-3"></div>
   <div class="auth-streak"></div>
   <div class="auth-hero">
-    <div class="auth-box" id="authBox"></div>
+    <div class="auth-box" id="authBox"><div style="display:flex;align-items:center;justify-content:center;min-height:80px"><div style="width:24px;height:24px;border:3px solid rgba(255,255,255,.15);border-top-color:rgba(255,255,255,.7);border-radius:50%;animation:spin .7s linear infinite"></div></div></div>
     <div class="auth-footer" style="margin-top:20px"><span style="display:inline-flex;align-items:center;gap:6px;background:rgba(25,87,247,.18);border:1px solid rgba(25,87,247,.35);color:#93B8FF;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase">Beta</span></div>
     <div class="auth-scroll-hint" onclick="document.getElementById('authFeatures').scrollIntoView({behavior:'smooth'})">
       <span>Découvrir Cairn</span>
@@ -899,7 +910,7 @@ input::placeholder{color:var(--tx3)}
   </div>
 
   <div id="view-commandes" class="view">
-    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Achats</div><div class="topbar-sub">Commandes et factures fournisseurs</div></div><div class="ta"><button class="btn btn-p btn-sm" onclick="openPanel('commande')">+ Nouvelle commande</button></div></div>
+    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Achats</div><div class="topbar-sub">Commandes et factures fournisseurs</div></div><div class="ta"><button class="btn btn-g btn-sm" onclick="exportCSV('commandes')" title="Exporter en CSV"><span class="material-symbols-outlined" style="font-size:15px">download</span> CSV</button><button class="btn btn-g btn-sm" onclick="exportPDF('commandes')" title="Exporter en PDF"><span class="material-symbols-outlined" style="font-size:15px">picture_as_pdf</span> PDF</button><button class="btn btn-p btn-sm" onclick="openPanel('commande')">+ Nouvelle commande</button></div></div>
     <div class="content">
       <div class="kpi-grid">
         <div class="kpi kpi-e"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Engagé total</div><div class="kv" id="kE">—</div><div class="ks" id="kEs"></div></div>
@@ -996,6 +1007,8 @@ input::placeholder{color:var(--tx3)}
       <div class="topbar-head"><div class="topbar-title">Factures ST</div><div class="topbar-sub">Factures des sous-traitants</div></div>
       <div class="ta">
         
+        <button class="btn btn-g btn-sm" onclick="exportCSV('factures-st')" title="Exporter en CSV"><span class="material-symbols-outlined" style="font-size:15px">download</span> CSV</button>
+        <button class="btn btn-g btn-sm" onclick="exportPDF('factures-st')" title="Exporter en PDF"><span class="material-symbols-outlined" style="font-size:15px">picture_as_pdf</span> PDF</button>
         <button class="btn btn-p btn-sm" onclick="openNewFacST()">+ Nouvelle facture ST</button>
       </div>
     </div>
@@ -1036,6 +1049,8 @@ input::placeholder{color:var(--tx3)}
     <div class="topbar">
       <div class="topbar-head"><div class="topbar-title">Sous-traitance</div><div class="topbar-sub">Devis et marchés sous-traitants</div></div>
       <div class="ta">
+        <button class="btn btn-g btn-sm" onclick="exportCSV('devis')" title="Exporter en CSV"><span class="material-symbols-outlined" style="font-size:15px">download</span> CSV</button>
+        <button class="btn btn-g btn-sm" onclick="exportPDF('devis')" title="Exporter en PDF"><span class="material-symbols-outlined" style="font-size:15px">picture_as_pdf</span> PDF</button>
         <button class="btn btn-p btn-sm" onclick="openNewDevis()">+ Nouveau devis</button>
       </div>
     </div>
@@ -1139,17 +1154,17 @@ input::placeholder{color:var(--tx3)}
         <div class="ph"><span class="pt">Membres du projet</span><button class="btn btn-p btn-sm" onclick="openAddMemberForm()">+ Ajouter</button></div>
         <div id="cfgMembersAdd" style="display:none;padding:14px 20px;border-bottom:1px solid var(--bd)">
           <div style="display:flex;gap:9px;align-items:flex-end;flex-wrap:wrap">
-            <div class="ff" style="margin:0;flex:1;min-width:180px"><label>Rechercher un utilisateur</label>
-              <input id="cfgAddSearch" placeholder="Nom ou initiales…" oninput="searchUsersToAdd()">
+            <div class="ff" style="margin:0;flex:1;min-width:180px"><label>Utilisateur</label>
+              <select id="cfgAddUser"><option value="">— Sélectionner —</option></select>
             </div>
             <div class="ff" style="margin:0;width:130px"><label>Rôle</label>
               <select id="cfgAddRole"><option value="membre">Membre</option><option value="admin">Admin</option></select>
             </div>
             <div style="display:flex;gap:6px;padding-bottom:1px">
+              <button class="btn btn-p btn-sm" onclick="confirmAddMember()">Ajouter</button>
               <button class="btn btn-s btn-sm" onclick="closeAddMemberForm()">Annuler</button>
             </div>
           </div>
-          <div id="cfgAddResults" style="margin-top:10px;display:flex;flex-direction:column;gap:4px"></div>
         </div>
         <div id="cfgMembersList"></div>
       </div>
@@ -1196,6 +1211,10 @@ input::placeholder{color:var(--tx3)}
             <button class="chip" id="tdPL" onclick="setTdPr('basse')">Basse</button>
           </div>
         </div>
+        <div class="fb fb-row2" style="border-top:1px solid var(--bd)">
+          <span class="fl">Intervenant</span>
+          <div id="tdMemberBar" style="display:flex;gap:4px;flex-wrap:wrap"><button class="chip on" onclick="setTdMember('all')">Tous</button></div>
+        </div>
         <div id="tdList" class="todo-list"></div>
         <div id="tdEmpty" class="empty" style="display:none"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">check_circle</span></div><p style="font-size:13px">Aucune tâche trouvée.</p></div>
       </div>
@@ -1241,7 +1260,7 @@ let currentUser=null,currentProject=null,currentUserRole='membre',currentUserMet
 const SB_URL="https://sxljxnydakmsozpkhinc.supabase.co"
 const SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4bGp4bnlkYWttc296cGtoaW5jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NjUyMDksImV4cCI6MjA5MDQ0MTIwOX0.UJAdQltLbXLWKFKCEsWJnWjEd9YgHTiQWu3i5fx8pFk"
 const _sb=supabase.createClient(SB_URL,SB_KEY)
-let C=[],F=[],LOTS={},SIGS=[]
+let C=[],F=[],LOTS={},SIGS=[],PROJECT_MEMBERS=[]
 let ACTIVITY_LOG=[]
 let POINTAGE=[]
 
@@ -1355,7 +1374,7 @@ async function apiPost(action,data){
       if(error)throw error;return{}
     }
     if(action==="saveTodos"){
-      const rows=(data.todos||[]).map(t=>({id:t.id,project_id:currentProject.id,titre:t.titre||"",priorite:t.priorite||"moyenne",statut:t.statut||"open",echeance:t.echeance||null,notes:t.notes||"",done_at:t.doneAt||null,created_at:t.createdAt||new Date().toISOString()}))
+      const rows=(data.todos||[]).map(t=>({id:t.id,project_id:currentProject.id,titre:t.titre||"",priorite:t.priorite||"moyenne",statut:t.statut||"open",echeance:t.echeance||null,notes:t.notes||"",assigned_to:t.assignedTo||null,done_at:t.doneAt||null,created_at:t.createdAt||new Date().toISOString()}))
       if(rows.length){const {error}=await _sb.from("todos").upsert(rows,{onConflict:"id"});if(error)throw error}
       return{}
     }
@@ -1370,7 +1389,7 @@ async function reload(){
   toast("Chargement…","info")
   try{
     const pid=currentProject?.id
-    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes,actRes,ptRes]=await Promise.all([
+    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes,actRes,ptRes,mbRes]=await Promise.all([
       _sb.from("commandes").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
       _sb.from("factures").select("*").eq("project_id",pid),
       _sb.from("devis").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
@@ -1380,7 +1399,8 @@ async function reload(){
       _sb.from("comptes_rendus").select("*").eq("project_id",pid).order("created_at",{ascending:false}),
       _sb.from("todos").select("*").eq("project_id",pid),
       _sb.from("activity_log").select("*").eq("project_id",pid).order("created_at",{ascending:false}).limit(20),
-      _sb.from("pointage").select("*").eq("project_id",pid).order("date",{ascending:false})
+      _sb.from("pointage").select("*").eq("project_id",pid).order("date",{ascending:false}),
+      _sb.from("project_members").select("user_id,display_name,initials,role").eq("project_id",pid)
     ])
     if(cRes.error)throw new Error(cRes.error.message)
     if(fRes.error)throw new Error(fRes.error.message)
@@ -1392,9 +1412,10 @@ async function reload(){
     if(!entsRes.error)ENTREPRISES=(entsRes.data||[]).map(r=>({id:"ENT-"+r.nom,nom:r.nom,type:r.type||"",contact:r.contact||"",tel:r.tel||"",email:r.email||"",notes:r.notes||""}))
     if(!jRes.error)JOURNAL=(jRes.data||[]).map(r=>({id:r.id,type:r.type||"Autre",entreprise:r.entreprise||"",description:r.description||"",createdAt:r.created_at}))
     if(!crRes.error)CRS=(crRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",date:r.date||"",participants:r.participants||"",contenu:r.contenu||"",actions:r.actions||"",prochainRDV:r.prochain_rdv||"",createdAt:r.created_at}))
-    if(!tdRes.error)TODOS=(tdRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",priorite:r.priorite||"moyenne",statut:r.statut||"open",echeance:r.echeance||"",notes:r.notes||"",doneAt:r.done_at||null,createdAt:r.created_at}))
+    if(!tdRes.error)TODOS=(tdRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",priorite:r.priorite||"moyenne",statut:r.statut||"open",echeance:r.echeance||"",notes:r.notes||"",assignedTo:r.assigned_to||null,doneAt:r.done_at||null,createdAt:r.created_at}))
     if(!actRes?.error)ACTIVITY_LOG=(actRes?.data||[]).map(r=>({id:r.id,userName:r.user_name||"",action:r.action,entityType:r.entity_type,entityLabel:r.entity_label||"",createdAt:r.created_at}))
     if(!ptRes?.error)POINTAGE=(ptRes?.data||[]).map(r=>({id:r.id,date:r.date,entreprise:r.entreprise,nb:r.nb_personnes,notes:r.notes||"",createdAt:r.created_at}))
+    if(!mbRes?.error)PROJECT_MEMBERS=(mbRes?.data||[]).map(r=>({userId:r.user_id,name:r.display_name||"",initials:r.initials||"?",role:r.role||"membre"}))
     rAll()
     const activeView=document.querySelector(".view.active")?.id
     if(activeView==="view-st")rST()
@@ -1415,7 +1436,7 @@ function _onRealtimeChange(){
 async function silentReload(){
   try{
     const pid=currentProject?.id
-    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes,actRes,ptRes]=await Promise.all([
+    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes,actRes,ptRes,mbRes]=await Promise.all([
       _sb.from("commandes").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
       _sb.from("factures").select("*").eq("project_id",pid),
       _sb.from("devis").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
@@ -1425,7 +1446,8 @@ async function silentReload(){
       _sb.from("comptes_rendus").select("*").eq("project_id",pid).order("created_at",{ascending:false}),
       _sb.from("todos").select("*").eq("project_id",pid),
       _sb.from("activity_log").select("*").eq("project_id",pid).order("created_at",{ascending:false}).limit(20),
-      _sb.from("pointage").select("*").eq("project_id",pid).order("date",{ascending:false})
+      _sb.from("pointage").select("*").eq("project_id",pid).order("date",{ascending:false}),
+      _sb.from("project_members").select("user_id,display_name,initials,role").eq("project_id",pid)
     ])
     if(cRes.error)return
     C=(cRes.data||[]).map(r=>({ID:r.id,Fournisseur:r.fournisseur,Description:r.description,Lot:r.lot,Type:r.type,"Montant HT":String(r.montant_ht||0),Date:r.date||"",Signataire:r.signataire,Notes:r.notes||""}))
@@ -1436,9 +1458,10 @@ async function silentReload(){
     if(!entsRes.error)ENTREPRISES=(entsRes.data||[]).map(r=>({id:"ENT-"+r.nom,nom:r.nom,type:r.type||"",contact:r.contact||"",tel:r.tel||"",email:r.email||"",notes:r.notes||""}))
     if(!jRes.error)JOURNAL=(jRes.data||[]).map(r=>({id:r.id,type:r.type||"Autre",entreprise:r.entreprise||"",description:r.description||"",createdAt:r.created_at}))
     if(!crRes.error)CRS=(crRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",date:r.date||"",participants:r.participants||"",contenu:r.contenu||"",actions:r.actions||"",prochainRDV:r.prochain_rdv||"",createdAt:r.created_at}))
-    if(!tdRes.error)TODOS=(tdRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",priorite:r.priorite||"moyenne",statut:r.statut||"open",echeance:r.echeance||"",notes:r.notes||"",doneAt:r.done_at||null,createdAt:r.created_at}))
+    if(!tdRes.error)TODOS=(tdRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",priorite:r.priorite||"moyenne",statut:r.statut||"open",echeance:r.echeance||"",notes:r.notes||"",assignedTo:r.assigned_to||null,doneAt:r.done_at||null,createdAt:r.created_at}))
     if(!actRes?.error)ACTIVITY_LOG=(actRes?.data||[]).map(r=>({id:r.id,userName:r.user_name||"",action:r.action,entityType:r.entity_type,entityLabel:r.entity_label||"",createdAt:r.created_at}))
     if(!ptRes?.error)POINTAGE=(ptRes?.data||[]).map(r=>({id:r.id,date:r.date,entreprise:r.entreprise,nb:r.nb_personnes,notes:r.notes||"",createdAt:r.created_at}))
+    if(!mbRes?.error)PROJECT_MEMBERS=(mbRes?.data||[]).map(r=>({userId:r.user_id,name:r.display_name||"",initials:r.initials||"?",role:r.role||"membre"}))
     rAll()
     const av=document.querySelector(".view.active")?.id
     if(av==="view-st")rST()
@@ -2634,8 +2657,13 @@ document.addEventListener('click',()=>document.querySelectorAll('.pp-card-menu')
 
 // ── AUTH ─────────────────────────────────────────────────
 function _showAuthScreen(html){
-  document.getElementById('authBox').innerHTML=html
-  document.getElementById('authScreen').classList.remove('hidden')
+  _hideSplash()
+  const box=document.getElementById('authBox')
+  const screen=document.getElementById('authScreen')
+  box.innerHTML=html
+  screen.classList.remove('hidden')
+  screen.style.opacity='0'
+  requestAnimationFrame(()=>{screen.style.transition='opacity .3s';screen.style.opacity='1'})
 }
 function _hideAuthScreen(){document.getElementById('authScreen').classList.add('hidden')}
 function _showAuthErr(msg){const el=document.getElementById('authErr');if(el){el.textContent=msg;el.classList.add('show')}}
@@ -2652,6 +2680,53 @@ function showLoginForm(){
     <button class="auth-btn" id="authBtn" onclick="doLogin()">Se connecter</button>`)
 }
 
+function showProfileForm(){
+  _showAuthScreen(`
+    <div class="auth-logo">CAIRN</div>
+    <div style="text-align:center"><div class="auth-title">Complétez votre profil</div><div class="auth-sub" style="margin-top:4px">Avant de commencer, présentez-vous</div></div>
+    <div class="auth-field"><label>Prénom</label><input id="pfPrenom" placeholder="Jean" autocomplete="given-name"></div>
+    <div class="auth-field"><label>Nom</label><input id="pfNom" placeholder="Dupont" autocomplete="family-name" onkeydown="if(event.key==='Enter')saveProfileForm()"></div>
+    <div class="auth-field"><label>Initiales <span style="font-weight:400;opacity:.6">(optionnel)</span></label><input id="pfInitials" placeholder="JD" maxlength="3" style="text-transform:uppercase;width:80px"></div>
+    <div class="auth-error" id="authErr"></div>
+    <button class="auth-btn" id="authBtn" onclick="saveProfileForm()">Continuer →</button>`)
+}
+async function saveProfileForm(){
+  const prenom=(document.getElementById('pfPrenom')?.value||'').trim()
+  const nom=(document.getElementById('pfNom')?.value||'').trim()
+  const initials=(document.getElementById('pfInitials')?.value||'').trim().toUpperCase()
+  if(!prenom||!nom){_showAuthErr('Prénom et nom requis');return}
+  const displayName=`${prenom} ${nom}`
+  const finalInitials=initials||(prenom[0]+(nom[0]||'')).toUpperCase()
+  const btn=document.getElementById('authBtn');btn.textContent='Enregistrement…';btn.disabled=true
+  const {error}=await _sb.from('user_meta').upsert({user_id:currentUser.id,display_name:displayName,initials:finalInitials},{onConflict:'user_id'})
+  if(error){_showAuthErr(error.message);btn.textContent='Continuer →';btn.disabled=false;return}
+  await afterLogin()
+}
+let _waitInterval=null
+function showWaitingScreen(){
+  _showAuthScreen(`
+    <div class="auth-logo">CAIRN</div>
+    <div style="text-align:center"><div class="auth-title">En attente d'accès</div><div class="auth-sub" style="margin-top:6px;max-width:280px;margin-left:auto;margin-right:auto">Votre compte est créé. Pour accéder à un projet, contactez :<br><a href="mailto:alexandre.garcia@ateliersfrance.com" style="color:#93B8FF;font-weight:600;text-decoration:none">alexandre.garcia@ateliersfrance.com</a></div></div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:rgba(255,255,255,.08);border-radius:10px">
+      <span class="material-symbols-outlined" style="font-size:16px;color:rgba(148,163,184,.7)">schedule</span>
+      <span id="waitStatus" style="font-size:12px;color:rgba(148,163,184,.8)">Vérification automatique toutes les 15 s…</span>
+    </div>
+    <button class="auth-btn" onclick="checkWaiting()">Vérifier maintenant</button>
+    <button type="button" onclick="doLogout()" style="background:none;border:1px solid rgba(255,255,255,.12);border-radius:8px;color:rgba(148,163,184,.8);font-size:12px;cursor:pointer;font-family:inherit;padding:8px 16px;width:100%">Se déconnecter</button>`)
+  if(_waitInterval)clearInterval(_waitInterval)
+  _waitInterval=setInterval(checkWaiting,15000)
+}
+async function checkWaiting(){
+  const el=document.getElementById('waitStatus');if(el)el.textContent='Vérification…'
+  const {data:members}=await _sb.from('project_members').select('project_id').eq('user_id',currentUser.id)
+  if((members||[]).length){
+    if(_waitInterval){clearInterval(_waitInterval);_waitInterval=null}
+    await afterLogin()
+  } else {
+    const t=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})
+    if(el)el.textContent=`Pas encore assigné · ${t}`
+  }
+}
 function showSetPasswordForm(){
   _showAuthScreen(`
     <div class="auth-logo">CAIRN</div>
@@ -2686,6 +2761,7 @@ async function doSetPassword(){
 }
 
 async function doLogout(){
+  if(_waitInterval){clearInterval(_waitInterval);_waitInterval=null}
   await _sb.auth.signOut()
   window.location.reload()
 }
@@ -2749,10 +2825,13 @@ async function saveProfilePanel(){
 }
 
 async function afterLogin(){
+  // Vérifier profil utilisateur
+  const {data:meta}=await _sb.from('user_meta').select('*').eq('user_id',currentUser.id).maybeSingle()
+  if(!meta||!meta.display_name){showProfileForm();return}
   // Load user profile + projects
   const {data:members}=await _sb.from('project_members').select('*').eq('user_id',currentUser.id)
   const projIds=(members||[]).map(m=>m.project_id)
-  if(!projIds.length){_showAuthScreen('<div class="auth-logo">CAIRN</div><div class="auth-sub" style="margin-top:12px">Aucun projet assigné. Contactez un administrateur.</div><button class="auth-btn" onclick="doLogout()" style="margin-top:8px">Se déconnecter</button>');return}
+  if(!projIds.length){showWaitingScreen();return}
   const {data:projects}=await _sb.from('projects').select('*').in('id',projIds)
   // Populate project picker dynamically
   const grid=document.getElementById('ppGrid')
@@ -2787,6 +2866,7 @@ async function afterLogin(){
     const proj=(projects||[]).find(p=>p.id===pid)
     if(proj){await selectProject(proj.id,projects,members);return}
   }
+  _hideSplash()
   document.getElementById('projectPicker').classList.remove('hidden')
 }
 
@@ -2807,6 +2887,7 @@ async function selectProject(projectId,projectsCache,membersCache){
   document.title=pName?`${pName} | CAIRN`:'CAIRN'
   document.getElementById('projectPicker').classList.add('hidden')
   _hideAuthScreen()
+  _hideSplash()
   document.getElementById('sidebar').style.display=''
   document.getElementById('main').style.display=''
   startRealtime()
@@ -2854,34 +2935,24 @@ async function rConfigMembers(){
     </div>`).join('')
 }
 
-function openAddMemberForm(){
+async function openAddMemberForm(){
   document.getElementById('cfgMembersAdd').style.display='block'
-  document.getElementById('cfgAddSearch').value=''
-  document.getElementById('cfgAddResults').innerHTML=''
-  document.getElementById('cfgAddSearch').focus()
+  const {data:existing}=await _sb.from('project_members').select('user_id').eq('project_id',currentProject.id)
+  const existingIds=(existing||[]).map(m=>m.user_id)
+  const {data:all}=await _sb.from('user_meta').select('*').order('display_name')
+  const available=(all||[]).filter(u=>!existingIds.includes(u.user_id))
+  const sel=document.getElementById('cfgAddUser')
+  sel.innerHTML='<option value="">— Sélectionner —</option>'+available.map(u=>`<option value="${u.user_id}" data-name="${(u.display_name||'').replace(/"/g,'')}" data-initials="${u.initials||''}">${u.display_name||u.initials||u.user_id}</option>`).join('')
 }
 function closeAddMemberForm(){document.getElementById('cfgMembersAdd').style.display='none'}
 
-async function searchUsersToAdd(){
-  const q=document.getElementById('cfgAddSearch').value.trim()
-  const el=document.getElementById('cfgAddResults')
-  if(q.length<2){el.innerHTML='';return}
-  // Membres déjà dans le projet
-  const {data:existing}=await _sb.from('project_members').select('user_id').eq('project_id',currentProject.id)
-  const existingIds=(existing||[]).map(m=>m.user_id)
-  // Cherche dans user_meta par nom ou initiales
-  const {data:all}=await _sb.from('user_meta').select('*').or(`display_name.ilike.%${q}%,initials.ilike.%${q}%`)
-  const filtered=(all||[]).filter(u=>!existingIds.includes(u.user_id))
-  if(!filtered.length){el.innerHTML='<div style="font-size:12px;color:var(--tx3);padding:4px 2px">Aucun utilisateur trouvé</div>';return}
-  el.innerHTML=filtered.map(u=>`
-    <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;background:var(--sf2);border:1px solid var(--bd)">
-      <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1957F7,#5B7FF8);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0">${u.initials||'?'}</div>
-      <div style="flex:1;font-size:13px;font-weight:500;color:var(--tx)">${u.display_name||u.initials||'—'}</div>
-      <button class="btn btn-p btn-xs" onclick="confirmAddMember('${u.user_id}','${(u.display_name||'').replace(/'/g,"\\'")}','${u.initials||''}')">Ajouter</button>
-    </div>`).join('')
-}
-
-async function confirmAddMember(userId,displayName,initials){
+async function confirmAddMember(){
+  const sel=document.getElementById('cfgAddUser')
+  const userId=sel.value
+  if(!userId){toast('Sélectionnez un utilisateur','error');return}
+  const opt=sel.options[sel.selectedIndex]
+  const displayName=opt.dataset.name||''
+  const initials=opt.dataset.initials||''
   const role=document.getElementById('cfgAddRole').value
   const {error}=await _sb.from('project_members').insert({project_id:currentProject.id,user_id:userId,role,display_name:displayName,initials})
   if(error){toast('Erreur : '+error.message,'error');return}
@@ -2898,11 +2969,16 @@ async function removeMember(userId){
   rConfigMembers()
 }
 
+function _hideSplash(){
+  const sp=document.getElementById('splash')
+  if(!sp||sp.classList.contains('gone'))return
+  sp.classList.add('fade-out')
+  setTimeout(()=>sp.classList.add('gone'),300)
+}
 async function initAuth(){
   // Handle invite/recovery callback (tokens in URL hash)
   const hash=window.location.hash
   if(hash.includes('type=invite')||hash.includes('type=recovery')){
-    // Let Supabase parse the tokens
     await new Promise(r=>setTimeout(r,200))
     const {data:{session}}=await _sb.auth.getSession()
     if(session){currentUser=session.user;showSetPasswordForm();return}
@@ -2916,6 +2992,150 @@ async function initAuth(){
       if(!currentProject)await afterLogin()
     }else if(event==='SIGNED_OUT'){window.location.reload()}
   })
+}
+
+// ── EXPORT CSV ───────────────────────────────────────────
+function exportCSV(type){
+  let rows=[],filename=""
+  const esc=v=>{
+    const s=String(v??'').replace(/"/g,'""')
+    return s.includes(',')||s.includes('"')||s.includes('\n')?`"${s}"`:s
+  }
+  const row=cols=>cols.map(esc).join(',')+'\r\n'
+
+  if(type==='commandes'){
+    filename=`achats_${currentProject?.name||'export'}_${lds(new Date())}.csv`
+    rows.push(row(['N° Cmd','Fournisseur','Lot','Type','Description','Engagé HT','Facturé HT','Pointé HT','Date','Signataire','Notes']))
+    C.forEach(c=>{
+      const facs=F.filter(f=>f.ID_Commande===c.ID)
+      const facture=facs.reduce((s,f)=>s+parseFloat(f['Montant HT']||0),0)
+      const pointe=facs.filter(f=>f['Pointé']).reduce((s,f)=>s+parseFloat(f['Montant HT']||0),0)
+      rows.push(row([c.ID,c.Fournisseur,LOTS[c.Lot]||c.Lot||'',c.Type,c.Description,c['Montant HT'],facture.toFixed(2),pointe.toFixed(2),c.Date,c.Signataire,c.Notes||'']))
+    })
+  } else if(type==='devis'){
+    filename=`devis_st_${currentProject?.name||'export'}_${lds(new Date())}.csv`
+    rows.push(row(['N° Devis','Sous-traitant','Date','Lot','Description','Montant HT','Signataire','Validation','Avenant','N° Avenant','Notes']))
+    DEVIS.forEach(d=>{
+      const validation={accepte:'Accepté',refuse:'Refusé',attente:'En attente'}[d.validation]||d.validation
+      rows.push(row([d.numero,d.st,d.date,d.lot,d.description,d.montant,d.signataire,validation,d.avenant==='oui'?'Oui':'Non',d.numAvenant||'',d.notes||'']))
+    })
+  } else if(type==='factures-st'){
+    filename=`factures_st_${currentProject?.name||'export'}_${lds(new Date())}.csv`
+    rows.push(row(['Sous-traitant','N° Facture','Montant HT','Date réception','Pointé','Date pointage','Notes']))
+    const stC=C.filter(c=>c.Type==='Sous-traitance')
+    const stCids=new Set(stC.map(c=>c.ID))
+    const stF=F.filter(f=>f.ID_Commande?.startsWith('ST:')||stCids.has(f.ID_Commande))
+    stF.forEach(f=>{
+      const fourn=f.ID_Commande?.startsWith('ST:')?f.ID_Commande.slice(3):(stC.find(c=>c.ID===f.ID_Commande)?.Fournisseur||'')
+      rows.push(row([fourn,f['N° Facture'],f['Montant HT'],f['Date réception'],f['Pointé']?'Oui':'Non',f['Date pointage']||'',f.Notes||'']))
+    })
+  }
+
+  if(!rows.length){toast('Aucune donnée à exporter','info');return}
+  const bom='\uFEFF'
+  const blob=new Blob([bom+rows.join('')],{type:'text/csv;charset=utf-8;'})
+  const url=URL.createObjectURL(blob)
+  const a=document.createElement('a')
+  a.href=url;a.download=filename;a.click()
+  URL.revokeObjectURL(url)
+  toast('Export téléchargé','success')
+}
+
+function exportPDF(type){
+  if(!window.jspdf){toast('Librairie PDF non chargée','error');return}
+  const {jsPDF}=window.jspdf
+  const proj=currentProject?.name||'Export'
+  const date=lds(new Date())
+  const fmt=n=>{const v=Number(n||0).toFixed(2);return v.replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,' ')}
+
+  let head=[],body=[],title='',filename='',orientation='landscape'
+
+  if(type==='commandes'){
+    title=`Achats — ${proj}`
+    filename=`achats_${proj}_${date}.pdf`
+    head=[['N° Cmd','Fournisseur','Lot','Type','Description','Engagé HT','Facturé HT','Pointé HT','Date','Sig.']]
+    body=C.map(c=>{
+      const facs=F.filter(f=>f.ID_Commande===c.ID)
+      const facture=facs.reduce((s,f)=>s+parseFloat(f['Montant HT']||0),0)
+      const pointe=facs.filter(f=>f['Pointé']).reduce((s,f)=>s+parseFloat(f['Montant HT']||0),0)
+      return[c.ID,c.Fournisseur,LOTS[c.Lot]||c.Lot||'',c.Type,c.Description,fmt(c['Montant HT']),fmt(facture),fmt(pointe),c.Date||'',c.Signataire||'']
+    })
+    // Total row
+    const totEngage=C.reduce((s,c)=>s+parseFloat(c['Montant HT']||0),0)
+    const totFac=F.filter(f=>C.some(c=>c.ID===f.ID_Commande)).reduce((s,f)=>s+parseFloat(f['Montant HT']||0),0)
+    const totPt=F.filter(f=>f['Pointé']&&C.some(c=>c.ID===f.ID_Commande)).reduce((s,f)=>s+parseFloat(f['Montant HT']||0),0)
+    body.push(['','','','','TOTAL',fmt(totEngage),fmt(totFac),fmt(totPt),'',''])
+  } else if(type==='devis'){
+    title=`Sous-traitance — ${proj}`
+    filename=`devis_st_${proj}_${date}.pdf`
+    head=[['N° Devis','Sous-traitant','Date','Lot','Description','Montant HT','Signataire','Validation','Avenant']]
+    body=DEVIS.map(d=>[d.numero,d.st,d.date||'',d.lot||'',d.description,fmt(d.montant),d.signataire||'',{accepte:'Accepté',refuse:'Refusé',attente:'En attente'}[d.validation]||'',d.avenant==='oui'?`Oui${d.numAvenant?' — '+d.numAvenant:''}`:'-'])
+    const totAcc=DEVIS.filter(d=>d.validation==='accepte').reduce((s,d)=>s+parseFloat(d.montant||0),0)
+    body.push(['','','','','TOTAL ACCEPTÉ',fmt(totAcc),'','',''])
+  } else if(type==='factures-st'){
+    title=`Factures ST — ${proj}`
+    filename=`factures_st_${proj}_${date}.pdf`
+    orientation='portrait'
+    head=[['Sous-traitant','N° Facture','Montant HT','Date réception','Pointé','Date pointage']]
+    const stC=C.filter(c=>c.Type==='Sous-traitance')
+    const stCids=new Set(stC.map(c=>c.ID))
+    const stF=F.filter(f=>f.ID_Commande?.startsWith('ST:')||stCids.has(f.ID_Commande))
+    body=stF.map(f=>{
+      const fourn=f.ID_Commande?.startsWith('ST:')?f.ID_Commande.slice(3):(stC.find(c=>c.ID===f.ID_Commande)?.Fournisseur||'')
+      return[fourn,f['N° Facture']||'',fmt(f['Montant HT']),f['Date réception']||'',f['Pointé']?'✓':'-',f['Date pointage']||'']
+    })
+    const totFac=stF.reduce((s,f)=>s+parseFloat(f['Montant HT']||0),0)
+    const totPt=stF.filter(f=>f['Pointé']).reduce((s,f)=>s+parseFloat(f['Montant HT']||0),0)
+    body.push(['','TOTAL',fmt(totFac),'',`${Math.round(totPt/totFac*100)||0}% pointé`,''])
+  }
+
+  if(!body.length){toast('Aucune donnée à exporter','info');return}
+
+  const doc=new jsPDF({orientation,unit:'mm',format:'a4'})
+  const pageW=doc.internal.pageSize.getWidth()
+
+  // Header
+  doc.setFillColor(25,87,247)
+  doc.rect(0,0,pageW,18,'F')
+  doc.setTextColor(255,255,255)
+  doc.setFontSize(13);doc.setFont('helvetica','bold')
+  doc.text(title,14,11)
+  doc.setFontSize(8);doc.setFont('helvetica','normal')
+  doc.text(`Généré le ${date}`,pageW-14,11,{align:'right'})
+
+  const colStyles=type==='commandes'
+    ?{0:{cellWidth:20},1:{cellWidth:42},2:{cellWidth:18},3:{cellWidth:22},4:{cellWidth:48},5:{cellWidth:24,halign:'right'},6:{cellWidth:24,halign:'right'},7:{cellWidth:24,halign:'right'},8:{cellWidth:22},9:{cellWidth:15}}
+    :type==='devis'
+    ?{0:{cellWidth:22},1:{cellWidth:40},2:{cellWidth:20},3:{cellWidth:18},4:{cellWidth:55},5:{cellWidth:26,halign:'right'},6:{cellWidth:18},7:{cellWidth:22},8:{cellWidth:28}}
+    :{0:{cellWidth:45},1:{cellWidth:30},2:{cellWidth:28,halign:'right'},3:{cellWidth:28},4:{cellWidth:22,halign:'center'},5:{cellWidth:28}}
+
+  doc.autoTable({
+    head,body,
+    startY:22,
+    styles:{fontSize:8,cellPadding:3,lineColor:[230,230,230],lineWidth:.3,overflow:'linebreak'},
+    headStyles:{fillColor:[25,87,247],textColor:255,fontStyle:'bold',fontSize:8},
+    alternateRowStyles:{fillColor:[248,250,252]},
+    columnStyles:colStyles,
+    didParseCell(data){
+      if(data.row.index===body.length-1){
+        data.cell.styles.fontStyle='bold'
+        data.cell.styles.fillColor=[235,242,255]
+        data.cell.styles.textColor=[25,87,247]
+      }
+    },
+    margin:{left:14,right:14}
+  })
+
+  // Page numbers
+  const pages=doc.internal.getNumberOfPages()
+  for(let i=1;i<=pages;i++){
+    doc.setPage(i)
+    doc.setFontSize(7);doc.setTextColor(150)
+    doc.text(`Page ${i} / ${pages}`,pageW/2,doc.internal.pageSize.getHeight()-6,{align:'center'})
+  }
+
+  doc.save(filename)
+  toast('PDF téléchargé','success')
 }
 
 // ── THÈME ─────────────────────────────────────────────────
@@ -2932,7 +3152,7 @@ function setTheme(t){
   const pD=document.getElementById('profThemeDark');if(pD)pD.classList.toggle('active',t!=='light')
   const pL=document.getElementById('profThemeLight');if(pL)pL.classList.toggle('active',t==='light')
 }
-;(function(){const t=localStorage.getItem('cairn-theme')||'dark';setTheme(t)})()
+;(function(){const t=localStorage.getItem('cairn-theme')||'light';setTheme(t)})()
 
 initAuth()
 
@@ -3252,7 +3472,7 @@ async function delDevis(id){
 
 // ── TODO ─────────────────────────────────────────────────
 let TODOS=[]
-let tdFSt="all",tdFPr="all"
+let tdFSt="all",tdFPr="all",tdFMember="all"
 
 function loadTodos(){try{TODOS=JSON.parse(localStorage.getItem("todos18EL")||"[]")}catch{TODOS=[]}}
 async function saveTodos(){localStorage.setItem("todos18EL",JSON.stringify(TODOS));await apiPost("saveTodos",{todos:TODOS})}
@@ -3261,6 +3481,7 @@ loadTodos()
 
 function setTdSt(v){tdFSt=v;rTodo()}
 function setTdPr(v){tdFPr=v;rTodo()}
+function setTdMember(v){tdFMember=v;rTodo()}
 
 function rTodo(){
   const now=new Date();now.setHours(0,0,0,0)
@@ -3275,9 +3496,18 @@ function rTodo(){
   const el=document.getElementById("tdKDoneMonth");if(el)el.textContent=mn+" "+now.getFullYear()
   ;[["tdFAll","all"],["tdFOpen","open"],["tdFWip","wip"],["tdFDone","done"]].forEach(([id,v])=>{const b=document.getElementById(id);if(b)b.classList.toggle("on",tdFSt===v)})
   ;[["tdPAll","all"],["tdPH","haute"],["tdPM","moyenne"],["tdPL","basse"]].forEach(([id,v])=>{const b=document.getElementById(id);if(b)b.classList.toggle("on",tdFPr===v)})
+  // Render member filter chips dynamically
+  const mbBar=document.getElementById("tdMemberBar")
+  if(mbBar){
+    mbBar.innerHTML=`<button class="chip${tdFMember==="all"?" on":""}" onclick="setTdMember('all')">Tous</button>`
+      +PROJECT_MEMBERS.map(m=>`<button class="chip${tdFMember===m.userId?" on":""}" onclick="setTdMember('${m.userId}')">${m.name||m.initials}</button>`).join("")
+      +(tdFMember==="unassigned"?`<button class="chip on" onclick="setTdMember('all')">Non assigné</button>`:`<button class="chip${tdFMember==="unassigned"?" on":""}" onclick="setTdMember('unassigned')">Non assigné</button>`)
+  }
   let list=[...TODOS]
   if(tdFSt!=="all")list=list.filter(t=>t.statut===tdFSt)
   if(tdFPr!=="all")list=list.filter(t=>t.priorite===tdFPr)
+  if(tdFMember==="unassigned")list=list.filter(t=>!t.assignedTo)
+  else if(tdFMember!=="all")list=list.filter(t=>t.assignedTo===tdFMember)
   // Sort: open/wip first by priority weight then due date, done at bottom
   const pw={haute:0,moyenne:1,basse:2}
   list.sort((a,b)=>{
@@ -3300,11 +3530,13 @@ function rTodo(){
     const done=t.statut==="done"
     const isLate=!done&&t.echeance&&new Date(t.echeance)<now
     const dueLabel=t.echeance?`<span class="todo-due${isLate?" overdue":""}">📅 ${fd(t.echeance)}${isLate?" · En retard":""}</span>`:""
+    const assignedMember=t.assignedTo?PROJECT_MEMBERS.find(m=>m.userId===t.assignedTo):null
+    const assignedBadge=assignedMember?`<span title="${assignedMember.name}" style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--acl);color:var(--ac);font-size:10px;font-weight:700;flex-shrink:0">${assignedMember.initials}</span>`:""
     return`<div class="todo-card${done?" todo-done":""}">
       <div class="todo-cb${done?" checked":""}" onclick="toggleTodoDone('${t.id}')" title="${done?"Rouvrir":"Marquer terminé"}">${done?"✓":""}</div>
       <div class="todo-body">
         <div class="todo-title-txt">${t.titre||"Sans titre"}</div>
-        <div class="todo-meta">${prBadge(t.priorite||"basse")} ${stBadge(t.statut||"open")} ${dueLabel}${t.notes?`<span style="font-size:11px;color:var(--tx3);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${t.notes.replace(/"/g,"&quot;")}">${t.notes}</span>`:""}</div>
+        <div class="todo-meta">${prBadge(t.priorite||"basse")} ${stBadge(t.statut||"open")} ${dueLabel}${assignedBadge}${t.notes?`<span style="font-size:11px;color:var(--tx3);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${t.notes.replace(/"/g,"&quot;")}">${t.notes}</span>`:""}</div>
       </div>
       <div class="todo-acts">
         <button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editTodo','${t.id}')"><span class="material-symbols-outlined">edit</span></button>
@@ -3315,6 +3547,7 @@ function rTodo(){
 }
 
 function todoForm(t){
+  const memberOptions=PROJECT_MEMBERS.map(m=>`<option value="${m.userId}"${t?.assignedTo===m.userId?" selected":""}>${m.name||m.initials}</option>`).join("")
   return`<div class="fs"><div class="fs-title">Tâche</div>
   <div class="ff"><label>Titre *</label><input id="tdTitre" value="${t?.titre||""}" placeholder="Décrire la tâche…"></div>
   <div class="ff2">
@@ -3329,7 +3562,10 @@ function todoForm(t){
       <option value="done"${t?.statut==="done"?" selected":""}>✓ Terminé</option>
     </select></div>
   </div>
-  <div class="ff"><label>Échéance</label><input id="tdEcheance" type="date" value="${t?.echeance||""}"></div>
+  <div class="ff2">
+    <div class="ff"><label>Assigné à</label><select id="tdAssigned"><option value="">— Non assigné</option>${memberOptions}</select></div>
+    <div class="ff"><label>Échéance</label><input id="tdEcheance" type="date" value="${t?.echeance||""}"></div>
+  </div>
   <div class="ff"><label>Notes</label><textarea id="tdNotes" rows="3" placeholder="Contexte, détails…" style="min-height:70px;resize:vertical;width:100%;font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--bd);border-radius:7px;background:var(--sf);color:var(--tx);outline:none;line-height:1.5;box-shadow:0 1px 2px rgba(13,27,46,.04);transition:border .15s,box-shadow .15s">${t?.notes||""}</textarea></div>
   </div>`
 }
@@ -3337,7 +3573,7 @@ function todoForm(t){
 function subTodoNew(){
   const titre=document.getElementById("tdTitre")?.value.trim()
   if(!titre){toast("Titre requis","error");return}
-  const t={id:todoId(),titre,priorite:document.getElementById("tdPriorite")?.value||"moyenne",statut:document.getElementById("tdStatut")?.value||"open",echeance:document.getElementById("tdEcheance")?.value||"",notes:document.getElementById("tdNotes")?.value.trim()||"",createdAt:new Date().toISOString(),doneAt:null}
+  const t={id:todoId(),titre,priorite:document.getElementById("tdPriorite")?.value||"moyenne",statut:document.getElementById("tdStatut")?.value||"open",echeance:document.getElementById("tdEcheance")?.value||"",notes:document.getElementById("tdNotes")?.value.trim()||"",assignedTo:document.getElementById("tdAssigned")?.value||null,createdAt:new Date().toISOString(),doneAt:null}
   if(t.statut==="done")t.doneAt=new Date().toISOString()
   TODOS.push(t);saveTodos();closePanel();rTodo();toast("Tâche créée")
 }
@@ -3352,6 +3588,7 @@ function subTodoEdit(id){
   if(newSt!==t.statut){if(newSt==="done"&&!t.doneAt)t.doneAt=new Date().toISOString();if(newSt!=="done")t.doneAt=null;t.statut=newSt}
   t.echeance=document.getElementById("tdEcheance")?.value||""
   t.notes=document.getElementById("tdNotes")?.value.trim()||""
+  t.assignedTo=document.getElementById("tdAssigned")?.value||null
   saveTodos();closePanel();rTodo();toast("Tâche mise à jour")
 }
 
