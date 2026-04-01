@@ -6,7 +6,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.475.0/dist/umd/lucide.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -506,6 +506,32 @@ input::placeholder{color:var(--tx3)}
 .auth-tile-desc{font-size:13px;color:rgba(148,163,184,.75);line-height:1.65;max-width:380px}
 .auth-tile-glow{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(80px);opacity:.12;pointer-events:none;bottom:-80px;right:-80px}
 #authScreen.hidden{display:none}
+
+/* ── RESPONSIVE MOBILE ───────────────────────────────────── */
+.mob-burger{display:none;align-items:center;justify-content:center;width:36px;height:36px;border:none;background:none;color:var(--tx2);cursor:pointer;border-radius:8px;flex-shrink:0;margin-right:8px}
+.mob-burger:hover{background:var(--sf2)}
+#sidebarOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(2px);z-index:99;opacity:0;transition:opacity .22s;pointer-events:none}
+#sidebarOverlay.open{opacity:1;pointer-events:all}
+@media(max-width:768px){
+  .mob-burger{display:flex}
+  .sidebar{transform:translateX(-100%);transition:transform .22s cubic-bezier(.4,0,.2,1);z-index:200;width:var(--sw)!important}
+  .sidebar.mob-open{transform:translateX(0)}
+  #sidebarOverlay{display:block}
+  .main{margin-left:0!important}
+  .main.expanded{margin-left:0!important}
+  .topbar{padding:0 16px;height:60px}
+  .content{padding:16px}
+  .topbar-sub{display:none}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)!important}
+  .ana-grid{grid-template-columns:1fr!important}
+  .lots-grid{grid-template-columns:1fr!important}
+  .sp{width:100%!important}
+  .ts-row,.ts-hd{grid-template-columns:80px 1fr 100px 72px!important}
+  .ts-row>:nth-child(4),.ts-row>:nth-child(5),.ts-row>:nth-child(6),.ts-hd>:nth-child(4),.ts-hd>:nth-child(5),.ts-hd>:nth-child(6){display:none}
+  .auth-bento{grid-template-columns:1fr!important}
+  .auth-tile-wide{grid-column:1!important}
+}
+
 .auth-blob{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
 .auth-blob-1{width:800px;height:800px;background:linear-gradient(135deg,#1957F7,#818cf8);top:-200px;right:-100px;opacity:.4}
 .auth-blob-2{width:600px;height:600px;background:linear-gradient(135deg,#7c3aed,#c084fc);bottom:-100px;left:-100px;opacity:.3}
@@ -532,6 +558,7 @@ input::placeholder{color:var(--tx3)}
 </head>
 <body>
 
+<div id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
 <div id="splash"><div class="splash-logo">CAIRN</div><div class="splash-spinner"></div></div>
 
 <div id="authScreen" class="hidden">
@@ -857,12 +884,12 @@ input::placeholder{color:var(--tx3)}
 <div class="main" id="main">
   <div id="sProjectName" style="display:none;padding:8px 24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--tx2);background:var(--sf2);border:1px solid var(--bd);border-radius:5px;padding:3px 9px"></span></div>
   <div id="view-dashboard" class="view active">
-    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Tableau de bord</div><div class="topbar-sub">Vue d'ensemble du projet</div></div></div>
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button><div class="topbar-head"><div class="topbar-title">Tableau de bord</div><div class="topbar-sub">Vue d'ensemble du projet</div></div></div>
     <div class="content" id="dbContent"></div>
   </div>
 
   <div id="view-journal" class="view">
-    <div class="topbar">
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button>
       <div class="topbar-head"><div class="topbar-title">Journal de bord</div><div class="topbar-sub">Historique des visites et événements</div></div>
       <div class="ta" id="jTopbarActions">
         <button class="btn btn-p btn-sm" onclick="openPanel('journal',null)">+ Nouvelle entrée</button>
@@ -925,9 +952,12 @@ input::placeholder{color:var(--tx3)}
   </div>
 
   <div id="view-cr" class="view">
-    <div class="topbar">
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button>
       <div class="topbar-head"><div class="topbar-title">Comptes rendus</div><div class="topbar-sub">Réunions et décisions de chantier</div></div>
-      <div class="ta"><button class="btn btn-p btn-sm" onclick="openPanel('cr',null)">+ Nouveau CR</button></div>
+      <div class="ta">
+        <button class="btn btn-g btn-sm" onclick="exportCRPDF()"><i data-lucide="file-down" style="width:15px;height:15px"></i> PDF</button>
+        <button class="btn btn-p btn-sm" onclick="openPanel('cr',null)">+ Nouveau CR</button>
+      </div>
     </div>
     <div class="content">
       <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr)">
@@ -956,7 +986,7 @@ input::placeholder{color:var(--tx3)}
   </div>
 
   <div id="view-commandes" class="view">
-    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Achats</div><div class="topbar-sub">Commandes et factures fournisseurs</div></div><div class="ta"><button class="btn btn-g btn-sm" onclick="exportCSV('commandes')" title="Exporter en CSV"><i data-lucide="download" style="width:15px;height:15px"></i> CSV</button><button class="btn btn-g btn-sm" onclick="exportPDF('commandes')" title="Exporter en PDF"><i data-lucide="file-down" style="width:15px;height:15px"></i> PDF</button><button class="btn btn-p btn-sm" onclick="openPanel('commande')">+ Nouvelle commande</button></div></div>
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button><div class="topbar-head"><div class="topbar-title">Achats</div><div class="topbar-sub">Commandes et factures fournisseurs</div></div><div class="ta"><button class="btn btn-g btn-sm" onclick="exportCSV('commandes')" title="Exporter en CSV"><i data-lucide="download" style="width:15px;height:15px"></i> CSV</button><button class="btn btn-g btn-sm" onclick="exportPDF('commandes')" title="Exporter en PDF"><i data-lucide="file-down" style="width:15px;height:15px"></i> PDF</button><button class="btn btn-p btn-sm" onclick="openPanel('commande')">+ Nouvelle commande</button></div></div>
     <div class="content">
       <div class="kpi-grid">
         <div class="kpi kpi-e"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Engagé total</div><div class="kv" id="kE">—</div><div class="ks" id="kEs"></div></div>
@@ -1032,24 +1062,26 @@ input::placeholder{color:var(--tx3)}
   </div>
 
   <div id="view-analytique" class="view">
-    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Analytique</div><div class="topbar-sub">Synthèse financière du chantier</div></div></div>
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button><div class="topbar-head"><div class="topbar-title">Analytique</div><div class="topbar-sub">Synthèse financière du chantier</div></div></div>
     <div class="content">
       <div class="ana-tab-bar">
         <button class="chip on" id="anaTabAch" onclick="setAnaTab('achats')">📦 Achats</button>
         <button class="chip" id="anaTabST" onclick="setAnaTab('st')">🔧 Sous-traitance</button>
+        <button class="chip" id="anaTabAv" onclick="setAnaTab('avancement')">📈 Avancement</button>
       </div>
       <div id="anaContent"></div>
       <div id="anaStContent" style="display:none"></div>
+      <div id="anaAvContent" style="display:none"></div>
     </div>
   </div>
 
   <div id="view-analyse" class="view" style="display:none!important">
-    <div class="topbar"><div class="topbar-title">Analyse</div></div>
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button><div class="topbar-title">Analyse</div></div>
     <div class="content" id="anaContentLegacy"></div>
   </div>
 
   <div id="view-st" class="view">
-    <div class="topbar">
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button>
       <div class="topbar-head"><div class="topbar-title">Factures ST</div><div class="topbar-sub">Factures des sous-traitants</div></div>
       <div class="ta">
         
@@ -1092,7 +1124,7 @@ input::placeholder{color:var(--tx3)}
   </div>
 
   <div id="view-devis-st" class="view">
-    <div class="topbar">
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button>
       <div class="topbar-head"><div class="topbar-title">Sous-traitance</div><div class="topbar-sub">Devis et marchés sous-traitants</div></div>
       <div class="ta">
         <button class="btn btn-g btn-sm" onclick="exportCSV('devis')" title="Exporter en CSV"><i data-lucide="download" style="width:15px;height:15px"></i> CSV</button>
@@ -1134,11 +1166,11 @@ input::placeholder{color:var(--tx3)}
     </div>
   </div>
   <div id="view-analyse-st" class="view" style="display:none!important">
-    <div class="topbar"><div class="topbar-title">Analyse Sous-traitance</div></div>
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button><div class="topbar-title">Analyse Sous-traitance</div></div>
     <div class="content" id="anaStContentLegacy"></div>
   </div>
   <div id="view-entreprises" class="view">
-    <div class="topbar">
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button>
       <div class="topbar-head"><div class="topbar-title">Fournisseurs / ST</div><div class="topbar-sub">Annuaire des entreprises du chantier</div></div>
       <div class="ta"><button class="btn btn-p btn-sm" onclick="openEntF()">+ Nouveau</button></div>
     </div>
@@ -1181,7 +1213,7 @@ input::placeholder{color:var(--tx3)}
     </div>
   </div>
   <div id="view-lots" class="view">
-    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Configuration</div><div class="topbar-sub">Projet, lots et utilisateurs</div></div></div>
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button><div class="topbar-head"><div class="topbar-title">Configuration</div><div class="topbar-sub">Projet, lots et utilisateurs</div></div></div>
     <div class="content" style="display:flex;flex-direction:column;gap:14px">
 
       <!-- Infos projet -->
@@ -1229,7 +1261,7 @@ input::placeholder{color:var(--tx3)}
     </div>
   </div>
   <div id="view-todo" class="view">
-    <div class="topbar">
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button>
       <div class="topbar-head"><div class="topbar-title">To-do</div><div class="topbar-sub">Tâches et actions en cours</div></div>
       <div class="ta"><button class="btn btn-p btn-sm" onclick="openPanel('todo',null)">+ Nouvelle tâche</button></div>
     </div>
@@ -1269,7 +1301,7 @@ input::placeholder{color:var(--tx3)}
 
   <!-- ── VENTES : TRAVAUX SUPPLÉMENTAIRES ── -->
   <div id="view-ts-ventes" class="view">
-    <div class="topbar">
+    <div class="topbar"><button class="mob-burger" onclick="toggleMobileSidebar()"><i data-lucide="menu"></i></button>
       <div class="topbar-head"><div class="topbar-title">Travaux supplémentaires</div><div class="topbar-sub">Suivi des TS — marché et avenants</div></div>
       <div class="ta">
         <button class="btn btn-g btn-sm" onclick="openEditMarcheBase()" title="Définir le marché de base"><i data-lucide="pencil" style="width:15px;height:15px"></i> Marché de base</button>
@@ -1317,12 +1349,23 @@ input::placeholder{color:var(--tx3)}
 // ── SIDEBAR TOGGLE ──
 setTimeout(()=>{const t=document.getElementById('sTab');if(t)t.style.left='calc(var(--sw) - 1px)'},0)
 function toggleSidebar(){
+  if(window.innerWidth<=768){toggleMobileSidebar();return}
   const s=document.getElementById('sidebar')
   const m=document.getElementById('main')
   const t=document.getElementById('sTab')
   const col=s.classList.toggle('collapsed')
   m.classList.toggle('expanded',col)
   if(t)t.classList.toggle('collapsed',col)
+}
+function toggleMobileSidebar(){
+  const s=document.getElementById('sidebar')
+  const ov=document.getElementById('sidebarOverlay')
+  const open=s.classList.toggle('mob-open')
+  if(ov)ov.classList.toggle('open',open)
+}
+function closeMobileSidebar(){
+  document.getElementById('sidebar')?.classList.remove('mob-open')
+  document.getElementById('sidebarOverlay')?.classList.remove('open')
 }
 
 // ── FONT PICKER ──
@@ -1467,8 +1510,9 @@ async function apiPost(action,data){
     return{}
   }catch(err){toast("Erreur BD : "+err.message,"error");return null}
 }
-async function reload(){
-  toast("Chargement…","info")
+async function reload(opts={}){
+  const silent=opts.silent||false
+  if(!silent)toast("Chargement…","info")
   try{
     const pid=currentProject?.id
     const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes,actRes,ptRes,mbRes,tsRes]=await Promise.all([
@@ -1507,8 +1551,12 @@ async function reload(){
     if(activeView==="view-devis-st")rDevis()
     if(activeView==="view-dashboard")rDashboard()
     if(activeView==="view-ts-ventes")rTS()
-    toast("Données synchronisées","success")
-  }catch(err){toast("Erreur chargement : "+err.message,"error")}
+    if(!silent)toast("Données synchronisées","success")
+    else _lastSync=Date.now()
+  }catch(err){
+    if(!silent)toast("Erreur chargement : "+err.message,"error")
+    else console.warn("Realtime reload failed",err)
+  }
 }
 
 // ── Supabase Realtime ────────────────────────────────────
@@ -1516,47 +1564,7 @@ let _lastSync=null
 let _realtimeDebounce=null
 function _onRealtimeChange(){
   clearTimeout(_realtimeDebounce)
-  _realtimeDebounce=setTimeout(()=>silentReload(),400)
-}
-async function silentReload(){
-  try{
-    const pid=currentProject?.id
-    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes,actRes,ptRes,mbRes]=await Promise.all([
-      _sb.from("commandes").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
-      _sb.from("factures").select("*").eq("project_id",pid),
-      _sb.from("devis").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
-      _sb.from("lots").select("*").eq("project_id",pid),
-      _sb.from("entreprises").select("*").eq("project_id",pid),
-      _sb.from("journal").select("*").eq("project_id",pid).order("created_at",{ascending:false}),
-      _sb.from("comptes_rendus").select("*").eq("project_id",pid).order("created_at",{ascending:false}),
-      _sb.from("todos").select("*").eq("project_id",pid),
-      _sb.from("activity_log").select("*").eq("project_id",pid).order("created_at",{ascending:false}).limit(20),
-      _sb.from("pointage").select("*").eq("project_id",pid).order("date",{ascending:false}),
-      _sb.from("project_members").select("user_id,display_name,initials,role").eq("project_id",pid)
-    ])
-    if(cRes.error)return
-    C=(cRes.data||[]).map(r=>({ID:r.id,Fournisseur:r.fournisseur,Description:r.description,Lot:r.lot,Type:r.type,"Montant HT":String(r.montant_ht||0),Date:r.date||"",Signataire:r.signataire,Notes:r.notes||""}))
-    F=(fRes.data||[]).map(r=>({ID:r.id,ID_Commande:r.id_commande,"N° Facture":r.numero||"","Montant HT":String(r.montant_ht||0),"Date réception":r.date_reception||"","Pointé":r.pointe||false,"Date pointage":r.date_pointage||"",Notes:r.notes||""}))
-    if(!dRes.error)DEVIS=(dRes.data||[]).map(r=>({id:r.id,st:r.entreprise||"",numero:r.numero||"",date:r.date||"",lot:r.lot||"",description:r.objet||"",montant:String(r.montant||0),signataire:r.signataire||"",validation:r.validation||"attente",dateValidation:r.date_validation||"",avenant:r.avenant||"non",numAvenant:r.num_avenant||"",notes:r.notes||""}))
-    LOTS={};(lotsRes.data||[]).forEach(l=>{LOTS[l.id]=l.nom||""})
-    SIGS=[...new Set(C.map(c=>c.Signataire).filter(Boolean))].sort()
-    if(!entsRes.error)ENTREPRISES=(entsRes.data||[]).map(r=>({id:"ENT-"+r.nom,nom:r.nom,type:r.type||"",contact:r.contact||"",tel:r.tel||"",email:r.email||"",notes:r.notes||""}))
-    if(!jRes.error)JOURNAL=(jRes.data||[]).map(r=>({id:r.id,type:r.type||"Autre",entreprise:r.entreprise||"",description:r.description||"",createdAt:r.created_at}))
-    if(!crRes.error)CRS=(crRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",date:r.date||"",participants:r.participants||"",contenu:r.contenu||"",actions:r.actions||"",prochainRDV:r.prochain_rdv||"",createdAt:r.created_at}))
-    if(!tdRes.error)TODOS=(tdRes.data||[]).map(r=>({id:r.id,titre:r.titre||"",priorite:r.priorite||"moyenne",statut:r.statut||"open",echeance:r.echeance||"",notes:r.notes||"",assignedTo:r.assigned_to||null,doneAt:r.done_at||null,createdAt:r.created_at}))
-    if(!actRes?.error)ACTIVITY_LOG=(actRes?.data||[]).map(r=>({id:r.id,userName:r.user_name||"",action:r.action,entityType:r.entity_type,entityLabel:r.entity_label||"",createdAt:r.created_at}))
-    if(!ptRes?.error)POINTAGE=(ptRes?.data||[]).map(r=>({id:r.id,date:r.date,entreprise:r.entreprise,nb:r.nb_personnes,notes:r.notes||"",createdAt:r.created_at}))
-    if(!mbRes?.error)PROJECT_MEMBERS=(mbRes?.data||[]).map(r=>({userId:r.user_id,name:r.display_name||"",initials:r.initials||"?",role:r.role||"membre"}))
-    if(!tsRes?.error)TS_VENTES=(tsRes?.data||[]).map(r=>({id:r.id,reference:r.reference||"",description:r.description||"",statut:r.statut||"chiffrage",montant:parseFloat(r.montant||0),osNumber:r.os_number||"",dateSoumis:r.date_soumis||"",dateValide:r.date_valide||"",dateOs:r.date_os||"",notes:r.notes||"",createdAt:r.created_at}))
-    rAll()
-    const av=document.querySelector(".view.active")?.id
-    if(av==="view-st")rST()
-    if(av==="view-analytique")setAnaTab(anaTab)
-    if(av==="view-devis-st")rDevis()
-    if(av==="view-dashboard")rDashboard()
-    if(av==="view-ts-ventes")rTS()
-    _lastSync=Date.now()
-  }catch(e){console.warn("Realtime reload failed",e)}
+  _realtimeDebounce=setTimeout(()=>reload({silent:true}),400)
 }
 function startRealtime(){
   _sb.channel("db-changes")
@@ -1568,6 +1576,7 @@ function startRealtime(){
     .on("postgres_changes",{event:"*",schema:"public",table:"journal"},_onRealtimeChange)
     .on("postgres_changes",{event:"*",schema:"public",table:"comptes_rendus"},_onRealtimeChange)
     .on("postgres_changes",{event:"*",schema:"public",table:"todos"},_onRealtimeChange)
+    .on("postgres_changes",{event:"*",schema:"public",table:"travaux_sup"},_onRealtimeChange)
     .subscribe()
 }
 
@@ -1580,12 +1589,16 @@ function setAnaTab(tab){
   anaTab=tab
   document.getElementById("anaTabAch")?.classList.toggle("on",tab==="achats")
   document.getElementById("anaTabST")?.classList.toggle("on",tab==="st")
+  document.getElementById("anaTabAv")?.classList.toggle("on",tab==="avancement")
   const ac=document.getElementById("anaContent")
   const sc=document.getElementById("anaStContent")
+  const av=document.getElementById("anaAvContent")
   if(ac)ac.style.display=tab==="achats"?"block":"none"
   if(sc)sc.style.display=tab==="st"?"block":"none"
+  if(av)av.style.display=tab==="avancement"?"block":"none"
   if(tab==="achats")rAna()
-  else rAnaST()
+  else if(tab==="st")rAnaST()
+  else rAnaAvancement()
 }
 function showView(id,btn){
   document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"))
@@ -1593,6 +1606,7 @@ function showView(id,btn){
   const v=document.getElementById("view-"+id)
   if(v)v.classList.add("active")
   if(btn)btn.classList.add("active")
+  if(window.innerWidth<=768)closeMobileSidebar()
   if(id==="analytique"){setAnaTab(anaTab)}
   if(id==="lots"){rLots();rConfigProject()}
   if(id==="st")rST()
@@ -2225,6 +2239,7 @@ function rST(){
     </table>
   </div>`
   rStFilters()
+  if(window.lucide)lucide.createIcons()
 
   }catch(e){console.error('rST crash:',e);el.innerHTML='<div style="padding:20px;color:red;font-weight:600">Erreur: '+e.message+'</div>'}
 }
@@ -2293,6 +2308,16 @@ function rAnaST(){
   Cf.forEach(c=>{if(!c.Date)return;const d=new Date(c.Date);if(isNaN(d))return;const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;if(!bM[k])bM[k]={e:0,f:0,p:0};bM[k].e+=e2n(c["Montant HT"])})
   Ff.forEach(f=>{if(!f["Date réception"])return;const raw=f["Date réception"].includes("/")?f["Date réception"].split("/").reverse().join("-"):f["Date réception"];const d=new Date(raw);if(isNaN(d))return;const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;if(!bM[k])bM[k]={e:0,f:0,p:0};bM[k].f+=e2n(f["Montant HT"]);if(isP(f))bM[k].p+=e2n(f["Montant HT"])})
 
+  // Devis acceptés non encore facturés
+  const devFilt=DEVIS.filter(d=>{
+    if(d.validation!=='accepte')return false
+    if(aSTSig&&d.st!==aSTSig)return false
+    if(aSTLot&&d.lot!==aSTLot)return false
+    return true
+  })
+  const tDevAcc=devFilt.reduce((s,d)=>s+parseFloat(d.montant||0),0)
+  const tDevNonFac=Math.max(0,tDevAcc-tF)
+
   const bar=(v,max,col)=>`<div class="bar-track"><div class="bar-fill" style="width:${max?Math.round(v/max*100):0}%;background:${col}"></div></div>`
   const mLabel=k=>{const[y,m]=k.split("-");return["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"][parseInt(m)-1]+" "+y}
 
@@ -2312,11 +2337,12 @@ function rAnaST(){
     <select class="ana-sel" onchange="rAnaST()" id="anaStMois">${moisOpts}</select>
     ${aSTSig||aSTLot||aSTMois?`<button class="btn btn-g btn-sm" onclick="clearAnaStF()">✕ Effacer</button>`:""}
   </div>
-  <div class="kpi-grid" style="margin-bottom:18px">
-    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--vi)"></div>Engagé ST</div><div class="kv" style="color:var(--wa)">${f0(tE)}</div></div>
-    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:#2563EB"></div>Facturé</div><div class="kv" style="color:#2563EB">${f0(tF)}</div><div class="ks">${tE?Math.round(tF/tE*100):0}% de l'engagé</div></div>
-    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Pointé</div><div class="kv" style="color:var(--gr)">${f0(tP)}</div><div class="ks">${tF?Math.round(tP/tF*100):0}% du facturé</div></div>
-    <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>Reste</div><div class="kv o">${f0(tF-tP)}</div></div>
+  <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:18px">
+    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:var(--vi)"></div>Engagé ST</div><div class="kv kv-s" style="color:var(--wa)">${f0(tE)}</div></div>
+    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:#2563EB"></div>Facturé</div><div class="kv kv-s" style="color:#2563EB">${f0(tF)}</div><div class="ks">${tE?Math.round(tF/tE*100):0}% de l'engagé</div></div>
+    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Pointé</div><div class="kv kv-s" style="color:var(--gr)">${f0(tP)}</div><div class="ks">${tF?Math.round(tP/tF*100):0}% du facturé</div></div>
+    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>Reste à pointer</div><div class="kv kv-s o">${f0(tF-tP)}</div></div>
+    <div class="kpi kpi-s" style="border-color:rgba(25,87,247,.2);background:var(--acl)"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Devis acceptés</div><div class="kv kv-s" style="color:var(--ac)">${f0(tDevAcc)}</div><div class="ks" style="color:var(--ac)">${f0(tDevNonFac)} non facturé</div></div>
   </div>
   <div class="ana-grid">
     <div class="ana-panel"><div class="ana-ph">Par entreprise</div><div class="ana-pb">
@@ -2342,6 +2368,106 @@ function rAnaST(){
 function clearAnaStF(){
   ["anaStSig","anaStLot","anaStMois"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""})
   rAnaST()
+}
+
+function rAnaAvancement(){
+  const el=document.getElementById("anaAvContent")
+  if(!el)return
+
+  // Construire les données mensuelles (achats + ST)
+  const bM={}
+  const addM=(k,field,val)=>{if(!bM[k])bM[k]={e:0,f:0,p:0};bM[k][field]+=val}
+
+  C.forEach(c=>{
+    if(!c.Date)return
+    const d=new Date(c.Date);if(isNaN(d))return
+    const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`
+    addM(k,'e',e2n(c['Montant HT']))
+  })
+  F.forEach(f=>{
+    const raw=f['Date réception']?.includes('/')?f['Date réception'].split('/').reverse().join('-'):f['Date réception']
+    if(!raw)return
+    const d=new Date(raw);if(isNaN(d))return
+    const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`
+    addM(k,'f',e2n(f['Montant HT']))
+    if(isP(f))addM(k,'p',e2n(f['Montant HT']))
+  })
+
+  const months=Object.keys(bM).sort()
+  if(!months.length){el.innerHTML=`<div class="panel"><div class="empty"><div class="ei"><i data-lucide="trending-up" style="width:36px;height:36px;opacity:.3"></i></div><p>Aucune donnée.</p></div></div>`;return}
+
+  // Cumulatif
+  let cumE=0,cumF=0,cumP=0
+  const pts=months.map(k=>{cumE+=bM[k].e;cumF+=bM[k].f;cumP+=bM[k].p;return{k,e:cumE,f:cumF,p:cumP}})
+
+  const last=pts[pts.length-1]
+  const tDevAcc=DEVIS.filter(d=>d.validation==='accepte').reduce((s,d)=>s+parseFloat(d.montant||0),0)
+
+  // SVG S-curve
+  const W=760,H=260,PT={top:20,right:20,bot:44,left:72}
+  const cW=W-PT.left-PT.right,cH=H-PT.top-PT.bot
+  const maxY=Math.max(last.e,1)
+  const xS=i=>PT.left+(i/(pts.length-1||1))*cW
+  const yS=v=>PT.top+cH-(v/maxY)*cH
+
+  const polyline=(key,col)=>{
+    const p=pts.map((_,i)=>`${xS(i).toFixed(1)},${yS(pts[i][key]).toFixed(1)}`).join(' ')
+    return`<polyline points="${p}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`
+  }
+  const dot=(key,col)=>{
+    const last2=pts[pts.length-1]
+    const i=pts.length-1
+    return`<circle cx="${xS(i).toFixed(1)}" cy="${yS(last2[key]).toFixed(1)}" r="4" fill="${col}" stroke="white" stroke-width="1.5"/>`
+  }
+
+  const fmtK=v=>{if(v>=1000000)return(v/1000000).toFixed(1)+'M';if(v>=1000)return Math.round(v/1000)+'k';return v}
+  const yTicks=5
+  const yLines=Array.from({length:yTicks+1},(_,i)=>{
+    const v=(maxY/yTicks)*i
+    const y=yS(v).toFixed(1)
+    return`<line x1="${PT.left}" y1="${y}" x2="${PT.left+cW}" y2="${y}" stroke="var(--bd)" stroke-width="${i===0?'1':'0.5'}"/>
+<text x="${PT.left-8}" y="${parseFloat(y)+4}" text-anchor="end" font-size="10" fill="var(--tx3)">${fmtK(v)}</text>`
+  }).join('')
+
+  const step=Math.max(1,Math.ceil(pts.length/8))
+  const mLbl=k=>{const[y,m]=k.split('-');return['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'][parseInt(m)-1]+' '+y.slice(2)}
+  const xLabels=pts.map((p,i)=>{
+    if(i%step!==0&&i!==pts.length-1)return''
+    return`<text x="${xS(i).toFixed(1)}" y="${H-PT.bot+16}" text-anchor="middle" font-size="10" fill="var(--tx3)">${mLbl(p.k)}</text>`
+  }).join('')
+
+  const svg=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;margin-top:8px">
+    ${yLines}
+    <line x1="${PT.left}" y1="${PT.top}" x2="${PT.left}" y2="${PT.top+cH}" stroke="var(--bd)" stroke-width="1"/>
+    <line x1="${PT.left}" y1="${PT.top+cH}" x2="${PT.left+cW}" y2="${PT.top+cH}" stroke="var(--bd)" stroke-width="1"/>
+    ${polyline('e','var(--ac)')}
+    ${polyline('f','#2563EB')}
+    ${polyline('p','var(--gr)')}
+    ${dot('e','var(--ac)')}${dot('f','#2563EB')}${dot('p','var(--gr)')}
+    ${xLabels}
+  </svg>`
+
+  el.innerHTML=`<div style="position:relative;z-index:2">
+  <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:18px">
+    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Engagé total</div><div class="kv kv-s">${f0(last.e)}</div><div class="ks">${C.length} commandes</div></div>
+    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:#2563EB"></div>Facturé</div><div class="kv kv-s" style="color:#2563EB">${f0(last.f)}</div><div class="ks">${last.e?Math.round(last.f/last.e*100):0}% de l'engagé</div></div>
+    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>Pointé</div><div class="kv kv-s" style="color:var(--gr)">${f0(last.p)}</div><div class="ks">${last.f?Math.round(last.p/last.f*100):0}% du facturé</div></div>
+    <div class="kpi kpi-s"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>Reste à facturer</div><div class="kv kv-s o">${f0(last.e-last.f)}</div></div>
+    <div class="kpi kpi-s" style="border-color:rgba(25,87,247,.2);background:var(--acl)"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Devis ST acceptés</div><div class="kv kv-s" style="color:var(--ac)">${f0(tDevAcc)}</div><div class="ks" style="color:var(--ac)">${f0(Math.max(0,tDevAcc-last.f))} non facturé</div></div>
+  </div>
+  <div class="panel" style="padding:20px 24px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div class="ana-ph" style="margin:0">Courbe d'avancement cumulée</div>
+      <div style="display:flex;gap:16px;font-size:11.5px;color:var(--tx2)">
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:20px;height:3px;background:var(--ac);display:inline-block;border-radius:2px"></span>Engagé</span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:20px;height:3px;background:#2563EB;display:inline-block;border-radius:2px"></span>Facturé</span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:20px;height:3px;background:var(--gr);display:inline-block;border-radius:2px"></span>Pointé</span>
+      </div>
+    </div>
+    ${svg}
+  </div>
+  </div>`
+  if(window.lucide)lucide.createIcons()
 }
 
 // ── Barre progression Facturé→Pointé ────────────────────────────
@@ -2676,6 +2802,7 @@ function rEnts(){
       </div>
     </div>`
   }).join("")
+  if(window.lucide)lucide.createIcons()
 }
 function entNames(typeFilter){
   return ENTREPRISES
@@ -2755,6 +2882,7 @@ function _showAuthScreen(html){
   screen.classList.remove('hidden')
   screen.style.opacity='0'
   requestAnimationFrame(()=>{screen.style.transition='opacity .3s';screen.style.opacity='1'})
+  if(window.lucide)lucide.createIcons()
 }
 function _hideAuthScreen(){document.getElementById('authScreen').classList.add('hidden')}
 function _showAuthErr(msg){const el=document.getElementById('authErr');if(el){el.textContent=msg;el.classList.add('show')}}
@@ -2982,6 +3110,14 @@ async function selectProject(projectId,projectsCache,membersCache){
   document.getElementById('sidebar').style.display=''
   document.getElementById('main').style.display=''
   startRealtime()
+  // Migration marché de base localStorage → Supabase (one-shot)
+  const lsKey='cairn-marche-base-'+currentProject.id
+  const lsVal=localStorage.getItem(lsKey)
+  if(lsVal&&!currentProject.marche_base){
+    const n=parseFloat(lsVal)
+    if(!isNaN(n)&&n>0){currentProject.marche_base=n;await _sb.from('projects').update({marche_base:n}).eq('id',currentProject.id)}
+    localStorage.removeItem(lsKey)
+  }
   await reload()
   setTimeout(rDashboard,0)
 }
@@ -3440,6 +3576,7 @@ function setTheme(t){
 ;(function(){const t=localStorage.getItem('cairn-theme')||'light';setTheme(t)})()
 
 initAuth()
+if(window.lucide)lucide.createIcons()
 
 
 // ═══════════════════════════════════════════════════════════════
@@ -3899,16 +4036,22 @@ let tsSortDir=1
 
 function tsId(){return'ts-'+Date.now()+'-'+Math.random().toString(36).slice(2,6)}
 
-function getMarcheBase(){return parseFloat(localStorage.getItem('cairn-marche-base-'+(currentProject?.id||''))||'0')}
-function setMarcheBase(v){localStorage.setItem('cairn-marche-base-'+(currentProject?.id||''),String(v))}
+function getMarcheBase(){return parseFloat(currentProject?.marche_base||0)}
+async function setMarcheBase(v){
+  if(!currentProject)return
+  currentProject.marche_base=v
+  await _sb.from('projects').update({marche_base:v}).eq('id',currentProject.id)
+  // Nettoyer l'ancienne valeur localStorage si elle existe
+  localStorage.removeItem('cairn-marche-base-'+currentProject.id)
+}
 
-function openEditMarcheBase(){
+async function openEditMarcheBase(){
   const cur=getMarcheBase()
   const val=prompt('Marché de base HT (€) :',cur||'')
   if(val===null)return
   const n=parseFloat(val.replace(',','.'))
   if(isNaN(n)){toast('Montant invalide','error');return}
-  setMarcheBase(n);rTS();toast('Marché de base mis à jour')
+  await setMarcheBase(n);rTS();toast('Marché de base mis à jour')
 }
 
 function setTsFlt(v){tsFlt=v;rTS()}
@@ -4414,6 +4557,99 @@ function setCRType(v){
   rCR()
 }
 function clearCRF(){crFType="all";const el=document.getElementById("crSrch");if(el)el.value="";setCRType("all")}
+
+function exportCRPDF(){
+  if(!window.jspdf){toast('Librairie PDF non chargée','error');return}
+  const {jsPDF}=window.jspdf
+  const proj=currentProject?.name||'Export'
+  const date=lds(new Date())
+
+  // Appliquer les mêmes filtres que la vue
+  const q=(document.getElementById("crSrch")?.value||"").toLowerCase().trim()
+  let list=[...CRS].sort((a,b)=>new Date(b.date||0)-new Date(a.date||0))
+  if(crFType!=="all")list=list.filter(c=>c.type===crFType)
+  if(q)list=list.filter(c=>[c.type,c.participants,c.contenu,c.ordreJour].join(" ").toLowerCase().includes(q))
+
+  if(!list.length){toast('Aucun compte rendu à exporter','info');return}
+
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'})
+  const pageW=doc.internal.pageSize.getWidth()
+  const pageH=doc.internal.pageSize.getHeight()
+  const AC=[25,87,247],INK=[15,23,42],SUB=[148,163,184],BG=[248,250,252],BRD=[226,232,240],ACL=[235,242,255]
+
+  // ── Bannière ──
+  doc.setFillColor(...INK);doc.rect(0,0,pageW,22,'F')
+  doc.setFillColor(...AC);doc.rect(0,21,pageW,1,'F')
+  doc.setTextColor(255,255,255);doc.setFontSize(10);doc.setFont('helvetica','bold')
+  doc.text('COMPTES RENDUS',14,8.5)
+  doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor(90,110,150)
+  doc.text('Genere le '+date,14,14)
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.setTextColor(255,255,255)
+  doc.text(proj,pageW/2,11,{align:'center'})
+  const lH=14,lW=Math.round(lH*(1182/709))
+  doc.addImage(PDF_LOGO_B64,'PNG',pageW-14-lW,(22-lH)/2,lW,lH)
+
+  let y=28
+
+  list.forEach((c,idx)=>{
+    const actArr=c.actions?(typeof c.actions==="string"?c.actions.split("\n").filter(Boolean):c.actions.filter(Boolean)):[]
+    const typeLabel=c.type||'Autre'
+    const titleLabel=c.ordreJour||typeLabel
+    const dateLabel=c.date?fd(c.date):''
+
+    // Saut de page si plus assez de place
+    if(idx>0&&y>pageH-60){doc.addPage();y=14}
+
+    // Titre de section (fond INK)
+    const headBody=[[`${typeLabel.toUpperCase()}  —  ${dateLabel}`,titleLabel]]
+    doc.autoTable({
+      body:headBody,
+      startY:y,
+      styles:{fontSize:8,cellPadding:{top:3,bottom:3,left:5,right:5},lineWidth:0,textColor:255,fontStyle:'normal'},
+      bodyStyles:{fillColor:INK},
+      columnStyles:{0:{cellWidth:45,fontStyle:'bold',fontSize:7,textColor:SUB},1:{fontStyle:'bold',fontSize:9,textColor:[255,255,255]}},
+      margin:{left:14,right:14},
+      tableLineWidth:0
+    })
+    y=doc.lastAutoTable.finalY
+
+    // Contenu du CR
+    const rows=[]
+    if(c.participants)rows.push(['Participants',c.participants])
+    if(c.contenu)rows.push(['Compte rendu',c.contenu])
+    if(actArr.length)rows.push(['Actions',actArr.map((a,i)=>`${i+1}. ${a}`).join('\n')])
+    if(c.prochainRDV)rows.push(['Prochain RDV',fd(c.prochainRDV)])
+
+    if(rows.length){
+      doc.autoTable({
+        body:rows,
+        startY:y,
+        styles:{fontSize:8,cellPadding:{top:3,bottom:3,left:5,right:5},lineColor:BRD,lineWidth:.2,overflow:'linebreak',textColor:INK},
+        alternateRowStyles:{fillColor:BG},
+        columnStyles:{0:{cellWidth:30,fontStyle:'bold',textColor:SUB,fontSize:7},1:{fontStyle:'normal'}},
+        margin:{left:14,right:14}
+      })
+      y=doc.lastAutoTable.finalY
+    }
+
+    y+=8
+  })
+
+  // ── Pied de page ──
+  const pages=doc.internal.getNumberOfPages()
+  for(let i=1;i<=pages;i++){
+    doc.setPage(i)
+    doc.setDrawColor(...BRD);doc.setLineWidth(.2)
+    doc.line(14,pageH-8,pageW-14,pageH-8)
+    doc.setFontSize(6.5);doc.setTextColor(...SUB)
+    doc.text(proj+' — Comptes rendus',14,pageH-4.5)
+    doc.text(i+' / '+pages,pageW/2,pageH-4.5,{align:'center'})
+    doc.text(date,pageW-14,pageH-4.5,{align:'right'})
+  }
+
+  doc.save(`cr_${proj}_${date}.pdf`)
+  toast('PDF téléchargé','success')
+}
 
 function rCR(){
   const now=new Date()
