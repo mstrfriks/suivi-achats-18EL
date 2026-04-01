@@ -1,0 +1,103 @@
+id,reference,description,montant,statut,os_number
+ts-v2-001,1,Désamiantage complémentaire,9135,os,1
+ts-v2-002,5,Ajout Domotique,91594,os,2
+ts-v2-003,8,Climatisation dans tout le bâtiment,509738,os,3
+ts-v2-004,9,Doublage acoustique sur mitoyens,26950,os,4
+ts-v2-005,3,Ajout Soubassement Marbre dans SdB,64818,os,7
+ts-v2-006,11,Modification Charpente R3 + Traitement bois,59301,os,5
+ts-v2-007,12,Réhausse terrasse + Modification office RDC,86319,os,6
+ts-v2-008,6,Changement Layout SS1 et R2,-18394,os,8
+ts-v2-009,13,Modification des Mext R3 Rue,12344,os,9
+ts-v2-010,17,Découverte Cuve SS,45580,os,10
+ts-v2-011,18,Détecteur ouvertures et modif Mext RDC,22499,os,11
+ts-v2-012,2,Ajout de tapés (Mext rue),5747,os,12
+ts-v2-013,10A,Terres polluées (100%),149934,os,13
+ts-v2-014,15,Mise en service des cheminées Salon et bureau 01 rue,66212,os,14
+ts-v2-015,20,Ligne de vie et caillebotis bois,18215,os,15
+ts-v2-016,19,Modification structure et layout R3,94047,os,16
+ts-v2-017,14,Intégration des stores et chambranles,168260,os,17
+ts-v2-018,16B,Portes acoustiques,54105,os,18
+ts-v2-019,04D,Parquet RDc R3,42291,os,19
+ts-v2-020,30,Balcon R3 + EP,7185,os,21
+ts-v2-021,26B,Incidence acoustique Partie 1,206284,os,22
+ts-v2-022,29,Modification layout R3 - lot platrerie staff,25348,os,20
+ts-v2-023,37,Maj Projet Pierre sol - RDC et Cour,12955,os,23
+ts-v2-024,25A,Parois vitrées Douches SB01&02,32735,os,24
+ts-v2-025,35,Balance Ferronnerie extérieure,48048,os,25
+ts-v2-026,39,Maj Projet Robinetterie RDC à R+3,25246,os,26
+ts-v2-027,33,Modification du GC escalier d'apparat,30618,os,27
+ts-v2-028,38,Maj projet Quincallerie décorative RDc à R+3,65055,os,28
+ts-v2-029,28A,Maj Projet Boiserie Rdc à R+3,96045,os,30
+ts-v2-030,23-B,Ajout toilettes Gébérit,54114,os,32
+ts-v2-031,24A,Portes WC des salles de bain,29839,os,33
+ts-v2-032,32-B,Fosses techniques en mesure conservatoire,72784,os,29
+ts-v2-033,34A,Balance Portes RDC R3,213833,os,34bis
+ts-v2-034,36B,Déplacement unités climatisation R1,32066,os,31bis
+ts-v2-035,46,Maj projet Office et Cour - travaux extérieurs,17140,os,35
+ts-v2-036,47,FO+Po de toiles de stores R1 R3,41026,os,36
+ts-v2-037,48A,Maj Projet déco Hall et modif clim Salon,50136,os,37b
+ts-v2-038,52,"Interphonie, sureté, vidéo, incendie",43200,os,38
+ts-v2-039,53,Travaux divers et provisoires Phase 1,114162,os,39b
+ts-v2-040,54B,Pose de tentures murales R2 R3,31864,os,40
+ts-v2-041,62,Plafond à caisson palier R3,7989,os,41
+ts-v2-042,57A,Modif P53,24863,os,42
+ts-v2-043,51,Balance Cuisine R1 R3,-66183,os,44
+ts-v2-044,49,Balance Dressings R2 R3,-105770,os,43
+ts-v2-045,58,Suppression sauna,-82998,os,46
+ts-v2-046,55A,Mise à jour plafond staff,19272,os,45
+ts-v2-047,59,Complément cheminée,8362,os,59
+ts-v2-048,69,Réalisation d'une étude thermique,11129,os,48
+ts-v2-049,64,Projet déco WC RDC & R+1,13578,os,50
+ts-v2-050,60A,Boiserie entrée hall,48922,os,49
+ts-v2-051,65,Mise à jour projet ascenseur,56205,os,51
+ts-v2-052,66A,Mise à jour whitebox Ssol,395950,os,52
+ts-v2-053,70,Ajout d'un surpresseur et d'un adoucisseur,52992,os,53
+ts-v2-054,56,Projet décoratif Salles de bain,-64166,os,54
+ts-v2-055,41,Modifications CFO CFA,117498,os,55
+ts-v2-056,61A,Maj escalier principal et office RDC R1,104430,os,56
+ts-v2-057,72,Modification quincaillerie Mext RDC à R+3,120797,os,57
+ts-v2-058,67,Mise à jour projet domotique,165992,os,58
+ts-v2-059,50-A,Balance Marbre SB R2 R3,5500,os,59
+ts-v2-060,71,Plus-value grilles de caniveau chauffant,3162,os,60
+ts-v2-061,77,Isolation piscine,56574,os,61
+ts-v2-062,78,Maj projet technique sous-sol,131939,os,62
+ts-v2-063,76,TS modif elec têtes de lit,13100,os,63
+ts-v2-064,68,Mise à jour projet audio/vidéo,149027,os,64
+ts-v2-065,72E,Modification quincaillerie Mext RDC à R+3,-42106,os,65
+ts-v2-066,82,Tenture salle à manger et fauteuils,18501,os,66
+ts-v2-067,87,Maj boiserie SSOL,47371,os,67
+ts-v2-068,86,Maj pierre SSOL,57138,os,68
+ts-v2-069,85,Maj cour anglaise et caves,217702,os,69
+ts-v2-070,88,Store gym,8588,os,70
+ts-v2-071,81A,Maj GC escalier sous-sol,16921,os,71
+ts-v2-072,84,Fourniture installation caves à vin,127694,os,72
+ts-v2-073,71 ind 1,Plus-value pour grilles de caniveaux chauffants,39361,os,73
+ts-v2-074,90,Climatisation wellness,32452,os,74
+ts-v2-075,92,Plafond chauffant cuisine SS1,16752,os,75
+ts-v2-076,93,Balance voute piscine,-21834,os,76
+ts-v2-077,95,Quincaillerie déco ssol,7629,os,77
+ts-v2-078,97,Intégration projet éclairage LASVIT,61084,os,78
+ts-v2-079,98,Doublage caves,6098,os,79
+ts-v2-080,74,Maj projet déco Ssol,-203598,os,80
+ts-v2-081,75,Travaux divers début phase 2,48903,os,81
+ts-v2-082,89,Mise à jour Plomberie Sous-Sol,10745,os,82
+ts-v2-083,94,Complément white box wellness,13695,os,83
+ts-v2-084,99,Travaux divers II,45198,os,84
+ts-v2-085,104,Dépose et renforcement voute cave,12311,os,85
+ts-v2-086,110,Peinture bureau 02,11133,os,87
+ts-v2-087,107A,Tenture cage escalier R2-R3 & cuisine master,31937,os,88
+ts-v2-088,96A,Peinture déco plinthes,32365,valide_sans_os,
+ts-v2-089,103,Nouveau projet porte d'entrée,39457,valide_sans_os,
+ts-v2-090,108A,Modification CFO/CFA,232977,valide_sans_os,
+ts-v2-091,109,Reprise escalier principal,17466,valide_sans_os,
+ts-v2-092,112,Modification bain froid,13107,valide_sans_os,
+ts-v2-093,113,Renfort pour oeuvre d'art bureau 01,25062,valide_sans_os,
+ts-v2-094,114,Projet Lasvit escalier d'apparat,14496,valide_sans_os,
+ts-v2-095,116,Raccordement nouveau Bain froid,10602,valide_sans_os,
+ts-v2-096,117,Organigramme,12721,valide_sans_os,
+ts-v2-097,118,Compléments Electriques,21680,valide_sans_os,
+ts-v2-098,119,Moins-Value diverses,-28343,valide_sans_os,
+ts-v2-099,111,Echelle piscine,17483,attente_retour,
+ts-v2-100,115,Travaux divers III,24855,attente_retour,
+ts-v2-101,120,Rénovation Perron,17979,attente_retour,
+ts-v2-102,121,Modification cuisine Master,0,attente_retour,

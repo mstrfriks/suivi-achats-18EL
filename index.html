@@ -372,6 +372,30 @@ input::placeholder{color:var(--tx3)}
 .b-todo-wip{background:var(--vil);color:var(--vi)}
 .b-todo-done{background:var(--grl);color:var(--gr)}
 .todo-list{display:flex;flex-direction:column;gap:8px;padding:14px 16px}
+/* ── TS VENTES ── */
+.ts-group{margin-bottom:0;padding:16px 20px}
+.ts-sep{height:16px;background:var(--bg);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.ts-group-hd{display:flex;align-items:center;gap:8px;padding:0 0 10px 0}
+.ts-group-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ts-group-label{font-size:13px;font-weight:600;color:var(--tx)}
+.ts-group-count{font-size:12px;color:var(--tx2);background:var(--sf2);border:1px solid var(--bd);border-radius:20px;padding:1px 8px}
+.ts-group-total{margin-left:auto;font-size:13px;font-weight:600;color:var(--tx);font-variant-numeric:tabular-nums}
+.ts-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-row{display:grid;grid-template-columns:90px 1fr 110px 90px 90px 90px 80px 72px;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--bd);font-size:13px}
+.ts-row:last-child{border-bottom:none}
+.ts-row:hover{background:var(--sf2)}
+.ts-head{font-size:11px;font-weight:600;color:var(--tx2);letter-spacing:.04em;text-transform:uppercase;background:var(--sf2);border-bottom:1px solid var(--bd)}
+.ts-head:hover{background:var(--sf2)}
+.ts-ref{font-weight:600;color:var(--tx);font-size:12px}
+.ts-desc{color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ts-amt{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.ts-date{font-size:12px;color:var(--tx2)}
+.ts-acts{display:flex;gap:4px;justify-content:flex-end}
+.b-ts-os{background:var(--grl);color:var(--gr)}
+.b-ts-vso{background:rgba(25,87,247,.12);color:var(--ac)}
+.b-ts-att{background:var(--wal);color:var(--wa)}
+.b-ts-chif{background:var(--vil);color:var(--vi)}
+.b-ts-sup{background:var(--rel);color:var(--re)}
 .todo-card{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:13px 14px;display:flex;align-items:flex-start;gap:11px;box-shadow:var(--shadow);transition:box-shadow .15s}
 .todo-card:hover{box-shadow:0 2px 12px rgba(13,27,46,.09)}
 .todo-card.todo-done{opacity:.55}
@@ -431,8 +455,8 @@ input::placeholder{color:var(--tx3)}
 .pp-user-name{font-size:13px;color:#94A3B8;font-weight:500}
 
 /* ── PROFILE PANEL ───────────────────────────────────────── */
-#profileModal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:15000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
-#profileModal.hidden{display:none}
+#profileModal,#tsPdfModal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:15000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+#profileModal.hidden,#tsPdfModal.hidden{display:none}
 .profile-box{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:28px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:0}
 .profile-title{font-size:15px;font-weight:700;color:var(--tx)}
 .profile-section{padding:18px 0;border-bottom:1px solid var(--bd)}
@@ -691,6 +715,23 @@ input::placeholder{color:var(--tx3)}
   </div>
 </div>
 
+<div id="tsPdfModal" class="hidden">
+  <div class="profile-box" style="max-width:360px">
+    <div style="font-size:15px;font-weight:700;color:var(--tx);margin-bottom:4px">Export PDF — Travaux supplémentaires</div>
+    <div style="font-size:12px;color:var(--tx2);margin-bottom:16px">Sélectionnez les groupes à inclure</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;color:var(--tx)"><input type="checkbox" id="tsPdfAtt" checked style="accent-color:var(--wa);width:15px;height:15px"><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--wa);flex-shrink:0"></span>TS en attente</span></label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;color:var(--tx)"><input type="checkbox" id="tsPdfVso" checked style="accent-color:var(--vi);width:15px;height:15px"><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--vi);flex-shrink:0"></span>TS validé sans OS</span></label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;color:var(--tx)"><input type="checkbox" id="tsPdfOs" style="accent-color:var(--gr);width:15px;height:15px"><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--gr);flex-shrink:0"></span>TS validé par OS</span></label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;color:var(--tx)"><input type="checkbox" id="tsPdfSup" style="accent-color:var(--re);width:15px;height:15px"><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--re);flex-shrink:0"></span>TS supprimé</span></label>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn btn-g btn-sm" onclick="document.getElementById('tsPdfModal').classList.add('hidden')">Annuler</button>
+      <button class="btn btn-p btn-sm" onclick="confirmExportTsPDF()"><span class="material-symbols-outlined" style="font-size:14px">picture_as_pdf</span> Générer</button>
+    </div>
+  </div>
+</div>
+
 <div id="profileModal" class="hidden">
   <div class="profile-box">
     <div class="profile-title" style="margin-bottom:18px">Paramètres</div>
@@ -781,11 +822,16 @@ input::placeholder{color:var(--tx3)}
   </div>
   <div class="nav-sep" style="margin:4px 8px;height:1px;background:var(--bd)"></div>
   <div class="nav-sec">
-    <div class="nav-lbl">Chantier</div>
+    <div class="nav-lbl">Dépenses</div>
     <button class="nav-item" onclick="showView('commandes',this)"><span class="ni"><span class="material-symbols-outlined">inventory_2</span></span><span class="nav-label-txt">Achats</span></button>
     <button class="nav-item" onclick="showView('devis-st',this)"><span class="ni"><span class="material-symbols-outlined">request_quote</span></span><span class="nav-label-txt">Sous-traitance</span></button>
     <button class="nav-item" onclick="showView('st',this)"><span class="ni"><span class="material-symbols-outlined">receipt_long</span></span><span class="nav-label-txt">Factures ST</span></button>
     <button class="nav-item" onclick="showView('analytique',this)"><span class="ni"><span class="material-symbols-outlined">trending_up</span></span><span class="nav-label-txt">Analytique</span></button>
+  </div>
+  <div class="nav-sep" style="margin:4px 8px;height:1px;background:var(--bd)"></div>
+  <div class="nav-sec">
+    <div class="nav-lbl">Ventes</div>
+    <button class="nav-item" onclick="showView('ts-ventes',this)"><span class="ni"><span class="material-symbols-outlined">list_alt_add</span></span><span class="nav-label-txt">Travaux sup</span></button>
   </div>
   <div class="nav-sep" style="margin:4px 8px;height:1px;background:var(--bd)"></div>
   <div class="nav-sec">
@@ -1220,6 +1266,42 @@ input::placeholder{color:var(--tx3)}
       </div>
     </div>
   </div>
+
+  <!-- ── VENTES : TRAVAUX SUPPLÉMENTAIRES ── -->
+  <div id="view-ts-ventes" class="view">
+    <div class="topbar">
+      <div class="topbar-head"><div class="topbar-title">Travaux supplémentaires</div><div class="topbar-sub">Suivi des TS — marché et avenants</div></div>
+      <div class="ta">
+        <button class="btn btn-g btn-sm" onclick="openEditMarcheBase()" title="Définir le marché de base"><span class="material-symbols-outlined" style="font-size:15px">edit</span> Marché de base</button>
+        <button class="btn btn-g btn-sm" onclick="document.getElementById('tsPdfModal').classList.remove('hidden')"><span class="material-symbols-outlined" style="font-size:15px">picture_as_pdf</span> Export PDF</button>
+        <button class="btn btn-p btn-sm" onclick="openPanel('ts',null)">+ Nouveau TS</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="kpi-grid" style="grid-template-columns:repeat(6,1fr)">
+        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--tx2)"></div>Marché de base</div><div class="kv" id="tsKBase">—</div><div class="ks">contrat initial HT</div></div>
+        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--gr)"></div>TS confirmés par OS</div><div class="kv g" id="tsKOs">—</div><div class="ks" id="tsKOsNb">0 TS</div></div>
+        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--vi)"></div>TS acceptés sans OS</div><div class="kv" style="color:var(--vi)" id="tsKVso">—</div><div class="ks" id="tsKVsoNb">0 TS</div></div>
+        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--wa)"></div>TS en attente</div><div class="kv" style="color:var(--wa)" id="tsKAtt">—</div><div class="ks" id="tsKAttNb">0 TS</div></div>
+        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Total TS accepté</div><div class="kv" id="tsKTsTotal">—</div><div class="ks">OS + sans OS</div></div>
+        <div class="kpi"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Total accepté</div><div class="kv" id="tsKTotal">—</div><div class="ks">marché + OS + sans OS</div></div>
+      </div>
+      <div class="panel">
+        <div class="fb" style="gap:8px;flex-wrap:wrap">
+          <span class="fl">Statut</span>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">
+            <button class="chip on" id="tsFAll" onclick="setTsFlt('all')">Tous</button>
+            <button class="chip" id="tsFAtt" onclick="setTsFlt('attente')">En attente</button>
+            <button class="chip" id="tsFVso" onclick="setTsFlt('valide_sans_os')">Validé sans OS</button>
+            <button class="chip" id="tsFOs" onclick="setTsFlt('os')">Validé par OS</button>
+            <button class="chip" id="tsFSup" onclick="setTsFlt('supprime')">Supprimé</button>
+          </div>
+        </div>
+        <div id="tsVList"></div>
+        <div id="tsVEmpty" class="empty" style="display:none"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">trending_up</span></div><p style="font-size:13px">Aucun TS trouvé.</p></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="ov" id="ov" onclick="closePanel()"></div>
@@ -1389,7 +1471,7 @@ async function reload(){
   toast("Chargement…","info")
   try{
     const pid=currentProject?.id
-    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes,actRes,ptRes,mbRes]=await Promise.all([
+    const [cRes,fRes,dRes,lotsRes,entsRes,jRes,crRes,tdRes,actRes,ptRes,mbRes,tsRes]=await Promise.all([
       _sb.from("commandes").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
       _sb.from("factures").select("*").eq("project_id",pid),
       _sb.from("devis").select("*").eq("project_id",pid).order("date",{ascending:false,nullsFirst:false}),
@@ -1400,7 +1482,8 @@ async function reload(){
       _sb.from("todos").select("*").eq("project_id",pid),
       _sb.from("activity_log").select("*").eq("project_id",pid).order("created_at",{ascending:false}).limit(20),
       _sb.from("pointage").select("*").eq("project_id",pid).order("date",{ascending:false}),
-      _sb.from("project_members").select("user_id,display_name,initials,role").eq("project_id",pid)
+      _sb.from("project_members").select("user_id,display_name,initials,role").eq("project_id",pid),
+      _sb.from("travaux_sup").select("*").eq("project_id",pid).order("created_at",{ascending:false})
     ])
     if(cRes.error)throw new Error(cRes.error.message)
     if(fRes.error)throw new Error(fRes.error.message)
@@ -1416,12 +1499,14 @@ async function reload(){
     if(!actRes?.error)ACTIVITY_LOG=(actRes?.data||[]).map(r=>({id:r.id,userName:r.user_name||"",action:r.action,entityType:r.entity_type,entityLabel:r.entity_label||"",createdAt:r.created_at}))
     if(!ptRes?.error)POINTAGE=(ptRes?.data||[]).map(r=>({id:r.id,date:r.date,entreprise:r.entreprise,nb:r.nb_personnes,notes:r.notes||"",createdAt:r.created_at}))
     if(!mbRes?.error)PROJECT_MEMBERS=(mbRes?.data||[]).map(r=>({userId:r.user_id,name:r.display_name||"",initials:r.initials||"?",role:r.role||"membre"}))
+    if(!tsRes?.error)TS_VENTES=(tsRes?.data||[]).map(r=>({id:r.id,reference:r.reference||"",description:r.description||"",statut:r.statut||"chiffrage",montant:parseFloat(r.montant||0),osNumber:r.os_number||"",dateSoumis:r.date_soumis||"",dateValide:r.date_valide||"",dateOs:r.date_os||"",notes:r.notes||"",createdAt:r.created_at}))
     rAll()
     const activeView=document.querySelector(".view.active")?.id
     if(activeView==="view-st")rST()
     if(activeView==="view-analytique")setAnaTab(anaTab)
     if(activeView==="view-devis-st")rDevis()
     if(activeView==="view-dashboard")rDashboard()
+    if(activeView==="view-ts-ventes")rTS()
     toast("Données synchronisées","success")
   }catch(err){toast("Erreur chargement : "+err.message,"error")}
 }
@@ -1462,12 +1547,14 @@ async function silentReload(){
     if(!actRes?.error)ACTIVITY_LOG=(actRes?.data||[]).map(r=>({id:r.id,userName:r.user_name||"",action:r.action,entityType:r.entity_type,entityLabel:r.entity_label||"",createdAt:r.created_at}))
     if(!ptRes?.error)POINTAGE=(ptRes?.data||[]).map(r=>({id:r.id,date:r.date,entreprise:r.entreprise,nb:r.nb_personnes,notes:r.notes||"",createdAt:r.created_at}))
     if(!mbRes?.error)PROJECT_MEMBERS=(mbRes?.data||[]).map(r=>({userId:r.user_id,name:r.display_name||"",initials:r.initials||"?",role:r.role||"membre"}))
+    if(!tsRes?.error)TS_VENTES=(tsRes?.data||[]).map(r=>({id:r.id,reference:r.reference||"",description:r.description||"",statut:r.statut||"chiffrage",montant:parseFloat(r.montant||0),osNumber:r.os_number||"",dateSoumis:r.date_soumis||"",dateValide:r.date_valide||"",dateOs:r.date_os||"",notes:r.notes||"",createdAt:r.created_at}))
     rAll()
     const av=document.querySelector(".view.active")?.id
     if(av==="view-st")rST()
     if(av==="view-analytique")setAnaTab(anaTab)
     if(av==="view-devis-st")rDevis()
     if(av==="view-dashboard")rDashboard()
+    if(av==="view-ts-ventes")rTS()
     _lastSync=Date.now()
   }catch(e){console.warn("Realtime reload failed",e)}
 }
@@ -1512,6 +1599,7 @@ function showView(id,btn){
   if(id==="entreprises")rEnts()
   if(id==="devis-st")rDevis()
   if(id==="todo")rTodo()
+  if(id==="ts-ventes")rTS()
   if(id==="journal")rJournal()
   if(id==="cr")rCR()
   if(id==="dashboard")rDashboard()
@@ -1676,6 +1764,8 @@ function openPanel(mode,id){pMode=mode;pData={id};const title=document.getElemen
   if(mode==="editDevis"){const dv=DEVIS.find(x=>x.id===id);if(!dv)return;title.textContent="Modifier le devis";body.innerHTML=devisForm(dv);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subDevisEdit('${id}')">Enregistrer</button>`}
   if(mode==="todo"){title.textContent="Nouvelle tâche";body.innerHTML=todoForm();foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subTodoNew()">Enregistrer</button>`}
   if(mode==="editTodo"){const td=TODOS.find(x=>x.id===id);if(!td)return;title.textContent="Modifier la tâche";body.innerHTML=todoForm(td);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subTodoEdit('${id}')">Enregistrer</button>`}
+  if(mode==="ts"){title.textContent="Nouveau TS";body.innerHTML=tsForm(null);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subTSNew()">Enregistrer</button>`}
+  if(mode==="editTs"){const ts=TS_VENTES.find(x=>x.id===id);if(!ts)return;title.textContent="Modifier le TS";body.innerHTML=tsForm(ts);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subTSEdit('${id}')">Enregistrer</button>`}
   if(mode==="pointage"){
     title.textContent="Pointage chantier"
     const today=lds(new Date())
@@ -3138,6 +3228,177 @@ function exportPDF(type){
   toast('PDF téléchargé','success')
 }
 
+function confirmExportTsPDF(){
+  const include=[]
+  if(document.getElementById('tsPdfAtt')?.checked)include.push('attente')
+  if(document.getElementById('tsPdfVso')?.checked)include.push('valide_sans_os')
+  if(document.getElementById('tsPdfOs')?.checked)include.push('os')
+  if(document.getElementById('tsPdfSup')?.checked)include.push('supprime')
+  if(!include.length){toast('Sélectionnez au moins un groupe','error');return}
+  document.getElementById('tsPdfModal').classList.add('hidden')
+  exportTsPDF(include)
+}
+
+function exportTsPDF(include){
+  if(!window.jspdf){toast('Librairie PDF non chargée','error');return}
+  const {jsPDF}=window.jspdf
+  const proj=currentProject?.name||'Export'
+  const date=lds(new Date())
+  const fmt=n=>{
+    const v=Math.abs(Number(n||0)).toFixed(0)
+    return(Number(n)<0?'- ':'')+v.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' €'
+  }
+
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'})
+  const pageW=doc.internal.pageSize.getWidth()
+  const pageH=doc.internal.pageSize.getHeight()
+
+  // Palette Option C — neutre + accent bleu
+  const AC=[25,87,247]       // bleu CAIRN
+  const ACL=[235,242,255]    // bleu très clair
+  const INK=[15,23,42]       // quasi-noir
+  const MID=[71,85,105]      // gris moyen
+  const SUB=[148,163,184]    // gris clair
+  const BG=[248,250,252]     // fond alterné
+  const BRD=[226,232,240]    // bordure
+
+  // ── Bandeau titre ──
+  doc.setFillColor(...INK)
+  doc.rect(0,0,pageW,18,'F')
+  // Trait bleu en bas du bandeau
+  doc.setFillColor(...AC)
+  doc.rect(0,17,pageW,1,'F')
+  doc.setTextColor(255,255,255)
+  doc.setFontSize(11);doc.setFont('helvetica','bold')
+  doc.text('TRAVAUX SUPPLÉMENTAIRES',14,10)
+  doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(...SUB)
+  doc.text(proj,14,14.5)
+  doc.setTextColor(...SUB)
+  doc.text(`Généré le ${date}`,pageW-14,11,{align:'right'})
+
+  // ── KPIs ──
+  const base=getMarcheBase()
+  const tsOs=TS_VENTES.filter(t=>t.statut==='os')
+  const tsVso=TS_VENTES.filter(t=>t.statut==='valide_sans_os')
+  const tsAtt=TS_VENTES.filter(t=>t.statut==='attente_retour'||t.statut==='chiffrage')
+  const sum=arr=>arr.reduce((s,t)=>s+parseFloat(t.montant||0),0)
+  const kpis=[
+    {label:'Marché de base',val:fmt(base),sub:'contrat initial HT',accent:false},
+    {label:'TS confirmés par OS',val:fmt(sum(tsOs)),sub:tsOs.length+' TS',accent:false},
+    {label:'TS acceptés sans OS',val:fmt(sum(tsVso)),sub:tsVso.length+' TS',accent:false},
+    {label:'TS en attente',val:fmt(sum(tsAtt)),sub:tsAtt.length+' TS',accent:false},
+    {label:'Total TS accepté',val:fmt(sum(tsOs)+sum(tsVso)),sub:'OS + sans OS',accent:true},
+    {label:'Total accepté',val:fmt(base+sum(tsOs)+sum(tsVso)),sub:'marché + OS + sans OS',accent:true},
+  ]
+  const kpiW=(pageW-28)/6
+  const kpiY=22
+  kpis.forEach((k,i)=>{
+    const x=14+i*kpiW
+    doc.setFillColor(...(k.accent?ACL:[255,255,255]))
+    doc.setDrawColor(...BRD)
+    doc.roundedRect(x,kpiY,kpiW-2,22,1.5,1.5,'FD')
+    // Trait bleu en haut de chaque carte
+    doc.setFillColor(...(k.accent?AC:BRD))
+    doc.rect(x,kpiY,kpiW-2,1,'F')
+    doc.setFontSize(6.5);doc.setFont('helvetica','normal');doc.setTextColor(...SUB)
+    doc.text(k.label.toUpperCase(),x+4,kpiY+6)
+    doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(...(k.accent?AC:INK))
+    doc.text(k.val,x+4,kpiY+14)
+    doc.setFontSize(6.5);doc.setFont('helvetica','normal');doc.setTextColor(...SUB)
+    doc.text(k.sub,x+4,kpiY+20)
+  })
+
+  // ── Tableaux par groupe ──
+  const allGroups=[
+    {key:'attente',label:'TS EN ATTENTE',keys:['attente_retour','chiffrage']},
+    {key:'valide_sans_os',label:'TS VALIDÉ SANS OS',keys:['valide_sans_os']},
+    {key:'os',label:'TS VALIDÉ PAR OS',keys:['os']},
+    {key:'supprime',label:'TS SUPPRIMÉ',keys:['supprime']},
+  ]
+  const head=[['Réf.','Description','Montant HT','Date envoi','Date valid.','Date OS','N° OS']]
+  let y=49
+
+  allGroups.forEach(g=>{
+    const rows=TS_VENTES.filter(t=>g.keys.includes(t.statut)).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
+    if(!rows.length)return
+
+    if(y>pageH-40){doc.addPage();y=14}
+
+    const gTotal=rows.reduce((s,t)=>s+parseFloat(t.montant||0),0)
+    const included=!include||include.includes(g.key)
+
+    // En-tête de groupe — ligne fine bleue + texte
+    doc.setDrawColor(...AC)
+    doc.setLineWidth(.5)
+    doc.line(14,y+3,14+3,y+3)
+    doc.setLineWidth(.2)
+    doc.setFontSize(8);doc.setFont('helvetica','bold');doc.setTextColor(...INK)
+    doc.text(g.label,20,y+3.5)
+    doc.setFont('helvetica','normal');doc.setTextColor(...SUB);doc.setFontSize(7.5)
+    doc.text(`${rows.length} TS`,pageW-52,y+3.5)
+    doc.setFont('helvetica','bold');doc.setTextColor(...AC)
+    doc.text(fmt(gTotal),pageW-14,y+3.5,{align:'right'})
+    // Ligne séparatrice
+    doc.setDrawColor(...BRD);doc.setLineWidth(.25)
+    doc.line(14,y+5.5,pageW-14,y+5.5)
+    y+=8
+
+    if(!included){y+=2;return}
+
+    const body=rows.map(t=>[
+      t.reference||'—',
+      t.description||'—',
+      fmt(t.montant),
+      t.dateSoumis||'—',
+      t.dateValide||'—',
+      t.dateOs||'—',
+      t.osNumber||'—'
+    ])
+    body.push(['','TOTAL',fmt(gTotal),'','','',''])
+
+    doc.autoTable({
+      head,body,
+      startY:y,
+      styles:{fontSize:7.5,cellPadding:2.8,lineColor:BRD,lineWidth:.2,overflow:'linebreak',textColor:INK},
+      headStyles:{fillColor:INK,textColor:255,fontStyle:'bold',fontSize:7,letterSpacing:.5},
+      alternateRowStyles:{fillColor:BG},
+      columnStyles:{
+        0:{cellWidth:18},
+        1:{cellWidth:'auto'},
+        2:{cellWidth:28,halign:'right',fontStyle:'bold'},
+        3:{cellWidth:24,textColor:MID},
+        4:{cellWidth:24,textColor:MID},
+        5:{cellWidth:24,textColor:MID},
+        6:{cellWidth:18,textColor:MID},
+      },
+      didParseCell(data){
+        if(data.row.index===body.length-1){
+          data.cell.styles.fontStyle='bold'
+          data.cell.styles.fillColor=ACL
+          data.cell.styles.textColor=AC
+        }
+      },
+      margin:{left:14,right:14}
+    })
+    y=doc.lastAutoTable.finalY+10
+  })
+
+  // Numéros de page
+  const pages=doc.internal.getNumberOfPages()
+  for(let i=1;i<=pages;i++){
+    doc.setPage(i)
+    doc.setDrawColor(...BRD);doc.setLineWidth(.2)
+    doc.line(14,pageH-8,pageW-14,pageH-8)
+    doc.setFontSize(6.5);doc.setTextColor(...SUB)
+    doc.text(`${proj} — Travaux supplémentaires`,14,pageH-4.5)
+    doc.text(`${i} / ${pages}`,pageW/2,pageH-4.5,{align:'center'})
+    doc.text(date,pageW-14,pageH-4.5,{align:'right'})
+  }
+
+  doc.save(`travaux_sup_${proj}_${date}.pdf`)
+  toast('PDF téléchargé','success')
+}
+
 // ── THÈME ─────────────────────────────────────────────────
 function setTheme(t){
   document.documentElement.setAttribute('data-theme', t==='light'?'light':'')
@@ -3603,6 +3864,169 @@ function delTodo(id){
   if(!confirm(`Supprimer la tâche "${t.titre}" ?`))return
   apiPost("deleteTodo",{id})
   TODOS=TODOS.filter(x=>x.id!==id);localStorage.setItem("todos18EL",JSON.stringify(TODOS));rTodo();toast("Tâche supprimée")
+}
+
+// ── TRAVAUX SUPPLÉMENTAIRES ──────────────────────────────
+let TS_VENTES=[]
+let tsFlt='all'
+
+function tsId(){return'ts-'+Date.now()+'-'+Math.random().toString(36).slice(2,6)}
+
+function getMarcheBase(){return parseFloat(localStorage.getItem('cairn-marche-base-'+(currentProject?.id||''))||'0')}
+function setMarcheBase(v){localStorage.setItem('cairn-marche-base-'+(currentProject?.id||''),String(v))}
+
+function openEditMarcheBase(){
+  const cur=getMarcheBase()
+  const val=prompt('Marché de base HT (€) :',cur||'')
+  if(val===null)return
+  const n=parseFloat(val.replace(',','.'))
+  if(isNaN(n)){toast('Montant invalide','error');return}
+  setMarcheBase(n);rTS();toast('Marché de base mis à jour')
+}
+
+function setTsFlt(v){tsFlt=v;rTS()}
+
+function tsBadge(s){
+  const map={os:'Validé par OS',valide_sans_os:'Validé — attente OS',attente_retour:'Attente de retour',chiffrage:'En cours de chiffrage',supprime:'Supprimé'}
+  const cls={os:'b-ts-os',valide_sans_os:'b-ts-vso',attente_retour:'b-ts-att',chiffrage:'b-ts-chif',supprime:'b-ts-sup'}
+  return`<span class="badge ${cls[s]||''}">${map[s]||s}</span>`
+}
+
+function fmtTs(n){
+  if(!n&&n!==0)return'—'
+  const v=Math.abs(Number(n)).toFixed(0)
+  return(Number(n)<0?'- ':'')+Number(v).toLocaleString('fr-FR')+' €'
+}
+
+function rTS(){
+  const base=getMarcheBase()
+  const tsOs=TS_VENTES.filter(t=>t.statut==='os')
+  const tsVso=TS_VENTES.filter(t=>t.statut==='valide_sans_os')
+  const tsAtt=TS_VENTES.filter(t=>t.statut==='attente_retour'||t.statut==='chiffrage')
+  const sum=arr=>arr.reduce((s,t)=>s+parseFloat(t.montant||0),0)
+
+  document.getElementById('tsKBase').textContent=fmtTs(base)
+  document.getElementById('tsKOs').textContent=fmtTs(sum(tsOs))
+  document.getElementById('tsKOsNb').textContent=tsOs.length+' TS'
+  document.getElementById('tsKVso').textContent=fmtTs(sum(tsVso))
+  document.getElementById('tsKVsoNb').textContent=tsVso.length+' TS'
+  document.getElementById('tsKAtt').textContent=fmtTs(sum(tsAtt))
+  document.getElementById('tsKAttNb').textContent=tsAtt.length+' TS'
+  document.getElementById('tsKTsTotal').textContent=fmtTs(sum(tsOs)+sum(tsVso))
+  document.getElementById('tsKTotal').textContent=fmtTs(base+sum(tsOs)+sum(tsVso))
+
+  const chips=[['tsFAll','all'],['tsFAtt','attente'],['tsFVso','valide_sans_os'],['tsFOs','os'],['tsFSup','supprime']]
+  chips.forEach(([id,v])=>{const b=document.getElementById(id);if(b)b.classList.toggle('on',tsFlt===v)})
+
+  const container=document.getElementById('tsVList')
+  const empty=document.getElementById('tsVEmpty')
+  if(!container)return
+
+  const groups=[
+    {key:'attente',label:'TS en attente',color:'var(--wa)',keys:['attente_retour','chiffrage']},
+    {key:'valide_sans_os',label:'TS validé sans OS',color:'var(--vi)',keys:['valide_sans_os']},
+    {key:'os',label:'TS validé par OS',color:'var(--gr)',keys:['os']},
+    {key:'supprime',label:'TS supprimé',color:'var(--re)',keys:['supprime']}
+  ]
+
+  const visibleGroups=tsFlt==='all'?groups:groups.filter(g=>g.key===tsFlt)
+
+  const tsRow=t=>`<div class="ts-row">
+    <span class="ts-ref">${t.reference||'—'}</span>
+    <span class="ts-desc" title="${(t.description||'').replace(/"/g,'&quot;')}">${t.description||'—'}</span>
+    <span class="ts-amt" style="color:${t.statut==='os'?'var(--gr)':t.statut==='supprime'?'var(--re)':t.statut==='chiffrage'?'var(--tx2)':'var(--tx)'}">${fmtTs(t.montant)}</span>
+    <span class="ts-date">${t.dateSoumis||'—'}</span>
+    <span class="ts-date">${t.dateValide||'—'}</span>
+    <span class="ts-date">${t.dateOs||'—'}</span>
+    <span class="ts-date">${t.osNumber||'—'}</span>
+    <span class="ts-acts">
+      <button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editTs','${t.id}')"><span class="material-symbols-outlined">edit</span></button>
+      <button class="btn btn-g btn-xs btn-del" onclick="delTS('${t.id}')"><span class="material-symbols-outlined">delete</span></button>
+    </span>
+  </div>`
+
+  const html=visibleGroups.map(g=>{
+    const rows=TS_VENTES.filter(t=>g.keys.includes(t.statut)).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
+    if(!rows.length)return''
+    const total=rows.reduce((s,t)=>s+parseFloat(t.montant||0),0)
+    return`<div class="ts-group">
+      <div class="ts-group-hd">
+        <span class="ts-group-dot" style="background:${g.color}"></span>
+        <span class="ts-group-label">${g.label}</span>
+        <span class="ts-group-count">${rows.length} TS</span>
+        <span class="ts-group-total">${fmtTs(total)}</span>
+      </div>
+      <div class="ts-list">
+        <div class="ts-row ts-head"><span>Référence</span><span>Description</span><span style="text-align:right">Montant HT</span><span>Date envoi</span><span>Date valid.</span><span>Date OS</span><span>N° OS</span><span></span></div>
+        ${rows.map(tsRow).join('')}
+      </div>
+    </div>`
+  }).filter(Boolean).join('<div class="ts-sep"></div>')
+
+  if(!html.trim()){container.innerHTML='';empty.style.display='block';return}
+  empty.style.display='none'
+  container.innerHTML=html
+}
+
+function tsForm(t){
+  return`<div class="fs"><div class="fs-title">Travaux supplémentaires</div>
+  <div class="ff2">
+    <div class="ff"><label>Référence</label><input id="tsRef" value="${t?.reference||''}" placeholder="TS-001"></div>
+    <div class="ff"><label>Date soumis</label><input id="tsDsoumis" type="date" value="${t?.dateSoumis||''}"></div>
+  </div>
+  <div class="ff"><label>Description *</label><input id="tsDesc" value="${t?.description||''}" placeholder="Travaux de..."></div>
+  <div class="ff"><label>Statut</label><select id="tsSt">
+    <option value="chiffrage"${(!t||t.statut==='chiffrage')?' selected':''}>En cours de chiffrage</option>
+    <option value="attente_retour"${t?.statut==='attente_retour'?' selected':''}>Attente de retour MOA</option>
+    <option value="valide_sans_os"${t?.statut==='valide_sans_os'?' selected':''}>Validé — en attente d'OS</option>
+    <option value="os"${t?.statut==='os'?' selected':''}>Validé par OS</option>
+    <option value="supprime"${t?.statut==='supprime'?' selected':''}>Supprimé</option>
+  </select></div>
+  <div class="ff2">
+    <div class="ff"><label>Montant HT (€)</label><input id="tsMontant" type="number" step="0.01" value="${t?.montant||''}" placeholder="0.00"></div>
+    <div class="ff"><label>Date validation</label><input id="tsDvalide" type="date" value="${t?.dateValide||''}"></div>
+  </div>
+  <div class="ff2">
+    <div class="ff"><label>N° OS <span style="font-weight:400;opacity:.6">(si validé)</span></label><input id="tsOs" value="${t?.osNumber||''}" placeholder="34bis"></div>
+    <div class="ff"><label>Date OS</label><input id="tsDos" type="date" value="${t?.dateOs||''}"></div>
+  </div>
+  <div class="ff"><label>Notes</label><textarea id="tsNotes" rows="3" placeholder="Contexte, remarques…" style="min-height:70px;resize:vertical;width:100%;font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--bd);border-radius:7px;background:var(--sf);color:var(--tx);outline:none;line-height:1.5">${t?.notes||''}</textarea></div>
+  </div>`
+}
+
+async function subTSNew(){
+  const desc=(document.getElementById('tsDesc')?.value||'').trim()
+  if(!desc){toast('Description requise','error');return}
+  const t={id:tsId(),reference:document.getElementById('tsRef')?.value.trim()||'',description:desc,statut:document.getElementById('tsSt')?.value||'chiffrage',montant:parseFloat(document.getElementById('tsMontant')?.value||'0')||0,osNumber:document.getElementById('tsOs')?.value.trim()||'',dateSoumis:document.getElementById('tsDsoumis')?.value||'',dateValide:document.getElementById('tsDvalide')?.value||'',dateOs:document.getElementById('tsDos')?.value||'',notes:document.getElementById('tsNotes')?.value.trim()||'',createdAt:new Date().toISOString()}
+  const {error}=await _sb.from('travaux_sup').insert({id:t.id,project_id:currentProject.id,reference:t.reference,description:t.description,statut:t.statut,montant:t.montant,os_number:t.osNumber,date_soumis:t.dateSoumis||null,date_valide:t.dateValide||null,date_os:t.dateOs||null,notes:t.notes,created_at:t.createdAt})
+  if(error){toast('Erreur : '+error.message,'error');return}
+  TS_VENTES.push(t);closePanel();rTS();toast('TS créé')
+}
+
+async function subTSEdit(id){
+  const t=TS_VENTES.find(x=>x.id===id);if(!t)return
+  const desc=(document.getElementById('tsDesc')?.value||'').trim()
+  if(!desc){toast('Description requise','error');return}
+  t.reference=document.getElementById('tsRef')?.value.trim()||''
+  t.description=desc
+  t.statut=document.getElementById('tsSt')?.value||'chiffrage'
+  t.montant=parseFloat(document.getElementById('tsMontant')?.value||'0')||0
+  t.osNumber=document.getElementById('tsOs')?.value.trim()||''
+  t.dateSoumis=document.getElementById('tsDsoumis')?.value||''
+  t.dateValide=document.getElementById('tsDvalide')?.value||''
+  t.dateOs=document.getElementById('tsDos')?.value||''
+  t.notes=document.getElementById('tsNotes')?.value.trim()||''
+  const {error}=await _sb.from('travaux_sup').update({reference:t.reference,description:t.description,statut:t.statut,montant:t.montant,os_number:t.osNumber,date_soumis:t.dateSoumis||null,date_valide:t.dateValide||null,date_os:t.dateOs||null,notes:t.notes}).eq('id',id)
+  if(error){toast('Erreur : '+error.message,'error');return}
+  closePanel();rTS();toast('TS mis à jour')
+}
+
+async function delTS(id){
+  const t=TS_VENTES.find(x=>x.id===id);if(!t)return
+  if(!confirm(`Supprimer le TS "${t.description}" ?`))return
+  const {error}=await _sb.from('travaux_sup').delete().eq('id',id)
+  if(error){toast('Erreur : '+error.message,'error');return}
+  TS_VENTES=TS_VENTES.filter(x=>x.id!==id);rTS();toast('TS supprimé')
 }
 
 // ── JOURNAL DE BORD ──────────────────────────────────────
