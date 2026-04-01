@@ -6,7 +6,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -43,8 +43,8 @@
 [data-theme="light"] .nav-item{color:#6B7280}
 [data-theme="light"] .nav-item:not(.active):hover{background:#F9FAFB;color:#111827}
 [data-theme="light"] .nav-item.active{background:#1957F7}
-[data-theme="light"] .ni .material-symbols-outlined{color:#9CA3AF}
-[data-theme="light"] .nav-item:not(.active):hover .ni .material-symbols-outlined{color:#374151}
+[data-theme="light"] .ni .lucide{color:#9CA3AF}
+[data-theme="light"] .nav-item:not(.active):hover .ni .lucide{color:#374151}
 [data-theme="light"] .s-foot{border-top-color:#F3F4F6}
 [data-theme="light"] .s-user:hover{background:#F9FAFB}
 [data-theme="light"] .s-user-name{color:#111827}
@@ -94,11 +94,11 @@ body::before{display:none}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13.5px;font-weight:500;color:#64748B;cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:all .15s;white-space:nowrap;overflow:hidden}
 .nav-item:not(.active):hover{background:rgba(255,255,255,.05);color:#CBD5E1}
 .nav-item.active{background:#1957F7;color:#fff}
-.nav-item.active .material-symbols-outlined{color:#fff}
+.nav-item.active .lucide{color:#fff}
 .ni{width:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ni .material-symbols-outlined{font-size:18px;color:#475569;transition:color .15s}
-.nav-item:not(.active):hover .ni .material-symbols-outlined{color:#94A3B8}
-.nav-item.active .ni .material-symbols-outlined{color:#fff}
+.ni .lucide{width:18px;height:18px;color:#475569;transition:color .15s}
+.nav-item:not(.active):hover .ni .lucide{color:#94A3B8}
+.nav-item.active .ni .lucide{color:#fff}
 .nav-label-txt{overflow:hidden;white-space:nowrap}
 .sidebar.collapsed .nav-label-txt{display:none}
 .sidebar.collapsed .nav-item{padding:9px;justify-content:center}
@@ -269,11 +269,11 @@ input::placeholder{color:var(--tx3)}
 .toast.success::before{content:"✓";color:#5B7FF8;font-weight:700}
 .toast.error::before{content:"✕";color:#F87171;font-weight:700}
 .empty{padding:56px 20px;text-align:center;color:var(--tx3)}.ei{font-size:36px;margin-bottom:10px;opacity:.3}
-.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 20;line-height:1;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;user-select:none;flex-shrink:0}
-.ni .material-symbols-outlined{font-size:18px;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 20}
-.btn .material-symbols-outlined{font-size:15px}
-.btn-del .material-symbols-outlined,.btn-edit .material-symbols-outlined{font-size:14px}
-.ei .material-symbols-outlined{font-size:36px;opacity:.4}
+.lucide{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;user-select:none;flex-shrink:0;stroke-width:1.75}
+.ni .lucide{width:18px;height:18px}
+.btn .lucide{width:15px;height:15px}
+.btn-del .lucide,.btn-edit .lucide{width:14px;height:14px}
+.ei .lucide{width:36px;height:36px;opacity:.4}
 .lots-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .li{background:var(--bg);border:1px solid var(--bd);border-radius:9px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:var(--shadow)}
 .lc{font-family:'Plus Jakarta Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:11.5px;font-weight:500;color:var(--ac);flex-shrink:0;min-width:44px}
@@ -501,7 +501,7 @@ input::placeholder{color:var(--tx3)}
 .auth-tile:hover{border-color:rgba(99,102,241,.3);transform:translateY(-3px)}
 .auth-tile-wide{grid-column:1/-1}
 .auth-tile-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.auth-tile-icon .material-symbols-outlined{font-size:20px}
+.auth-tile-icon .lucide{width:20px;height:20px}
 .auth-tile-name{font-size:20px;font-weight:700;color:#F1F5F9;line-height:1.2}
 .auth-tile-desc{font-size:13px;color:rgba(148,163,184,.75);line-height:1.65;max-width:380px}
 .auth-tile-glow{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(80px);opacity:.12;pointer-events:none;bottom:-80px;right:-80px}
@@ -544,7 +544,7 @@ input::placeholder{color:var(--tx3)}
     <div class="auth-footer" style="margin-top:20px"><span style="display:inline-flex;align-items:center;gap:6px;background:rgba(25,87,247,.18);border:1px solid rgba(25,87,247,.35);color:#93B8FF;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase">Beta</span></div>
     <div class="auth-scroll-hint" onclick="document.getElementById('authFeatures').scrollIntoView({behavior:'smooth'})">
       <span>Découvrir Cairn</span>
-      <span class="material-symbols-outlined" style="font-size:18px">keyboard_arrow_down</span>
+      <i data-lucide="chevron-down" style="width:18px;height:18px"></i>
     </div>
   </div>
   <div class="auth-features" id="authFeatures">
@@ -557,7 +557,7 @@ input::placeholder{color:var(--tx3)}
       <div class="auth-tile" style="gap:16px">
         <div style="display:flex;align-items:center;gap:12px">
           <div class="auth-tile-icon" style="background:rgba(99,102,241,.15)">
-            <span class="material-symbols-outlined" style="color:#818cf8">receipt_long</span>
+            <i data-lucide="receipt" style="color:#818cf8"></i>
           </div>
           <div>
             <div class="auth-tile-name">Suivi des commandes</div>
@@ -602,7 +602,7 @@ input::placeholder{color:var(--tx3)}
       <div class="auth-tile" style="gap:16px">
         <div style="display:flex;align-items:center;gap:12px">
           <div class="auth-tile-icon" style="background:rgba(124,58,237,.15)">
-            <span class="material-symbols-outlined" style="color:#c084fc">monitoring</span>
+            <i data-lucide="activity" style="color:#c084fc"></i>
           </div>
           <div>
             <div class="auth-tile-name">Pilotage financier</div>
@@ -668,7 +668,7 @@ input::placeholder{color:var(--tx3)}
       <div class="auth-tile auth-tile-wide" style="gap:16px">
         <div style="display:flex;align-items:center;gap:12px">
           <div class="auth-tile-icon" style="background:rgba(16,185,129,.15)">
-            <span class="material-symbols-outlined" style="color:#6ee7b7">group</span>
+            <i data-lucide="users" style="color:#6ee7b7"></i>
           </div>
           <div>
             <div class="auth-tile-name">Collaboration en temps réel</div>
@@ -694,17 +694,17 @@ input::placeholder{color:var(--tx3)}
         <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;overflow:hidden">
           <div style="padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.05);font-size:7px;color:#475569;text-transform:uppercase;letter-spacing:.07em">Activité récente</div>
           <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.04)">
-            <span class="material-symbols-outlined" style="font-size:11px;color:#6ee7b7">bolt</span>
+            <i data-lucide="zap" style="width:11px;height:11px;color:#6ee7b7"></i>
             <span style="font-size:8px;color:#94A3B8"><strong style="color:#e2e8f0">ML</strong> a ajouté la commande <strong style="color:#818cf8">18EL-C048</strong></span>
             <span style="font-size:7px;color:#334155;margin-left:auto">à l'instant</span>
           </div>
           <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.04)">
-            <span class="material-symbols-outlined" style="font-size:11px;color:#818cf8">check_circle</span>
+            <i data-lucide="circle-check" style="width:11px;height:11px;color:#818cf8"></i>
             <span style="font-size:8px;color:#94A3B8"><strong style="color:#e2e8f0">TR</strong> a validé le devis <strong style="color:#818cf8">DEV-031</strong></span>
             <span style="font-size:7px;color:#334155;margin-left:auto">2 min</span>
           </div>
           <div style="display:flex;align-items:center;gap:8px;padding:7px 10px">
-            <span class="material-symbols-outlined" style="font-size:11px;color:#fbbf24">edit</span>
+            <i data-lucide="pencil" style="width:11px;height:11px;color:#fbbf24"></i>
             <span style="font-size:8px;color:#94A3B8"><strong style="color:#e2e8f0">AG</strong> a modifié la facture <strong style="color:#818cf8">FAC-089</strong></span>
             <span style="font-size:7px;color:#334155;margin-left:auto">5 min</span>
           </div>
@@ -727,7 +727,7 @@ input::placeholder{color:var(--tx3)}
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end">
       <button class="btn btn-g btn-sm" onclick="document.getElementById('tsPdfModal').classList.add('hidden')">Annuler</button>
-      <button class="btn btn-p btn-sm" onclick="confirmExportTsPDF()"><span class="material-symbols-outlined" style="font-size:14px">picture_as_pdf</span> Générer</button>
+      <button class="btn btn-p btn-sm" onclick="confirmExportTsPDF()"><i data-lucide="file-down" style="width:14px;height:14px"></i> Générer</button>
     </div>
   </div>
 </div>
@@ -746,10 +746,10 @@ input::placeholder{color:var(--tx3)}
       <div class="profile-section-title">Apparence</div>
       <div class="profile-theme-btns">
         <button class="profile-theme-btn" id="profThemeDark" onclick="setTheme('dark')">
-          <span class="material-symbols-outlined" style="font-size:15px">dark_mode</span>Sombre
+          <i data-lucide="moon" style="width:15px;height:15px"></i>Sombre
         </button>
         <button class="profile-theme-btn" id="profThemeLight" onclick="setTheme('light')">
-          <span class="material-symbols-outlined" style="font-size:15px">light_mode</span>Clair
+          <i data-lucide="sun" style="width:15px;height:15px"></i>Clair
         </button>
       </div>
     </div>
@@ -815,29 +815,29 @@ input::placeholder{color:var(--tx3)}
   </div>
   <div class="nav-sec">
     <div class="nav-lbl">Pilotage</div>
-    <button class="nav-item active" onclick="showView('dashboard',this)"><span class="ni"><span class="material-symbols-outlined">dashboard</span></span><span class="nav-label-txt">Tableau de bord</span></button>
-    <button class="nav-item" onclick="showView('journal',this)"><span class="ni"><span class="material-symbols-outlined">menu_book</span></span><span class="nav-label-txt">Journal de bord</span></button>
-    <button class="nav-item" onclick="showView('cr',this)"><span class="ni"><span class="material-symbols-outlined">description</span></span><span class="nav-label-txt">Compte rendu</span></button>
-    <button class="nav-item" onclick="showView('todo',this)"><span class="ni"><span class="material-symbols-outlined">check_circle</span></span><span class="nav-label-txt">To-do</span></button>
+    <button class="nav-item active" onclick="showView('dashboard',this)"><span class="ni"><i data-lucide="layout-dashboard"></i></span><span class="nav-label-txt">Tableau de bord</span></button>
+    <button class="nav-item" onclick="showView('journal',this)"><span class="ni"><i data-lucide="book-open"></i></span><span class="nav-label-txt">Journal de bord</span></button>
+    <button class="nav-item" onclick="showView('cr',this)"><span class="ni"><i data-lucide="file-text"></i></span><span class="nav-label-txt">Compte rendu</span></button>
+    <button class="nav-item" onclick="showView('todo',this)"><span class="ni"><i data-lucide="circle-check"></i></span><span class="nav-label-txt">To-do</span></button>
   </div>
   <div class="nav-sep" style="margin:4px 8px;height:1px;background:var(--bd)"></div>
   <div class="nav-sec">
     <div class="nav-lbl">Dépenses</div>
-    <button class="nav-item" onclick="showView('commandes',this)"><span class="ni"><span class="material-symbols-outlined">inventory_2</span></span><span class="nav-label-txt">Achats</span></button>
-    <button class="nav-item" onclick="showView('devis-st',this)"><span class="ni"><span class="material-symbols-outlined">request_quote</span></span><span class="nav-label-txt">Sous-traitance</span></button>
-    <button class="nav-item" onclick="showView('st',this)"><span class="ni"><span class="material-symbols-outlined">receipt_long</span></span><span class="nav-label-txt">Factures ST</span></button>
-    <button class="nav-item" onclick="showView('analytique',this)"><span class="ni"><span class="material-symbols-outlined">trending_up</span></span><span class="nav-label-txt">Analytique</span></button>
+    <button class="nav-item" onclick="showView('commandes',this)"><span class="ni"><i data-lucide="package"></i></span><span class="nav-label-txt">Achats</span></button>
+    <button class="nav-item" onclick="showView('devis-st',this)"><span class="ni"><i data-lucide="file-text"></i></span><span class="nav-label-txt">Sous-traitance</span></button>
+    <button class="nav-item" onclick="showView('st',this)"><span class="ni"><i data-lucide="receipt"></i></span><span class="nav-label-txt">Factures ST</span></button>
+    <button class="nav-item" onclick="showView('analytique',this)"><span class="ni"><i data-lucide="trending-up"></i></span><span class="nav-label-txt">Analytique</span></button>
   </div>
   <div class="nav-sep" style="margin:4px 8px;height:1px;background:var(--bd)"></div>
   <div class="nav-sec">
     <div class="nav-lbl">Ventes</div>
-    <button class="nav-item" onclick="showView('ts-ventes',this)"><span class="ni"><span class="material-symbols-outlined">list_alt_add</span></span><span class="nav-label-txt">Travaux sup</span></button>
+    <button class="nav-item" onclick="showView('ts-ventes',this)"><span class="ni"><i data-lucide="list-plus"></i></span><span class="nav-label-txt">Travaux sup</span></button>
   </div>
   <div class="nav-sep" style="margin:4px 8px;height:1px;background:var(--bd)"></div>
   <div class="nav-sec">
     <div class="nav-lbl">Référentiel</div>
-    <button class="nav-item" onclick="showView('entreprises',this)"><span class="ni"><span class="material-symbols-outlined">groups</span></span><span class="nav-label-txt">Fournisseurs / ST</span></button>
-    <button class="nav-item" onclick="showView('lots',this)"><span class="ni"><span class="material-symbols-outlined">settings</span></span><span class="nav-label-txt">Config</span></button>
+    <button class="nav-item" onclick="showView('entreprises',this)"><span class="ni"><i data-lucide="users"></i></span><span class="nav-label-txt">Fournisseurs / ST</span></button>
+    <button class="nav-item" onclick="showView('lots',this)"><span class="ni"><i data-lucide="settings"></i></span><span class="nav-label-txt">Config</span></button>
   </div>
   <div class="s-foot">
     <div class="s-user" onclick="openProfilePanel()" title="Modifier le profil" style="cursor:pointer">
@@ -848,7 +848,7 @@ input::placeholder{color:var(--tx3)}
       </div>
     </div>
     <button class="logout-btn" onclick="doLogout()" style="display:flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:12px;padding:4px 2px;font-family:inherit;width:100%" title="Déconnexion">
-      <span class="material-symbols-outlined" style="font-size:16px">logout</span>
+      <i data-lucide="log-out" style="width:16px;height:16px"></i>
       <span class="nav-label-txt">Déconnexion</span>
     </button>
   </div>
@@ -895,7 +895,7 @@ input::placeholder{color:var(--tx3)}
           </div>
         </div>
         <div id="jList"></div>
-        <div id="jEmpty" class="empty" style="display:none"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">menu_book</span></div><p style="font-size:13px">Aucune entrée.</p></div>
+        <div id="jEmpty" class="empty" style="display:none"><div class="ei"><i data-lucide="book-open" style="width:36px;height:36px;opacity:.3"></i></div><p style="font-size:13px">Aucune entrée.</p></div>
       </div>
       </div>
       <div id="jContentPointage" style="display:none">
@@ -950,13 +950,13 @@ input::placeholder{color:var(--tx3)}
           </div>
         </div>
         <div id="crList" style="padding:12px 16px;display:flex;flex-direction:column;gap:10px"></div>
-        <div id="crEmpty" class="empty" style="display:none"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">description</span></div><p style="font-size:13px">Aucun compte rendu.</p></div>
+        <div id="crEmpty" class="empty" style="display:none"><div class="ei"><i data-lucide="file-text" style="width:36px;height:36px;opacity:.3"></i></div><p style="font-size:13px">Aucun compte rendu.</p></div>
       </div>
     </div>
   </div>
 
   <div id="view-commandes" class="view">
-    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Achats</div><div class="topbar-sub">Commandes et factures fournisseurs</div></div><div class="ta"><button class="btn btn-g btn-sm" onclick="exportCSV('commandes')" title="Exporter en CSV"><span class="material-symbols-outlined" style="font-size:15px">download</span> CSV</button><button class="btn btn-g btn-sm" onclick="exportPDF('commandes')" title="Exporter en PDF"><span class="material-symbols-outlined" style="font-size:15px">picture_as_pdf</span> PDF</button><button class="btn btn-p btn-sm" onclick="openPanel('commande')">+ Nouvelle commande</button></div></div>
+    <div class="topbar"><div class="topbar-head"><div class="topbar-title">Achats</div><div class="topbar-sub">Commandes et factures fournisseurs</div></div><div class="ta"><button class="btn btn-g btn-sm" onclick="exportCSV('commandes')" title="Exporter en CSV"><i data-lucide="download" style="width:15px;height:15px"></i> CSV</button><button class="btn btn-g btn-sm" onclick="exportPDF('commandes')" title="Exporter en PDF"><i data-lucide="file-down" style="width:15px;height:15px"></i> PDF</button><button class="btn btn-p btn-sm" onclick="openPanel('commande')">+ Nouvelle commande</button></div></div>
     <div class="content">
       <div class="kpi-grid">
         <div class="kpi kpi-e"><div class="kl"><div class="kl-dot" style="background:var(--ac)"></div>Engagé total</div><div class="kv" id="kE">—</div><div class="ks" id="kEs"></div></div>
@@ -1025,7 +1025,7 @@ input::placeholder{color:var(--tx3)}
           </tr></thead>
           <tbody id="ctbody"></tbody>
         </table></div>
-        <div id="cEmpty" class="empty" style="display:none"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">list_alt</span></div><p style="font-size:13px">Aucune commande trouvée.</p></div>
+        <div id="cEmpty" class="empty" style="display:none"><div class="ei"><i data-lucide="list" style="width:36px;height:36px;opacity:.3"></i></div><p style="font-size:13px">Aucune commande trouvée.</p></div>
         <div class="pager"><span id="pgInfo">—</span><div class="pgr" id="pgBtns"></div></div>
       </div>
     </div>
@@ -1053,8 +1053,8 @@ input::placeholder{color:var(--tx3)}
       <div class="topbar-head"><div class="topbar-title">Factures ST</div><div class="topbar-sub">Factures des sous-traitants</div></div>
       <div class="ta">
         
-        <button class="btn btn-g btn-sm" onclick="exportCSV('factures-st')" title="Exporter en CSV"><span class="material-symbols-outlined" style="font-size:15px">download</span> CSV</button>
-        <button class="btn btn-g btn-sm" onclick="exportPDF('factures-st')" title="Exporter en PDF"><span class="material-symbols-outlined" style="font-size:15px">picture_as_pdf</span> PDF</button>
+        <button class="btn btn-g btn-sm" onclick="exportCSV('factures-st')" title="Exporter en CSV"><i data-lucide="download" style="width:15px;height:15px"></i> CSV</button>
+        <button class="btn btn-g btn-sm" onclick="exportPDF('factures-st')" title="Exporter en PDF"><i data-lucide="file-down" style="width:15px;height:15px"></i> PDF</button>
         <button class="btn btn-p btn-sm" onclick="openNewFacST()">+ Nouvelle facture ST</button>
       </div>
     </div>
@@ -1095,15 +1095,15 @@ input::placeholder{color:var(--tx3)}
     <div class="topbar">
       <div class="topbar-head"><div class="topbar-title">Sous-traitance</div><div class="topbar-sub">Devis et marchés sous-traitants</div></div>
       <div class="ta">
-        <button class="btn btn-g btn-sm" onclick="exportCSV('devis')" title="Exporter en CSV"><span class="material-symbols-outlined" style="font-size:15px">download</span> CSV</button>
-        <button class="btn btn-g btn-sm" onclick="exportPDF('devis')" title="Exporter en PDF"><span class="material-symbols-outlined" style="font-size:15px">picture_as_pdf</span> PDF</button>
+        <button class="btn btn-g btn-sm" onclick="exportCSV('devis')" title="Exporter en CSV"><i data-lucide="download" style="width:15px;height:15px"></i> CSV</button>
+        <button class="btn btn-g btn-sm" onclick="exportPDF('devis')" title="Exporter en PDF"><i data-lucide="file-down" style="width:15px;height:15px"></i> PDF</button>
         <button class="btn btn-p btn-sm" onclick="openNewDevis()">+ Nouveau devis</button>
       </div>
     </div>
     <div class="content">
       <!-- Alerte devis non avenanté -->
       <div id="devisAlert" style="display:none;margin-bottom:14px;padding:10px 16px;background:var(--wal);border:1px solid var(--wa);border-radius:var(--r);color:var(--wa);font-size:13px;font-weight:500;align-items:center;gap:8px">
-        <span class="material-symbols-outlined" style="font-size:16px">warning</span><span id="devisAlertTxt"></span>
+        <i data-lucide="triangle-alert" style="width:16px;height:16px"></i><span id="devisAlertTxt"></span>
       </div>
       <!-- Filtre -->
       <div class="search-card">
@@ -1217,7 +1217,7 @@ input::placeholder{color:var(--tx3)}
 
       <!-- Lots -->
       <div class="panel" id="lotFD" style="display:none">
-        <div class="ph"><span class="pt">Nouveau lot</span><button class="btn btn-g btn-sm" onclick="closeLotF()"><span class="material-symbols-outlined">close</span></button></div>
+        <div class="ph"><span class="pt">Nouveau lot</span><button class="btn btn-g btn-sm" onclick="closeLotF()"><i data-lucide="x"></i></button></div>
         <div class="pb"><div style="display:flex;gap:9px;align-items:flex-end">
           <div class="ff" style="margin:0"><label>Code *</label><input id="lCode" style="width:80px" placeholder="S1A"></div>
           <div class="ff" style="margin:0;flex:1"><label>Désignation</label><input id="lName" placeholder="Structure Lot A"></div>
@@ -1262,7 +1262,7 @@ input::placeholder{color:var(--tx3)}
           <div id="tdMemberBar" style="display:flex;gap:4px;flex-wrap:wrap"><button class="chip on" onclick="setTdMember('all')">Tous</button></div>
         </div>
         <div id="tdList" class="todo-list"></div>
-        <div id="tdEmpty" class="empty" style="display:none"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">check_circle</span></div><p style="font-size:13px">Aucune tâche trouvée.</p></div>
+        <div id="tdEmpty" class="empty" style="display:none"><div class="ei"><i data-lucide="circle-check" style="width:36px;height:36px;opacity:.3"></i></div><p style="font-size:13px">Aucune tâche trouvée.</p></div>
       </div>
     </div>
   </div>
@@ -1272,8 +1272,8 @@ input::placeholder{color:var(--tx3)}
     <div class="topbar">
       <div class="topbar-head"><div class="topbar-title">Travaux supplémentaires</div><div class="topbar-sub">Suivi des TS — marché et avenants</div></div>
       <div class="ta">
-        <button class="btn btn-g btn-sm" onclick="openEditMarcheBase()" title="Définir le marché de base"><span class="material-symbols-outlined" style="font-size:15px">edit</span> Marché de base</button>
-        <button class="btn btn-g btn-sm" onclick="document.getElementById('tsPdfModal').classList.remove('hidden')"><span class="material-symbols-outlined" style="font-size:15px">picture_as_pdf</span> Export PDF</button>
+        <button class="btn btn-g btn-sm" onclick="openEditMarcheBase()" title="Définir le marché de base"><i data-lucide="pencil" style="width:15px;height:15px"></i> Marché de base</button>
+        <button class="btn btn-g btn-sm" onclick="document.getElementById('tsPdfModal').classList.remove('hidden')"><i data-lucide="file-down" style="width:15px;height:15px"></i> Export PDF</button>
         <button class="btn btn-p btn-sm" onclick="openPanel('ts',null)">+ Nouveau TS</button>
       </div>
     </div>
@@ -1298,7 +1298,7 @@ input::placeholder{color:var(--tx3)}
           </div>
         </div>
         <div id="tsVList"></div>
-        <div id="tsVEmpty" class="empty" style="display:none"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">trending_up</span></div><p style="font-size:13px">Aucun TS trouvé.</p></div>
+        <div id="tsVEmpty" class="empty" style="display:none"><div class="ei"><i data-lucide="trending-up" style="width:36px;height:36px;opacity:.3"></i></div><p style="font-size:13px">Aucun TS trouvé.</p></div>
       </div>
     </div>
   </div>
@@ -1306,7 +1306,7 @@ input::placeholder{color:var(--tx3)}
 
 <div class="ov" id="ov" onclick="closePanel()"></div>
 <div class="sp" id="spanel">
-  <div class="sp-hd"><span class="sp-title" id="spTitle"></span><button class="btn btn-g btn-sm" onclick="closePanel()"><span class="material-symbols-outlined">close</span></button></div>
+  <div class="sp-hd"><span class="sp-title" id="spTitle"></span><button class="btn btn-g btn-sm" onclick="closePanel()"><i data-lucide="x"></i></button></div>
   <div class="sp-body" id="spBody"></div>
   <div class="sp-foot" id="spFoot"></div>
 </div>
@@ -1727,9 +1727,10 @@ function rCmd(){
     <td class="tdd">${c.Description||""}</td><td class="tdn">${f0(e2n(c["Montant HT"]))}</td>
     <td class="tdn ${fm>0?"":"tdd"}">${fm>0?f0(fm):"—"}</td><td class="tdn ${fp>0?"":"tdd"}">${fp>0?f0(fp):"—"}</td>
     <td class="tdd">${fd(c.Date)}</td><td>${c.Signataire?`<span class="badge b-sig">${c.Signataire}</span>`:""}</td>
-    <td><div class="tda">${sb}</div></td><td style="text-align:center;vertical-align:middle;padding:0"><div style="display:flex;gap:4px;justify-content:center;align-items:center"><button class="btn btn-g btn-xs" onclick="openPanel('editCommande','${c.ID}')" style="width:30px;height:30px;padding:0;justify-content:center;background:none;border:1px solid var(--bd);border-radius:6px"><span class="material-symbols-outlined">edit</span></button><button class="btn btn-xs btn-del" onclick="delC('${c.ID}')" style="width:30px;height:30px;padding:0;justify-content:center;border:1px solid rgba(208,48,48,.2);border-radius:6px"><span class="material-symbols-outlined">delete</span></button></div></td>
+    <td><div class="tda">${sb}</div></td><td style="text-align:center;vertical-align:middle;padding:0"><div style="display:flex;gap:4px;justify-content:center;align-items:center"><button class="btn btn-g btn-xs" onclick="openPanel('editCommande','${c.ID}')" style="width:30px;height:30px;padding:0;justify-content:center;background:none;border:1px solid var(--bd);border-radius:6px"><i data-lucide="pencil"></i></button><button class="btn btn-xs btn-del" onclick="delC('${c.ID}')" style="width:30px;height:30px;padding:0;justify-content:center;border:1px solid rgba(208,48,48,.2);border-radius:6px"><i data-lucide="trash-2"></i></button></div></td>
     </tr>${exp?`<tr class="exp-row"><td colspan="12">${rFacs(c.ID)}</td></tr>`:""}`
   }).join("")
+  if(window.lucide)lucide.createIcons()
 }
 function rFacs(cid){
   const facs=foF(cid)
@@ -1740,7 +1741,7 @@ function rFacs(cid){
     else if(pt)pc=`<button class="ptr pointed" onclick="reqUnpoint('${f.ID}')">Pointé · ${f["Date pointage"]||""}</button>`
     else pc=`<button class="ptr pending" onclick="doPoint('${f.ID}')">⏳ Non pointé — cliquer pour pointer</button>`
     return`<tr><td class="tdn">${f["N° Facture"]||"—"}</td><td class="tdn">${f2(e2n(f["Montant HT"]))}</td><td class="tdd">${fd(f["Date réception"])}</td><td>${pc}</td>
-    <td><div class="tda"><button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editFacture','${f.ID}')"><span class="material-symbols-outlined">edit</span></button><button class="btn btn-g btn-xs btn-del" onclick="delF('${f.ID}')"><span class="material-symbols-outlined">delete</span></button></div></td></tr>`}).join("")}
+    <td><div class="tda"><button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editFacture','${f.ID}')"><i data-lucide="pencil"></i></button><button class="btn btn-g btn-xs btn-del" onclick="delF('${f.ID}')"><i data-lucide="trash-2"></i></button></div></td></tr>`}).join("")}
   </tbody></table>`:`<p style="font-size:12.5px;color:var(--tx3);margin-bottom:9px">Aucune facture reçue.</p>`}
   <div style="padding-top:10px"><button class="btn btn-s btn-sm" onclick="openPanel('facture','${cid}')">+ Ajouter une facture</button></div></div>`
 }
@@ -1755,10 +1756,10 @@ async function delF(id){if(!confirm("Supprimer ?"))return;const f=F.find(x=>x.ID
 function openPanel(mode,id){pMode=mode;pData={id};const title=document.getElementById("spTitle"),body=document.getElementById("spBody"),foot=document.getElementById("spFoot");const cancel=`<button class="btn btn-s" onclick="closePanel()">Annuler</button>`
   if(mode==="commande"){title.textContent="Nouvelle commande";body.innerHTML=cmdF();foot.innerHTML=cancel+save("subCmd(false)")}
   if(mode==="editCommande"){const c=C.find(x=>x.ID===id);if(!c)return;title.textContent="Modifier la commande";body.innerHTML=cmdF(c);foot.innerHTML=cancel+save("subCmd(true)","Mettre à jour")}
-  if(mode==="facture"){const c=C.find(x=>x.ID===id);title.textContent="Ajouter une facture";body.innerHTML=`<div style="display:flex;align-items:center;gap:9px;background:var(--acl);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;margin-bottom:16px"><span class="material-symbols-outlined" style="font-size:15px;color:var(--ac)">inventory_2</span><span style="font-size:13px;font-weight:600;color:var(--tx)">${c?.Fournisseur||""}</span>${c?.Description?`<span style="font-size:12px;color:var(--tx3)">· ${c.Description}</span>`:""}</div>${facF()}`;foot.innerHTML=cancel+save("subFac(false)")}
+  if(mode==="facture"){const c=C.find(x=>x.ID===id);title.textContent="Ajouter une facture";body.innerHTML=`<div style="display:flex;align-items:center;gap:9px;background:var(--acl);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;margin-bottom:16px"><i data-lucide="package" style="width:15px;height:15px;color:var(--ac)"></i><span style="font-size:13px;font-weight:600;color:var(--tx)">${c?.Fournisseur||""}</span>${c?.Description?`<span style="font-size:12px;color:var(--tx3)">· ${c.Description}</span>`:""}</div>${facF()}`;foot.innerHTML=cancel+save("subFac(false)")}
   if(mode==="commandeST"){title.textContent="Nouvelle commande ST";body.innerHTML=cmdF(null,true);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subCmdST(false)">Enregistrer</button>`}
   if(mode==="editCommandeST"){const c=C.find(x=>x.ID===id);if(!c)return;title.textContent="Modifier la commande ST";body.innerHTML=cmdF(c,true);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subCmdST(true)">Enregistrer</button>`}
-  if(mode==="factureST"){const c=C.find(x=>x.ID===id);title.textContent="Ajouter une facture ST";body.innerHTML=`<div style="display:flex;align-items:center;gap:9px;background:var(--vil);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;margin-bottom:16px"><span class="material-symbols-outlined" style="font-size:15px;color:var(--vi)">construction</span><span style="font-size:13px;font-weight:600;color:var(--tx)">${c?.Fournisseur||""}</span>${c?.Description?`<span style="font-size:12px;color:var(--tx3)">· ${c.Description}</span>`:""}</div>${facF()}`;foot.innerHTML=cancel+save("subFacST(false)")}
+  if(mode==="factureST"){const c=C.find(x=>x.ID===id);title.textContent="Ajouter une facture ST";body.innerHTML=`<div style="display:flex;align-items:center;gap:9px;background:var(--vil);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;margin-bottom:16px"><i data-lucide="hard-hat" style="width:15px;height:15px;color:var(--vi)"></i><span style="font-size:13px;font-weight:600;color:var(--tx)">${c?.Fournisseur||""}</span>${c?.Description?`<span style="font-size:12px;color:var(--tx3)">· ${c.Description}</span>`:""}</div>${facF()}`;foot.innerHTML=cancel+save("subFacST(false)")}
   if(mode==="editFacture"){const f=F.find(x=>x.ID===id);if(!f)return;title.textContent="Modifier la facture";body.innerHTML=facF(f);foot.innerHTML=cancel+save("subFac(true)","Mettre à jour")}
   if(mode==="devis"){title.textContent="Nouveau devis ST";body.innerHTML=devisForm(null,id);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subDevisNew()">Enregistrer</button>`}
   if(mode==="editDevis"){const dv=DEVIS.find(x=>x.id===id);if(!dv)return;title.textContent="Modifier le devis";body.innerHTML=devisForm(dv);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subDevisEdit('${id}')">Enregistrer</button>`}
@@ -1772,19 +1773,19 @@ function openPanel(mode,id){pMode=mode;pData={id};const title=document.getElemen
     body.innerHTML=`
     <div style="display:flex;flex-direction:column;gap:12px">
       <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:14px">
-        <div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">calendar_today</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Date</span></div>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><i data-lucide="calendar" style="width:13px;height:13px;color:var(--tx3)"></i><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Date</span></div>
         <div style="display:flex;gap:6px">
           <input id="ptDate" type="date" value="${today}" style="flex:1">
           <button type="button" onclick="document.getElementById('ptDate').value='${today}'" style="padding:0 10px;border-radius:7px;border:1px solid var(--bd);background:var(--sf);color:var(--tx2);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;height:36px">Auj.</button>
         </div>
       </div>
       <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:14px">
-        <div style="display:flex;align-items:center;gap:5px;margin-bottom:10px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">groups</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Entreprises présentes</span></div>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:10px"><i data-lucide="users" style="width:13px;height:13px;color:var(--tx3)"></i><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Entreprises présentes</span></div>
         <div id="ptRows" style="display:flex;flex-direction:column;gap:8px"></div>
-        <button type="button" onclick="ptAddRow()" style="margin-top:10px;width:100%;padding:9px;border:1px dashed var(--bd);border-radius:8px;background:none;color:var(--tx3);font-size:12px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px"><span class="material-symbols-outlined" style="font-size:14px">add</span>Ajouter une entreprise</button>
+        <button type="button" onclick="ptAddRow()" style="margin-top:10px;width:100%;padding:9px;border:1px dashed var(--bd);border-radius:8px;background:none;color:var(--tx3);font-size:12px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px"><i data-lucide="plus" style="width:14px;height:14px"></i>Ajouter une entreprise</button>
       </div>
       <div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:14px">
-        <div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">sticky_note_2</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Notes</span></div>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><i data-lucide="sticky-note" style="width:13px;height:13px;color:var(--tx3)"></i><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Notes</span></div>
         <textarea id="ptNotes" placeholder="Observations, remarques…" style="min-height:60px;resize:vertical;width:100%;box-sizing:border-box;font-family:inherit;font-size:13px;padding:9px 11px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);outline:none;line-height:1.5;display:block"></textarea>
       </div>
     </div>`
@@ -1807,7 +1808,7 @@ function openPanel(mode,id){pMode=mode;pData={id};const title=document.getElemen
   if(mode==="editCR"){const c=CRS.find(x=>x.id===id);if(!c)return;title.textContent="Modifier le CR";body.innerHTML=crForm(c);foot.innerHTML=cancel+`<button class="btn btn-p" onclick="subCREdit('${id}')">Enregistrer</button>`}
   document.getElementById("ov").classList.add("open");document.getElementById("spanel").classList.add("open")}
 function closePanel(){document.getElementById("ov").classList.remove("open");document.getElementById("spanel").classList.remove("open")}
-function save(fn,label="Enregistrer"){return`<button class="btn btn-p" style="display:flex;align-items:center;gap:6px;padding:9px 20px" onclick="${fn}"><span>${label}</span><span class="material-symbols-outlined" style="font-size:15px">arrow_forward</span></button>`}
+function save(fn,label="Enregistrer"){return`<button class="btn btn-p" style="display:flex;align-items:center;gap:6px;padding:9px 20px" onclick="${fn}"><span>${label}</span><i data-lucide="arrow-right" style="width:15px;height:15px"></i></button>`}
 function cmdF(c,forceST){
   const lo=Object.keys(LOTS).map(k=>`<option value="${k}"${c?.Lot===k?" selected":""}>${k}${LOTS[k]?" — "+LOTS[k]:""}</option>`).join("")
   const so=SIGS.map(s=>`<option${c?.Signataire===s?" selected":""}>${s}</option>`).join("")
@@ -1821,17 +1822,17 @@ function cmdF(c,forceST){
     ?`<select id="pF" onchange="updFAvatar(this)"><option value="">— Sélectionner —</option>${eo}${cur&&!ents.includes(cur)?`<option value="${cur}" selected>${cur} (existant)</option>`:""}</select>
       <div style="font-size:11px;color:var(--tx3);margin-top:3px">Gérer dans <a href="#" onclick="event.preventDefault();closePanel();showView('entreprises',document.querySelector('[onclick*=entreprises]'))" style="color:var(--ac)">Config → Fournisseurs / ST</a></div>`
     :`<input id="pF" value="${cur}" placeholder="Nom du fournisseur">
-      <div style="font-size:11px;color:var(--wa);margin-top:3px;display:flex;align-items:center;gap:4px"><span class="material-symbols-outlined" style="font-size:14px">warning</span> Aucune entreprise enregistrée — <a href="#" onclick="event.preventDefault();closePanel();showView('entreprises',document.querySelector('[onclick*=entreprises]'))" style="color:var(--ac)">en ajouter</a></div>`
+      <div style="font-size:11px;color:var(--wa);margin-top:3px;display:flex;align-items:center;gap:4px"><i data-lucide="triangle-alert" style="width:14px;height:14px"></i> Aucune entreprise enregistrée — <a href="#" onclick="event.preventDefault();closePanel();showView('entreprises',document.querySelector('[onclick*=entreprises]'))" style="color:var(--ac)">en ajouter</a></div>`
   const types=forceST?[{v:"Sous-traitance",ic:"construction"}]:[{v:"Achats",ic:"shopping_cart"},{v:"Location",ic:"package_2"},{v:"Prestataire",ic:"corporate_fare"}]
   const initF=cur?cur.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2):""
   const colors=["#1957F7","#7c3aed","#059669","#d97706","#dc2626"]
   const avatarColor=colors[cur.charCodeAt(0)%colors.length]||colors[0]
-  const lbl=(icon,text)=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">${icon}</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2);letter-spacing:.1px">${text}</span></div>`
+  const lbl=(icon,text)=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><i data-lucide="${icon}" style="width:13px;height:13px;color:var(--tx3)"></i><span style="font-size:11.5px;font-weight:600;color:var(--tx2);letter-spacing:.1px">${text}</span></div>`
   return`
   <!-- Montant HT -->
   <div style="border-radius:12px;padding:20px 22px;margin-bottom:16px;background:linear-gradient(135deg,var(--acl) 0%,var(--sf2) 100%);border:1px solid var(--bd2)">
     <div style="font-size:11px;font-weight:700;color:var(--ac);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px">
-      <span class="material-symbols-outlined" style="font-size:13px">payments</span>Montant HT *
+      <i data-lucide="credit-card" style="width:13px;height:13px"></i>Montant HT *
     </div>
     <div style="display:flex;align-items:baseline;gap:8px">
       <input id="pM" value="${c?.["Montant HT"]||""}" placeholder="0" oninput="fmtAmt(this)" style="background:none;border:none;outline:none;font-size:36px;font-weight:800;color:var(--tx);width:100%;font-family:var(--amt-font);padding:0;letter-spacing:-1px">
@@ -1846,7 +1847,7 @@ function cmdF(c,forceST){
     <div>
       ${lbl('domain','Fournisseur *')}
       <div style="display:flex;align-items:center;gap:10px">
-        <div id="pFAvatar" style="width:36px;height:36px;border-radius:50%;background:${cur?avatarColor:'var(--bg)'};border:${cur?'none':'1.5px dashed var(--bd2)'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;transition:all .2s">${initF||`<span style="color:var(--tx3);font-size:15px" class="material-symbols-outlined">domain</span>`}</div>
+        <div id="pFAvatar" style="width:36px;height:36px;border-radius:50%;background:${cur?avatarColor:'var(--bg)'};border:${cur?'none':'1.5px dashed var(--bd2)'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;transition:all .2s">${initF||`<i data-lucide="building-2" style="color:var(--tx3);width:15px;height:15px"></i>`}</div>
         <div style="flex:1">${fField}</div>
       </div>
     </div>
@@ -1856,7 +1857,7 @@ function cmdF(c,forceST){
       <input type="hidden" id="pTy" value="${ty}">
       <div style="display:grid;grid-template-columns:repeat(${types.length},1fr);gap:6px">
         ${types.map(t=>`<button type="button" onclick="setPTy('${t.v}')" id="pTyBtn_${t.v}" style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 4px;border-radius:10px;border:1.5px solid ${ty===t.v?'var(--ac)':'var(--bd)'};background:${ty===t.v?'var(--acl)':'var(--sf)'};color:${ty===t.v?'var(--ac)':'var(--tx3)'};font-size:10.5px;font-weight:${ty===t.v?700:400};cursor:pointer;transition:all .15s;font-family:inherit;letter-spacing:.1px">
-          <span class="material-symbols-outlined" style="font-size:20px">${t.ic}</span>${t.v}
+          <i data-lucide="${t.ic}" style="width:20px;height:20px"></i>${t.v}
         </button>`).join('')}
       </div>
     </div>
@@ -1905,12 +1906,12 @@ function cmdF(c,forceST){
 
 function facF(f,afterAmountHtml=""){
   const dv=f?.["Date réception"]?(f["Date réception"].includes("/")?f["Date réception"].split("/").reverse().join("-"):f["Date réception"]):""
-  const lbl=(icon,text)=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">${icon}</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2);letter-spacing:.1px">${text}</span></div>`
+  const lbl=(icon,text)=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><i data-lucide="${icon}" style="width:13px;height:13px;color:var(--tx3)"></i><span style="font-size:11.5px;font-weight:600;color:var(--tx2);letter-spacing:.1px">${text}</span></div>`
   return`
   <!-- Montant HT -->
   <div style="border-radius:12px;padding:20px 22px;margin-bottom:16px;background:linear-gradient(135deg,rgba(37,99,235,.1) 0%,var(--sf2) 100%);border:1px solid var(--bd2)">
     <div style="font-size:11px;font-weight:700;color:#2563EB;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px">
-      <span class="material-symbols-outlined" style="font-size:13px">receipt</span>Montant HT *
+      <i data-lucide="receipt" style="width:13px;height:13px"></i>Montant HT *
     </div>
     <div style="display:flex;align-items:baseline;gap:8px">
       <input id="pMF" value="${f?.["Montant HT"]||""}" placeholder="0" oninput="fmtAmtFac(this)" style="background:none;border:none;outline:none;font-size:36px;font-weight:800;color:var(--tx);width:100%;font-family:var(--amt-font);padding:0;letter-spacing:-1px">
@@ -1962,7 +1963,7 @@ function fmtAmtDv(inp){
 }
 function updDvAvatar(sel){
   const av=document.getElementById("dvStAvatar");if(!av)return
-  const v=sel.value;if(!v){av.innerHTML='<span style="color:var(--tx3);font-size:15px" class="material-symbols-outlined">construction</span>';av.style.background="var(--bg)";av.style.border="1.5px dashed var(--bd2)";return}
+  const v=sel.value;if(!v){av.innerHTML='<i data-lucide="hard-hat" style="color:var(--tx3);width:15px;height:15px"></i>';av.style.background="var(--bg)";av.style.border="1.5px dashed var(--bd2)";return}
   const colors=["#7c3aed","#1957F7","#059669","#d97706","#dc2626"]
   av.style.background=colors[v.charCodeAt(0)%colors.length];av.style.border="none"
   av.innerHTML=v.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2)
@@ -1988,7 +1989,7 @@ function setDvAv(v){
 }
 function updFAvatar(sel){
   const av=document.getElementById("pFAvatar");if(!av)return
-  const v=sel.value;if(!v){av.innerHTML='<span style="color:var(--tx3);font-size:16px" class="material-symbols-outlined">domain</span>';av.style.background="var(--sf2)";av.style.border="1px dashed var(--bd)";return}
+  const v=sel.value;if(!v){av.innerHTML='<i data-lucide="building-2" style="color:var(--tx3);width:16px;height:16px"></i>';av.style.background="var(--sf2)";av.style.border="1px dashed var(--bd)";return}
   const colors=["#1957F7","#7c3aed","#059669","#d97706","#dc2626"]
   av.style.background=colors[v.charCodeAt(0)%colors.length]
   av.style.border="none"
@@ -2049,7 +2050,7 @@ async function subFacST(isEdit){
 
 function rAna(){
   const el=document.getElementById("anaContent")
-  if(!C.length){el.innerHTML=`<div class="panel"><div class="empty"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">analytics</span></div><p>Aucune donnée.</p></div></div>`;return}
+  if(!C.length){el.innerHTML=`<div class="panel"><div class="empty"><div class="ei"><i data-lucide="bar-chart-3" style="width:36px;height:36px;opacity:.3"></i></div><p>Aucune donnée.</p></div></div>`;return}
 
   const aLot=document.getElementById("anaLot")?.value||""
   const aType=document.getElementById("anaType")?.value||""
@@ -2217,7 +2218,7 @@ function rST(){
           <td class="tdd" style="font-size:12px">${lastFacDate}</td>
           <td>${sb}</td>
           <td style="text-align:center;padding:0 6px">
-            <button class="btn btn-g btn-xs btn-del" onclick="delST('${nom}')" title="Supprimer" style="width:30px;height:30px;padding:0;justify-content:center;border:1px solid rgba(208,48,48,.2);border-radius:6px"><span class="material-symbols-outlined">delete</span></button>
+            <button class="btn btn-g btn-xs btn-del" onclick="delST('${nom}')" title="Supprimer" style="width:30px;height:30px;padding:0;justify-content:center;border:1px solid rgba(208,48,48,.2);border-radius:6px"><i data-lucide="trash-2"></i></button>
           </td>
         </tr>${exp?`<tr class="exp-row"><td colspan="9" style="padding:0">${rFacsST(facs,nom)}</td></tr>`:""}`
       }).join(""):`<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--tx3)">Aucun sous-traitant</td></tr>`}</tbody>
@@ -2248,7 +2249,7 @@ function rAnaST(){
   // Noms ST uniques (depuis C[] + orphelins)
   const allSTNoms=[...new Set([...stAll.map(c=>c.Fournisseur),...orphanNoms])].filter(Boolean)
 
-  if(!stAll.length&&!orphanF.length){el.innerHTML=`<div class="panel"><div class="empty"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">trending_up</span></div><p>Aucune donnée ST.</p></div></div>`;return}
+  if(!stAll.length&&!orphanF.length){el.innerHTML=`<div class="panel"><div class="empty"><div class="ei"><i data-lucide="trending-up" style="width:36px;height:36px;opacity:.3"></i></div><p>Aucune donnée ST.</p></div></div>`;return}
 
   const aSTSig=document.getElementById("anaStSig")?.value||""
   const aSTLot=document.getElementById("anaStLot")?.value||""
@@ -2400,8 +2401,8 @@ function rFacsST(facs,nom){
         <td class="tdd">${fd(f["Date réception"])}</td>
         <td>${pc}</td>
         <td><div class="tda">
-          <button class="btn btn-g btn-xs btn-edit" onclick="openEditFacST('${f.ID}')"><span class="material-symbols-outlined">edit</span></button>
-          <button class="btn btn-g btn-xs btn-del" onclick="delFacST('${f.ID}','${nom}')"><span class="material-symbols-outlined">delete</span></button>
+          <button class="btn btn-g btn-xs btn-edit" onclick="openEditFacST('${f.ID}')"><i data-lucide="pencil"></i></button>
+          <button class="btn btn-g btn-xs btn-del" onclick="delFacST('${f.ID}','${nom}')"><i data-lucide="trash-2"></i></button>
         </div></td>
       </tr>`}).join("")}
     </tbody>
@@ -2428,7 +2429,7 @@ function openNewFacST(){
     ?allST.map(n=>`<option value="${n}">${n}</option>`).join("")
     :`<option value="">Aucun sous-traitant enregistré</option>`
   const stCard=`<div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px">
-    <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">construction</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Sous-traitant *</span></div>
+    <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><i data-lucide="hard-hat" style="width:13px;height:13px;color:var(--tx3)"></i><span style="font-size:11.5px;font-weight:600;color:var(--tx2)">Sous-traitant *</span></div>
     <select id="stNomPick" onchange="updStPickAvatar(this)" style="background:var(--sf)">
       <option value="">— Sélectionner —</option>${stOpts}
     </select>
@@ -2443,7 +2444,7 @@ function openNewFacST(){
 function openNewFacForST(nom){
   const title=document.getElementById("spTitle"),body=document.getElementById("spBody"),foot=document.getElementById("spFoot")
   title.textContent="Nouvelle facture — "+nom
-  body.innerHTML=`<div style="display:flex;align-items:center;gap:9px;background:var(--vil);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;margin-bottom:16px"><span class="material-symbols-outlined" style="font-size:15px;color:var(--vi)">construction</span><span style="font-size:13px;font-weight:600;color:var(--tx)">${nom}</span></div>${facF()}`
+  body.innerHTML=`<div style="display:flex;align-items:center;gap:9px;background:var(--vil);border:1px solid var(--bd2);border-radius:10px;padding:10px 14px;margin-bottom:16px"><i data-lucide="hard-hat" style="width:15px;height:15px;color:var(--vi)"></i><span style="font-size:13px;font-weight:600;color:var(--tx)">${nom}</span></div>${facF()}`
   foot.innerHTML=`<button class="btn btn-s" onclick="closePanel()">Annuler</button>
     ${save("subFacForST('"+nom+"')")}`
   document.getElementById("ov").classList.add("open")
@@ -2662,16 +2663,16 @@ function rEnts(){
   g.innerHTML=list.map(e=>{
     const tc=e.type==="Sous-traitant"?"ent-type-st":e.type==="Les deux"?"ent-type-both":"ent-type-f"
     let rows=""
-    if(e.contact)rows+=`<div class="ent-card-info"><span class="material-symbols-outlined" style="font-size:14px">person</span> ${e.contact}</div>`
-    if(e.tel)rows+=`<div class="ent-card-info"><span class="material-symbols-outlined" style="font-size:14px">call</span> <a href="tel:${e.tel}" style="color:inherit">${e.tel}</a></div>`
-    if(e.email)rows+=`<div class="ent-card-info"><span class="material-symbols-outlined" style="font-size:14px">mail</span> <a href="mailto:${e.email}" style="color:inherit">${e.email}</a></div>`
-    if(e.notes)rows+=`<div class="ent-card-info" style="color:var(--tx3)"><span class="material-symbols-outlined" style="font-size:14px">notes</span> ${e.notes}</div>`
+    if(e.contact)rows+=`<div class="ent-card-info"><i data-lucide="user" style="width:14px;height:14px"></i> ${e.contact}</div>`
+    if(e.tel)rows+=`<div class="ent-card-info"><i data-lucide="phone" style="width:14px;height:14px"></i> <a href="tel:${e.tel}" style="color:inherit">${e.tel}</a></div>`
+    if(e.email)rows+=`<div class="ent-card-info"><i data-lucide="mail" style="width:14px;height:14px"></i> <a href="mailto:${e.email}" style="color:inherit">${e.email}</a></div>`
+    if(e.notes)rows+=`<div class="ent-card-info" style="color:var(--tx3)"><i data-lucide="sticky-note" style="width:14px;height:14px"></i> ${e.notes}</div>`
     return`<div class="ent-card">
       <div class="ent-card-top"><div class="ent-card-name">${e.nom}</div><span class="ent-card-type ${tc}">${e.type}</span></div>
       ${rows}
       <div class="ent-card-actions">
-        <button class="btn btn-g btn-xs btn-edit" onclick="editEnt('${e.id}')"><span class="material-symbols-outlined">edit</span> Modifier</button>
-        <button class="btn btn-g btn-xs btn-del" onclick="delEnt('${e.id}')"><span class="material-symbols-outlined">delete</span></button>
+        <button class="btn btn-g btn-xs btn-edit" onclick="editEnt('${e.id}')"><i data-lucide="pencil"></i> Modifier</button>
+        <button class="btn btn-g btn-xs btn-del" onclick="delEnt('${e.id}')"><i data-lucide="trash-2"></i></button>
       </div>
     </div>`
   }).join("")
@@ -2688,7 +2689,7 @@ async function delLot(code){if(!confirm(`Supprimer "${code}" ?`))return;delete L
 function openLotF(){document.getElementById("lotFD").style.display="block"}
 function closeLotF(){document.getElementById("lotFD").style.display="none"}
 async function saveLotName(code,val){LOTS[code]=val;await saveLots()}
-function rLots(){const g=document.getElementById("lgrid");if(!g)return;const en=Object.entries(LOTS);if(!en.length){g.innerHTML=`<div style="grid-column:1/-1;color:var(--tx3);font-size:13px">Aucun lot.</div>`;return};g.innerHTML=en.map(([c,n])=>`<div class="li"><span class="lc">${c}</span><input class="ln-edit" value="${n||""}" placeholder="Désignation…" onchange="saveLotName('${c}',this.value)"><button class="btn btn-g btn-xs btn-del" onclick="delLot('${c}')"><span class="material-symbols-outlined">delete</span></button></div>`).join("")}
+function rLots(){const g=document.getElementById("lgrid");if(!g)return;const en=Object.entries(LOTS);if(!en.length){g.innerHTML=`<div style="grid-column:1/-1;color:var(--tx3);font-size:13px">Aucun lot.</div>`;return};g.innerHTML=en.map(([c,n])=>`<div class="li"><span class="lc">${c}</span><input class="ln-edit" value="${n||""}" placeholder="Désignation…" onchange="saveLotName('${c}',this.value)"><button class="btn btn-g btn-xs btn-del" onclick="delLot('${c}')"><i data-lucide="trash-2"></i></button></div>`).join("");if(window.lucide)lucide.createIcons()}
 C=[{ID:"CMD-001",Fournisseur:"ALTRAD",Description:"Échafaudage ascenseur R2",Lot:"S1G","Montant HT":"2250",Date:"2023-04-24",Signataire:"LDE"},{ID:"CMD-002",Fournisseur:"AIDF",Description:"Installation panneaux voirie",Lot:"F3","Montant HT":"656.70",Date:"2023-04-24",Signataire:"LDE"},{ID:"CMD-003",Fournisseur:"MORNING",Description:"Loyer bureau — Juin",Lot:"S1E","Montant HT":"777.10",Date:"2023-05-22",Signataire:"LDE"},{ID:"CMD-004",Fournisseur:"ECR STUDIO",Description:"Renders présentation",Lot:"F14","Montant HT":"2400",Date:"2023-06-08",Signataire:"LDE"},{ID:"CMD-005",Fournisseur:"ECODROP",Description:"Retrait déchets",Lot:"S1A","Montant HT":"216.75",Date:"2023-07-18",Signataire:"MLP"},{ID:"CMD-006",Fournisseur:"DANIELE VEGRO",Description:"Présentation Témoins",Lot:"F14","Montant HT":"1500",Date:"2023-03-29",Signataire:"LDE"},{ID:"CMD-007",Fournisseur:"BTP Consultant",Description:"PV conformité",Lot:"S1E","Montant HT":"600",Date:"2023-03-21",Signataire:"LDE"},{ID:"CMD-008",Fournisseur:"ALTRAD",Description:"Échafaudage R3",Lot:"S1G","Montant HT":"1800",Date:"2023-07-03",Signataire:"MLP"},{ID:"CMD-009",Fournisseur:"MAUFFREY",Description:"Transport matériaux",Lot:"S1A","Montant HT":"430",Date:"2023-05-15",Signataire:"AG"}]
 F=[{ID:"FAC-001",ID_Commande:"CMD-001","N° Facture":"2301612","Montant HT":"2250","Date réception":"2023-04-28","Pointé":true,"Date pointage":"02/05/2023 09:30"},{ID:"FAC-002",ID_Commande:"CMD-003","N° Facture":"2023-05-039","Montant HT":"777.10","Date réception":"2023-05-25","Pointé":false,"Date pointage":""},{ID:"FAC-003",ID_Commande:"CMD-004","N° Facture":"","Montant HT":"1200","Date réception":"2023-06-10","Pointé":false,"Date pointage":""},{ID:"FAC-004",ID_Commande:"CMD-004","N° Facture":"","Montant HT":"1200","Date réception":"2023-07-01","Pointé":true,"Date pointage":"05/07/2023 14:15"},{ID:"FAC-005",ID_Commande:"CMD-006","N° Facture":"23.08","Montant HT":"1500","Date réception":"2023-04-03","Pointé":true,"Date pointage":"10/04/2023 11:00"},{ID:"FAC-006",ID_Commande:"CMD-007","N° Facture":"","Montant HT":"600","Date réception":"2023-03-25","Pointé":false,"Date pointage":""},{ID:"FAC-007",ID_Commande:"CMD-008","N° Facture":"2307881","Montant HT":"1800","Date réception":"2023-07-10","Pointé":false,"Date pointage":""},{ID:"FAC-008",ID_Commande:"CMD-009","N° Facture":"MAU-0453","Montant HT":"430","Date réception":"2023-05-18","Pointé":true,"Date pointage":"22/05/2023 10:00"}]
 document.addEventListener("scroll",()=>document.querySelectorAll(".ms-drop").forEach(d=>d.classList.remove("open")),true)
@@ -2798,7 +2799,7 @@ function showWaitingScreen(){
     <div class="auth-logo">CAIRN</div>
     <div style="text-align:center"><div class="auth-title">En attente d'accès</div><div class="auth-sub" style="margin-top:6px;max-width:280px;margin-left:auto;margin-right:auto">Votre compte est créé. Pour accéder à un projet, contactez :<br><a href="mailto:alexandre.garcia@ateliersfrance.com" style="color:#93B8FF;font-weight:600;text-decoration:none">alexandre.garcia@ateliersfrance.com</a></div></div>
     <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:rgba(255,255,255,.08);border-radius:10px">
-      <span class="material-symbols-outlined" style="font-size:16px;color:rgba(148,163,184,.7)">schedule</span>
+      <i data-lucide="clock" style="width:16px;height:16px;color:rgba(148,163,184,.7)"></i>
       <span id="waitStatus" style="font-size:12px;color:rgba(148,163,184,.8)">Vérification automatique toutes les 15 s…</span>
     </div>
     <button class="auth-btn" onclick="checkWaiting()">Vérifier maintenant</button>
@@ -2935,9 +2936,9 @@ async function afterLogin(){
           <div class="pp-card-tag ${statusCls}">${statusLabel}</div>
         </div>
         <div class="pp-card-name">${p.name}</div>
-        <div class="pp-card-addr"><span class="material-symbols-outlined" style="font-size:13px;opacity:.6">location_on</span>${p.address||''}</div>
+        <div class="pp-card-addr"><i data-lucide="map-pin" style="width:13px;height:13px;opacity:.6"></i>${p.address||''}</div>
       </div>`
-    }).join('')+(members.some(m=>m.role==='admin')?`<div class="pp-card pp-card-add" onclick="createProject()"><div class="pp-card-icon"><span class="material-symbols-outlined" style="font-size:20px;color:#475569">add</span></div><div><div class="pp-card-name">Nouveau projet</div><div class="pp-card-desc">Ajouter un chantier</div></div></div>`:'')
+    }).join('')+(members.some(m=>m.role==='admin')?`<div class="pp-card pp-card-add" onclick="createProject()"><div class="pp-card-icon"><i data-lucide="plus" style="width:20px;height:20px;color:#475569"></i></div><div><div class="pp-card-name">Nouveau projet</div><div class="pp-card-desc">Ajouter un chantier</div></div></div>`:'')
   }
   // Set user meta from first membership
   const myMem=(members||[]).find(m=>projects?.some(p=>p.id===m.project_id))||{}
@@ -3183,15 +3184,23 @@ function exportPDF(type){
 
   const doc=new jsPDF({orientation,unit:'mm',format:'a4'})
   const pageW=doc.internal.pageSize.getWidth()
+  const pageH=doc.internal.pageSize.getHeight()
+  const AC=[25,87,247],INK=[15,23,42],SUB=[148,163,184],BG=[248,250,252],BRD=[226,232,240],ACL=[235,242,255],MID=[71,85,105]
 
-  // Header
-  doc.setFillColor(25,87,247)
-  doc.rect(0,0,pageW,18,'F')
-  doc.setTextColor(255,255,255)
-  doc.setFontSize(13);doc.setFont('helvetica','bold')
-  doc.text(title,14,11)
-  doc.setFontSize(8);doc.setFont('helvetica','normal')
-  doc.text(`Généré le ${date}`,pageW-14,11,{align:'right'})
+  // ── Bandeau ──
+  doc.setFillColor(...INK);doc.rect(0,0,pageW,22,'F')
+  doc.setFillColor(...AC);doc.rect(0,21,pageW,1,'F')
+  // Titre gauche
+  doc.setTextColor(255,255,255);doc.setFontSize(10);doc.setFont('helvetica','bold')
+  doc.text(title.split(' — ')[0].toUpperCase(),14,8.5)
+  doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor(90,110,150)
+  doc.text('Genere le '+date,14,14)
+  // Projet centre
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.setTextColor(255,255,255)
+  doc.text(proj,pageW/2,11,{align:'center'})
+  // Logo droite
+  const lH=14,lW=Math.round(lH*(1182/709))
+  doc.addImage(PDF_LOGO_B64,'PNG',pageW-14-lW,(22-lH)/2,lW,lH)
 
   const colStyles=type==='commandes'
     ?{0:{cellWidth:20},1:{cellWidth:42},2:{cellWidth:18},3:{cellWidth:22},4:{cellWidth:48},5:{cellWidth:24,halign:'right'},6:{cellWidth:24,halign:'right'},7:{cellWidth:24,halign:'right'},8:{cellWidth:22},9:{cellWidth:15}}
@@ -3201,32 +3210,38 @@ function exportPDF(type){
 
   doc.autoTable({
     head,body,
-    startY:22,
-    styles:{fontSize:8,cellPadding:3,lineColor:[230,230,230],lineWidth:.3,overflow:'linebreak'},
-    headStyles:{fillColor:[25,87,247],textColor:255,fontStyle:'bold',fontSize:8},
-    alternateRowStyles:{fillColor:[248,250,252]},
+    startY:26,
+    styles:{fontSize:7.5,cellPadding:2.8,lineColor:BRD,lineWidth:.2,overflow:'linebreak',textColor:INK},
+    headStyles:{fillColor:INK,textColor:255,fontStyle:'bold',fontSize:7},
+    alternateRowStyles:{fillColor:BG},
     columnStyles:colStyles,
     didParseCell(data){
       if(data.row.index===body.length-1){
         data.cell.styles.fontStyle='bold'
-        data.cell.styles.fillColor=[235,242,255]
-        data.cell.styles.textColor=[25,87,247]
+        data.cell.styles.fillColor=ACL
+        data.cell.styles.textColor=AC
       }
     },
     margin:{left:14,right:14}
   })
 
-  // Page numbers
+  // Pied de page
   const pages=doc.internal.getNumberOfPages()
   for(let i=1;i<=pages;i++){
     doc.setPage(i)
-    doc.setFontSize(7);doc.setTextColor(150)
-    doc.text(`Page ${i} / ${pages}`,pageW/2,doc.internal.pageSize.getHeight()-6,{align:'center'})
+    doc.setDrawColor(...BRD);doc.setLineWidth(.2)
+    doc.line(14,pageH-8,pageW-14,pageH-8)
+    doc.setFontSize(6.5);doc.setTextColor(...SUB)
+    doc.text(proj+' — '+title.split(' — ')[0],14,pageH-4.5)
+    doc.text(i+' / '+pages,pageW/2,pageH-4.5,{align:'center'})
+    doc.text(date,pageW-14,pageH-4.5,{align:'right'})
   }
 
   doc.save(filename)
   toast('PDF téléchargé','success')
 }
+
+const PDF_LOGO_B64='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'
 
 function confirmExportTsPDF(){
   const include=[]
@@ -3264,17 +3279,26 @@ function exportTsPDF(include){
 
   // ── Bandeau titre ──
   doc.setFillColor(...INK)
-  doc.rect(0,0,pageW,18,'F')
-  // Trait bleu en bas du bandeau
+  doc.rect(0,0,pageW,22,'F')
   doc.setFillColor(...AC)
-  doc.rect(0,17,pageW,1,'F')
-  doc.setTextColor(255,255,255)
-  doc.setFontSize(11);doc.setFont('helvetica','bold')
-  doc.text('TRAVAUX SUPPLÉMENTAIRES',14,10)
-  doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(...SUB)
-  doc.text(proj,14,14.5)
-  doc.setTextColor(...SUB)
-  doc.text(`Généré le ${date}`,pageW-14,11,{align:'right'})
+  doc.rect(0,21,pageW,1,'F')
+
+  // Logo ADF PARIS (droite) — PNG embarqué
+  const logoB64=PDF_LOGO_B64
+
+  // Titre (gauche)
+  // Titre gauche
+  doc.setTextColor(255,255,255);doc.setFontSize(10);doc.setFont('helvetica','bold')
+  doc.text('TRAVAUX SUPPLEMENTAIRES',14,8.5)
+  doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor(90,110,150)
+  doc.text('Genere le '+date,14,14)
+  // Projet centre
+  doc.setFontSize(11);doc.setFont('helvetica','bold');doc.setTextColor(255,255,255)
+  doc.text(proj,pageW/2,11,{align:'center'})
+  // Logo droite
+  const logoH=14
+  const logoW=Math.round(logoH*(1182/709))
+  doc.addImage(logoB64,'PNG',pageW-14-logoW,(22-logoH)/2,logoW,logoH)
 
   // ── KPIs ──
   const base=getMarcheBase()
@@ -3291,7 +3315,7 @@ function exportTsPDF(include){
     {label:'Total accepté',val:fmt(base+sum(tsOs)+sum(tsVso)),sub:'marché + OS + sans OS',accent:true},
   ]
   const kpiW=(pageW-28)/6
-  const kpiY=22
+  const kpiY=26
   kpis.forEach((k,i)=>{
     const x=14+i*kpiW
     doc.setFillColor(...(k.accent?ACL:[255,255,255]))
@@ -3316,7 +3340,7 @@ function exportTsPDF(include){
     {key:'supprime',label:'TS SUPPRIMÉ',keys:['supprime']},
   ]
   const head=[['Réf.','Description','Montant HT','Date envoi','Date valid.','Date OS','N° OS']]
-  let y=49
+  let y=53
 
   allGroups.forEach(g=>{
     const rows=TS_VENTES.filter(t=>g.keys.includes(t.statut)).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
@@ -3467,7 +3491,7 @@ function rDevis(){
   } else if(alertEl){alertEl.style.display="none"}
 
   if(!DEVIS.length){
-    el.innerHTML=`<div class="empty" style="padding:32px"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">request_quote</span></div><p>Aucun devis. Cliquez sur + Nouveau devis pour commencer.</p></div>`
+    el.innerHTML=`<div class="empty" style="padding:32px"><div class="ei"><i data-lucide="file-text" style="width:36px;height:36px;opacity:.3"></i></div><p>Aucun devis. Cliquez sur + Nouveau devis pour commencer.</p></div>`
     return
   }
 
@@ -3489,7 +3513,7 @@ function rDevis(){
         <div style="display:flex;align-items:center;gap:10px">
           <span style="font-weight:700;font-size:16px;letter-spacing:.3px;color:var(--tx)">${st}</span>
           <span class="badge b-st">${devs.length} devis</span>
-          ${hasAlert?`<span class="badge" style="background:var(--wal);color:var(--wa)"><span class="material-symbols-outlined" style="font-size:12px">warning</span> Avenant à faire</span>`:""}
+          ${hasAlert?`<span class="badge" style="background:var(--wal);color:var(--wa)"><i data-lucide="triangle-alert" style="width:12px;height:12px"></i> Avenant à faire</span>`:""}
         </div>
         <div style="display:flex;align-items:center;gap:16px">
           <span style="font-size:12px;color:var(--tx3)">${nbAcc} accepté${nbAcc>1?"s":""} · ${nbAv} avenanté${nbAv>1?"s":""}</span>
@@ -3525,7 +3549,7 @@ function rDevis(){
             const avBadge=d.avenant==="oui"
               ?`<span class="badge b-pt">Avenanté</span>`
               :(d.validation==="accepte"
-                ?`<span class="badge" style="background:var(--wal);color:var(--wa)"><span class="material-symbols-outlined" style="font-size:12px">warning</span> À faire</span>`
+                ?`<span class="badge" style="background:var(--wal);color:var(--wa)"><i data-lucide="triangle-alert" style="width:12px;height:12px"></i> À faire</span>`
                 :`<span class="badge b-nf">—</span>`)
             return `<tr>
               <td class="tdm" style="font-family:var(--amt-font);font-size:12px">${d.numero||"—"}</td>
@@ -3538,8 +3562,8 @@ function rDevis(){
               <td>${avBadge}</td>
               <td class="tdd" style="font-family:var(--amt-font);font-size:12px">${d.numAvenant||"—"}</td>
               <td><div class="tda">
-                <button class="btn btn-g btn-xs btn-edit" onclick="openEditDevis('${d.id}')"><span class="material-symbols-outlined">edit</span></button>
-                <button class="btn btn-g btn-xs btn-del" onclick="delDevis('${d.id}')"><span class="material-symbols-outlined">delete</span></button>
+                <button class="btn btn-g btn-xs btn-edit" onclick="openEditDevis('${d.id}')"><i data-lucide="pencil"></i></button>
+                <button class="btn btn-g btn-xs btn-del" onclick="delDevis('${d.id}')"><i data-lucide="trash-2"></i></button>
               </div></td>
             </tr>`
           }).join("")}
@@ -3548,7 +3572,8 @@ function rDevis(){
     </div>`
   })
 
-  el.innerHTML=html||`<div class="empty" style="padding:32px"><div class="ei"><span class="material-symbols-outlined" style="font-size:36px;opacity:.3">search</span></div><p>Aucun devis ne correspond aux filtres.</p></div>`
+  el.innerHTML=html||`<div class="empty" style="padding:32px"><div class="ei"><i data-lucide="search" style="width:36px;height:36px;opacity:.3"></i></div><p>Aucun devis ne correspond aux filtres.</p></div>`
+  if(window.lucide)lucide.createIcons()
 }
 
 function devisForm(d,preST){
@@ -3558,7 +3583,7 @@ function devisForm(d,preST){
   const initST=cur?cur.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2):""
   const colors=["#7c3aed","#1957F7","#059669","#d97706","#dc2626"]
   const avatarColor=colors[cur.charCodeAt(0)%colors.length]||colors[0]
-  const lbl=(icon,text)=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:13px;color:var(--tx3)">${icon}</span><span style="font-size:11.5px;font-weight:600;color:var(--tx2);letter-spacing:.1px">${text}</span></div>`
+  const lbl=(icon,text)=>`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><i data-lucide="${icon}" style="width:13px;height:13px;color:var(--tx3)"></i><span style="font-size:11.5px;font-weight:600;color:var(--tx2);letter-spacing:.1px">${text}</span></div>`
   const val=d?.validation||"attente"
   const valChips=[{v:"attente",ic:"schedule",label:"En attente"},{v:"accepte",ic:"check_circle",label:"Accepté"},{v:"refuse",ic:"cancel",label:"Refusé"}]
   const avChips=[{v:"non",label:"Non"},{v:"oui",label:"Oui"}]
@@ -3566,7 +3591,7 @@ function devisForm(d,preST){
   <!-- Montant HT -->
   <div style="border-radius:12px;padding:20px 22px;margin-bottom:16px;background:linear-gradient(135deg,rgba(124,58,237,.1) 0%,var(--sf2) 100%);border:1px solid var(--bd2)">
     <div style="font-size:11px;font-weight:700;color:var(--vi);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px">
-      <span class="material-symbols-outlined" style="font-size:13px">request_quote</span>Montant HT *
+      <i data-lucide="file-text" style="width:13px;height:13px"></i>Montant HT *
     </div>
     <div style="display:flex;align-items:baseline;gap:8px">
       <input id="dvMt" value="${d?.montant||""}" placeholder="0" oninput="fmtAmtDv(this)" style="background:none;border:none;outline:none;font-size:36px;font-weight:800;color:var(--tx);width:100%;font-family:var(--amt-font);padding:0;letter-spacing:-1px">
@@ -3581,7 +3606,7 @@ function devisForm(d,preST){
     <div>
       ${lbl('construction','Sous-traitant *')}
       <div style="display:flex;align-items:center;gap:10px">
-        <div id="dvStAvatar" style="width:36px;height:36px;border-radius:50%;background:${cur?avatarColor:'var(--bg)'};border:${cur?'none':'1.5px dashed var(--bd2)'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;transition:all .2s">${initST||`<span style="color:var(--tx3);font-size:15px" class="material-symbols-outlined">construction</span>`}</div>
+        <div id="dvStAvatar" style="width:36px;height:36px;border-radius:50%;background:${cur?avatarColor:'var(--bg)'};border:${cur?'none':'1.5px dashed var(--bd2)'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;transition:all .2s">${initST||`<i data-lucide="hard-hat" style="color:var(--tx3);width:15px;height:15px"></i>`}</div>
         <select id="dvSt" onchange="updDvAvatar(this)" style="flex:1;background:var(--sf)"><option value="">— Sélectionner —</option>${stOpts}</select>
       </div>
     </div>
@@ -3624,7 +3649,7 @@ function devisForm(d,preST){
           const bg=ch.v==="accepte"?"var(--grl)":ch.v==="refuse"?"var(--rel)":"var(--sf)"
           const sel=val===ch.v
           return`<button type="button" onclick="setDvVal('${ch.v}')" id="dvValBtn_${ch.v}" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:10px;border:1.5px solid ${sel?col:'var(--bd)'};background:${sel?bg:'var(--sf)'};color:${sel?col:'var(--tx3)'};font-size:10.5px;font-weight:${sel?700:400};cursor:pointer;transition:all .15s;font-family:inherit">
-            <span class="material-symbols-outlined" style="font-size:18px">${ch.ic}</span>${ch.label}
+            <i data-lucide="${ch.ic}" style="width:18px;height:18px"></i>${ch.label}
           </button>`}).join('')}
       </div>
     </div>
@@ -3800,8 +3825,8 @@ function rTodo(){
         <div class="todo-meta">${prBadge(t.priorite||"basse")} ${stBadge(t.statut||"open")} ${dueLabel}${assignedBadge}${t.notes?`<span style="font-size:11px;color:var(--tx3);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${t.notes.replace(/"/g,"&quot;")}">${t.notes}</span>`:""}</div>
       </div>
       <div class="todo-acts">
-        <button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editTodo','${t.id}')"><span class="material-symbols-outlined">edit</span></button>
-        <button class="btn btn-g btn-xs btn-del" onclick="delTodo('${t.id}')"><span class="material-symbols-outlined">delete</span></button>
+        <button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editTodo','${t.id}')"><i data-lucide="pencil"></i></button>
+        <button class="btn btn-g btn-xs btn-del" onclick="delTodo('${t.id}')"><i data-lucide="trash-2"></i></button>
       </div>
     </div>`
   }).join("")
@@ -3869,6 +3894,8 @@ function delTodo(id){
 // ── TRAVAUX SUPPLÉMENTAIRES ──────────────────────────────
 let TS_VENTES=[]
 let tsFlt='all'
+let tsSortCol='reference'
+let tsSortDir=1
 
 function tsId(){return'ts-'+Date.now()+'-'+Math.random().toString(36).slice(2,6)}
 
@@ -3885,6 +3912,7 @@ function openEditMarcheBase(){
 }
 
 function setTsFlt(v){tsFlt=v;rTS()}
+function setTsSort(col){tsSortDir=tsSortCol===col?-tsSortDir:1;tsSortCol=col;rTS()}
 
 function tsBadge(s){
   const map={os:'Validé par OS',valide_sans_os:'Validé — attente OS',attente_retour:'Attente de retour',chiffrage:'En cours de chiffrage',supprime:'Supprimé'}
@@ -3940,13 +3968,40 @@ function rTS(){
     <span class="ts-date">${t.dateOs||'—'}</span>
     <span class="ts-date">${t.osNumber||'—'}</span>
     <span class="ts-acts">
-      <button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editTs','${t.id}')"><span class="material-symbols-outlined">edit</span></button>
-      <button class="btn btn-g btn-xs btn-del" onclick="delTS('${t.id}')"><span class="material-symbols-outlined">delete</span></button>
+      <button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editTs','${t.id}')"><i data-lucide="pencil"></i></button>
+      <button class="btn btn-g btn-xs btn-del" onclick="delTS('${t.id}')"><i data-lucide="trash-2"></i></button>
     </span>
   </div>`
 
+  // Fonction de tri naturel (gère "34bis", "10A", etc.)
+  const natCmp=(a,b)=>a.localeCompare(b,undefined,{numeric:true,sensitivity:'base'})
+  const sortRows=rows=>{
+    const sorted=[...rows]
+    sorted.sort((a,b)=>{
+      let va,vb
+      if(tsSortCol==='montant'){va=parseFloat(a.montant||0);vb=parseFloat(b.montant||0);return tsSortDir*(va-vb)}
+      if(tsSortCol==='dateSoumis'||tsSortCol==='dateValide'||tsSortCol==='dateOs'){va=a[tsSortCol]||'';vb=b[tsSortCol]||'';return tsSortDir*va.localeCompare(vb)}
+      va=String(a[tsSortCol]||'');vb=String(b[tsSortCol]||'')
+      return tsSortDir*natCmp(va,vb)
+    })
+    return sorted
+  }
+
+  const cols=[
+    {key:'reference',label:'Référence'},
+    {key:'description',label:'Description'},
+    {key:'montant',label:'Montant HT',align:'right'},
+    {key:'dateSoumis',label:'Date envoi'},
+    {key:'dateValide',label:'Date valid.'},
+    {key:'dateOs',label:'Date OS'},
+    {key:'osNumber',label:'N° OS'},
+  ]
+  const ic=k=>k===tsSortCol?(tsSortDir===1?'▲':'▼'):''
+  const thStyle=k=>`cursor:pointer;user-select:none;white-space:nowrap;${k==='montant'?'text-align:right':''}`
+  const thead=`<div class="ts-row ts-head">${cols.map(c=>`<span style="${thStyle(c.key)}" onclick="setTsSort('${c.key}')">${c.label}${ic(c.key)?`<span style="font-size:9px;margin-left:3px;color:var(--ac)">${ic(c.key)}</span>`:''}</span>`).join('')}<span></span></div>`
+
   const html=visibleGroups.map(g=>{
-    const rows=TS_VENTES.filter(t=>g.keys.includes(t.statut)).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
+    const rows=sortRows(TS_VENTES.filter(t=>g.keys.includes(t.statut)))
     if(!rows.length)return''
     const total=rows.reduce((s,t)=>s+parseFloat(t.montant||0),0)
     return`<div class="ts-group">
@@ -3957,7 +4012,7 @@ function rTS(){
         <span class="ts-group-total">${fmtTs(total)}</span>
       </div>
       <div class="ts-list">
-        <div class="ts-row ts-head"><span>Référence</span><span>Description</span><span style="text-align:right">Montant HT</span><span>Date envoi</span><span>Date valid.</span><span>Date OS</span><span>N° OS</span><span></span></div>
+        ${thead}
         ${rows.map(tsRow).join('')}
       </div>
     </div>`
@@ -3966,6 +4021,7 @@ function rTS(){
   if(!html.trim()){container.innerHTML='';empty.style.display='block';return}
   empty.style.display='none'
   container.innerHTML=html
+  if(window.lucide)lucide.createIcons()
 }
 
 function tsForm(t){
@@ -4183,7 +4239,7 @@ function ptAddRow(ent='',nb=1){
   row.id=rid
   row.style.cssText='display:flex;align-items:center;gap:8px'
   const btnS='width:32px;height:32px;border-radius:8px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);font-size:18px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1'
-  row.innerHTML=`<select style="flex:1;font-size:13px;padding:7px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);font-family:inherit"><option value="">— Entreprise —</option>${opts}</select><button type="button" onclick="ptChgNb('${rid}',-1)" style="${btnS}">−</button><input type="number" min="0" value="${nb}" style="width:52px;text-align:center;font-size:14px;font-weight:700;padding:5px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);font-family:inherit"><button type="button" onclick="ptChgNb('${rid}',1)" style="${btnS}">+</button><button type="button" onclick="document.getElementById('${rid}').remove()" style="width:28px;height:28px;border:none;background:none;color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="material-symbols-outlined" style="font-size:16px">close</span></button>`
+  row.innerHTML=`<select style="flex:1;font-size:13px;padding:7px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);font-family:inherit"><option value="">— Entreprise —</option>${opts}</select><button type="button" onclick="ptChgNb('${rid}',-1)" style="${btnS}">−</button><input type="number" min="0" value="${nb}" style="width:52px;text-align:center;font-size:14px;font-weight:700;padding:5px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);font-family:inherit"><button type="button" onclick="ptChgNb('${rid}',1)" style="${btnS}">+</button><button type="button" onclick="document.getElementById('${rid}').remove()" style="width:28px;height:28px;border:none;background:none;color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="x" style="width:16px;height:16px"></i></button>`
   container.appendChild(row)
 }
 function ptChgNb(rid,delta){
@@ -4274,8 +4330,8 @@ function rJournal(){
         <div class="jrnl-desc">${j.description||"—"}</div>
       </div>
       <div class="jrnl-acts">
-        <button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editJournal','${j.id}')"><span class="material-symbols-outlined">edit</span></button>
-        <button class="btn btn-g btn-xs btn-del" onclick="delJournal('${j.id}')"><span class="material-symbols-outlined">delete</span></button>
+        <button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editJournal','${j.id}')"><i data-lucide="pencil"></i></button>
+        <button class="btn btn-g btn-xs btn-del" onclick="delJournal('${j.id}')"><i data-lucide="trash-2"></i></button>
       </div>
     </div>`
   }).join("")
@@ -4395,8 +4451,8 @@ function rCR(){
           </div>
         </div>
         <div class="cr-acts">
-          <button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editCR','${c.id}')"><span class="material-symbols-outlined">edit</span></button>
-          <button class="btn btn-g btn-xs btn-del" onclick="delCR('${c.id}')"><span class="material-symbols-outlined">delete</span></button>
+          <button class="btn btn-g btn-xs btn-edit" onclick="openPanel('editCR','${c.id}')"><i data-lucide="pencil"></i></button>
+          <button class="btn btn-g btn-xs btn-del" onclick="delCR('${c.id}')"><i data-lucide="trash-2"></i></button>
         </div>
       </div>
       ${c.contenu?`<div class="cr-body">${c.contenu}</div>`:""}
@@ -4474,7 +4530,7 @@ function rDashboard(){
   const alerts=[]
   // Devis acceptés non avenanté
   const nDevisAlert=DEVIS.filter(d=>d.validation==="accepte"&&d.avenant!=="oui").length
-  if(nDevisAlert>0)alerts.push({cl:"alert-wa",txt:`<span class="material-symbols-outlined" style="font-size:15px;vertical-align:middle;margin-right:4px">warning</span>${nDevisAlert} devis accepté${nDevisAlert>1?"s":""} non avenanté${nDevisAlert>1?"s":""} — penser à contractualiser`,view:"devis-st"})
+  if(nDevisAlert>0)alerts.push({cl:"alert-wa",txt:`<i data-lucide="triangle-alert" style="width:15px;height:15px;vertical-align:middle;margin-right:4px"></i>${nDevisAlert} devis accepté${nDevisAlert>1?"s":""} non avenanté${nDevisAlert>1?"s":""} — penser à contractualiser`,view:"devis-st"})
   // ST sans facture ce mois
   const stC=C.filter(c=>c.Type==="Sous-traitance")
   const fromEnts=ENTREPRISES.filter(e=>e.type==="Sous-traitant"||e.type==="Les deux").map(e=>e.nom)
@@ -4486,13 +4542,13 @@ function rDashboard(){
     return raw&&new Date(raw)>=monthStart
   }).map(f=>f.ID_Commande?.startsWith("ST:")?f.ID_Commande.slice(3):stC.find(c=>c.ID===f.ID_Commande)?.Fournisseur))
   const stNoFac=allST.filter(n=>!stWithFacMonth.has(n))
-  if(stNoFac.length>0)alerts.push({cl:"alert-re",txt:`<span class="material-symbols-outlined" style="font-size:15px;vertical-align:middle;margin-right:4px">error</span>${stNoFac.length} ST sans facture ce mois : ${stNoFac.slice(0,3).join(", ")}${stNoFac.length>3?" +…":""}`,view:"st"})
+  if(stNoFac.length>0)alerts.push({cl:"alert-re",txt:`<i data-lucide="circle-x" style="width:15px;height:15px;vertical-align:middle;margin-right:4px"></i>${stNoFac.length} ST sans facture ce mois : ${stNoFac.slice(0,3).join(", ")}${stNoFac.length>3?" +…":""}`,view:"st"})
   // To-do en retard
   const todoLate=TODOS.filter(t=>t.statut!=="done"&&t.echeance&&new Date(t.echeance)<now)
-  if(todoLate.length>0)alerts.push({cl:"alert-re",txt:`<span class="material-symbols-outlined" style="font-size:15px;vertical-align:middle;margin-right:4px">error</span>${todoLate.length} tâche${todoLate.length>1?"s":""} en retard`,view:"todo"})
+  if(todoLate.length>0)alerts.push({cl:"alert-re",txt:`<i data-lucide="circle-x" style="width:15px;height:15px;vertical-align:middle;margin-right:4px"></i>${todoLate.length} tâche${todoLate.length>1?"s":""} en retard`,view:"todo"})
   // Factures non pointées >30j
   const oldUnpt=F.filter(f=>{if(isP(f))return false;const raw=f["Date réception"]?.includes("/")?f["Date réception"].split("/").reverse().join("-"):f["Date réception"];if(!raw)return false;return (now-new Date(raw))/(86400000)>30})
-  if(oldUnpt.length>0)alerts.push({cl:"alert-wa",txt:`<span class="material-symbols-outlined" style="font-size:15px;vertical-align:middle;margin-right:4px">warning</span>${oldUnpt.length} facture${oldUnpt.length>1?"s":""} non pointée${oldUnpt.length>1?"s":""} depuis plus de 30 jours`,view:"commandes"})
+  if(oldUnpt.length>0)alerts.push({cl:"alert-wa",txt:`<i data-lucide="triangle-alert" style="width:15px;height:15px;vertical-align:middle;margin-right:4px"></i>${oldUnpt.length} facture${oldUnpt.length>1?"s":""} non pointée${oldUnpt.length>1?"s":""} depuis plus de 30 jours`,view:"commandes"})
 
   // ── KPIs financiers rapides ──
   const Cns=C.filter(c=>c.Type!=="Sous-traitance")
@@ -4616,7 +4672,7 @@ function rDashboard(){
       <div class="panel">
         <div class="pb">
           <div class="db-ph">
-            <span style="display:flex;align-items:center;gap:6px"><span class="material-symbols-outlined" style="font-size:14px;color:var(--ac)">check_circle</span>Tâches ouvertes</span>
+            <span style="display:flex;align-items:center;gap:6px"><i data-lucide="circle-check" style="width:14px;height:14px;color:var(--ac)"></i>Tâches ouvertes</span>
             <button class="db-link" onclick="showView('todo',document.querySelector('[onclick*=todo]'))">Voir tout →</button>
           </div>
           ${todoOpen.length?todoOpen.map(t=>{
@@ -4634,7 +4690,7 @@ function rDashboard(){
       <div class="panel">
         <div class="pb">
           <div class="db-ph">
-            <span style="display:flex;align-items:center;gap:6px"><span class="material-symbols-outlined" style="font-size:14px;color:var(--tx2)">menu_book</span>Dernières entrées</span>
+            <span style="display:flex;align-items:center;gap:6px"><i data-lucide="book-open" style="width:14px;height:14px;color:var(--tx2)"></i>Dernières entrées</span>
             <button class="db-link" onclick="showView('journal',document.querySelector('[onclick*=journal]'))">Voir tout →</button>
           </div>
           ${lastJrnl.length?lastJrnl.map(j=>`<div class="db-jrnl-mini">
@@ -4660,7 +4716,7 @@ function rDashboard(){
         const dt=a.createdAt?new Date(a.createdAt):null
         const dtStr=dt?dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'})+' '+dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):''
         return`<div style="display:flex;align-items:center;gap:12px;padding:9px 16px;border-bottom:1px solid var(--bd)">
-          <span class="material-symbols-outlined" style="font-size:16px;color:var(--tx3);flex-shrink:0">${icon}</span>
+          <i data-lucide="${icon}" style="width:16px;height:16px;color:var(--tx3);flex-shrink:0"></i>
           <div style="flex:1;min-width:0">
             <span style="font-size:12px;font-weight:600;color:${actionColor};text-transform:uppercase;letter-spacing:.3px">${a.action}</span>
             <span style="font-size:12px;color:var(--tx3);margin:0 5px">·</span>
